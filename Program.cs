@@ -2,7 +2,7 @@ using Mat.Endpoints;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<MatDbContext>(opt => opt.UseInMemoryDatabase("MatDb"));
+builder.Services.AddDbContext<MatDbContext>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>

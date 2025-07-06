@@ -37,6 +37,23 @@ public static class RecipesEndpoint
             }
         );
 
+        recipes.MapPut(
+            "/{id}",
+            async (int id, Recipe updatedRecipe, MatDbContext db) =>
+            {
+                var recipe = await db.Recipes.FindAsync(id);
+
+                if (recipe is null)
+                    return Results.NotFound();
+
+                recipe = updatedRecipe;
+
+                await db.SaveChangesAsync();
+
+                return Results.NoContent();
+            }
+        );
+
         recipes.MapDelete(
             "{id:int}",
             async (int id, MatDbContext db) =>

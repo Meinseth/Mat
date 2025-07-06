@@ -1,8 +1,7 @@
-namespace Mat.Database.Model
+namespace Mat.Database.Model;
+
+public class Tracker()
 {
-    public record Tracker()
-    {
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-        public DateTime? ModifiedDate { get; set; } = null;
-    }
+    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+    public DateTime? ModifiedDate { get; set; } = null;
 }
