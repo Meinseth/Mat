@@ -1,12 +1,26 @@
 services:
-  sqlserver:
+  api:
+    build:
+      context: .
+      dockerfile: Mat.Api/Dockerfile
+    ports:
+      - "5000:80" # HTTP on port 5000
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=Mat;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;
+    restart: unless-stopped
+
+  db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       SA_PASSWORD: "YourStrong!Passw0rd"
       ACCEPT_EULA: "Y"
-    ports:
-      - "5224:5224"
+    expose:
+      - "1433"
     volumes:
-      - sql_data:/var/opt/mssql
+      - mat_data:/var/opt/mssql
+    restart: unless-stopped
+
 volumes:
-  sql_data:
+  mat_data:

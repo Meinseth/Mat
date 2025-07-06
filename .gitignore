@@ -1,3 +1,5 @@
 /.vscode
 /bin
 /obj
+/Mat.Api/obj
+/Mat.Api/bin
