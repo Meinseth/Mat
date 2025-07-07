@@ -8,6 +8,7 @@ services:
     depends_on:
       - db
     environment:
+      - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Server=db;Database=Mat;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;
     restart: unless-stopped
 
