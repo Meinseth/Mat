@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "Debug Full Stack",
+      "configurations": ["Mat Api", "React Frontend"]
+    }
+  ],
+  "configurations": [
+    {
+      "name": "Mat Api",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/Mat.Api/Mat.csproj"
+    },
+    {
+      "name": "React Frontend",
+      "command": "npm run dev",
+      "request": "launch",
+      "type": "node-terminal",
+      "cwd": "${workspaceFolder}/Mat.Frontend"
+    }
+  ]
+}
