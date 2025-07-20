@@ -16,13 +16,16 @@ builder.Services.AddOpenApiDocument(config =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
+    options.AddPolicy(
+        "AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5001") // frontend origin
-                  .AllowAnyMethod()
-                  .AllowAnyHeader();
-        });
+            policy
+                .WithOrigins("http://localhost:5001") // frontend origin
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        }
+    );
 });
 
 var app = builder.Build();
