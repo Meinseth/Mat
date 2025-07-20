@@ -7,14 +7,12 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Update this path
-COPY ["Mat.Api/Mat.csproj", "Mat.Api/"]
-RUN dotnet restore "Mat.Api/Mat.csproj"
+# Copy csproj
+COPY Mat.csproj ./
+RUN dotnet restore Mat.csproj
 
-# Copy everything
-COPY . .
-
-WORKDIR "/src/Mat.Api"
+# Copy the rest of the source
+COPY . ./
 RUN dotnet build -c Release -o /app/build
 
 # Publish stage
