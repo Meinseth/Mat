@@ -7,7 +7,7 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - /home/vebjornserver/Docker/Mat/Mat.Frontend:/app
+      - ${FRONTEND_PATH}:/app
       - /app/node_modules
     command: npm run dev -- --host
     depends_on:
