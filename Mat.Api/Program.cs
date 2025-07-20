@@ -14,6 +14,17 @@ builder.Services.AddOpenApiDocument(config =>
     config.Version = "v1";
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5001") // frontend origin
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+});
+
 var app = builder.Build();
 
 app.UseOpenApi();
@@ -32,5 +43,5 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.AddRecipesEndpoints();
-
+app.UseCors("AllowFrontend");
 app.Run();
