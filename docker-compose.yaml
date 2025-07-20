@@ -5,11 +5,7 @@ services:
       context: ./Mat.Frontend
       dockerfile: Dockerfile
     ports:
-      - "5173:5173"
-    volumes:
-      - ${FRONTEND_PATH}:/app
-      - /app/node_modules
-    command: npm run dev -- --host
+      - "80:80"
     depends_on:
       - api
     restart: unless-stopped

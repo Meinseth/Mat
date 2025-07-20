@@ -1,18 +1,20 @@
-# base image
-FROM node:20
+# Build stage
+FROM node:20 AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Install deps
 COPY package*.json ./
 RUN npm install
 
-# Copy source
 COPY . .
+RUN npm run build
 
-# Expose Vite dev server port
-EXPOSE 5173
+# Serve with a minimal web server
+FROM nginx:alpine
 
-# Default command
-CMD ["npm", "run", "dev", "--", "--host"]
+# Copy built assets to nginx
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
