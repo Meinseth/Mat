@@ -1,4 +1,6 @@
+using Mapster;
 using Mat.Database.Model;
+using Mat.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mat.Endpoints;
@@ -29,8 +31,9 @@ public static class RecipesEndpoint
 
         recipes.MapPost(
             "",
-            async (Recipe recipe, MatDbContext db) =>
+            async (RecipeDto recipeDto, MatDbContext db) =>
             {
+                var recipe = recipeDto.Adapt<Recipe>();
                 db.Recipes.Add(recipe);
                 await db.SaveChangesAsync();
                 return Results.Created($"/recipes/{recipe.Id}", recipe);

@@ -10,7 +10,7 @@ namespace Mat.Database.Model
         [MaxLength(64)]
         public required string Name { get; set; }
         public Unit Unit { get; set; }
-        public int Amount { get; set; } // Amount in the specified unit
-        public int RecipeId { get; set; } // Foreign key to the Recipe
+        public int Amount { get; set; }
+        public Recipe? Recipe { get; set; }
     }
 }
