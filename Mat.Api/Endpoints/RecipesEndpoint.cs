@@ -36,7 +36,7 @@ public static class RecipesEndpoint
                 var recipe = recipeDto.Adapt<Recipe>();
                 db.Recipes.Add(recipe);
                 await db.SaveChangesAsync();
-                return Results.Created($"/recipes/{recipe.Id}", recipe);
+                return Results.Created($"/recipes/{recipe.Id}", recipeDto);
             }
         );
 
