@@ -15,5 +15,11 @@ public static class MappingConfig
             .Map(dest => dest.CookingTime, src => src.CookingTime)
             .Map(dest => dest.Servings, src => src.Servings)
             .Map(dest => dest.Ingredients, src => src.Ingredients);
+
+        TypeAdapterConfig<Ingredient, IngredientDto>
+            .NewConfig()
+            .Map(dest => dest.Name, src => src.Name)
+            .Map(dest => dest.Amount, src => src.Amount)
+            .Map(dest => dest.Unit, src => src.Unit);
     }
 }
