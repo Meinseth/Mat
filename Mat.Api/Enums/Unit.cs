@@ -1,11 +1,10 @@
-namespace Mat.Enums
+namespace Mat.Enums;
+
+public enum Unit
 {
-    public enum Unit
-    {
-        Gram,
-        Kilogram,
-        Milliliter,
-        Desiliter,
-        Liter,
-    }
+    Gram,
+    Kilogram,
+    Milliliter,
+    Desiliter,
+    Liter,
 }

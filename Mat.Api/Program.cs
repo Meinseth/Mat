@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Mapster;
 using Mat.Endpoints;
 using Mat.Mappings;
@@ -31,6 +32,11 @@ builder.Services.AddCors(options =>
     );
 });
 
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 var app = builder.Build();
 
 MappingConfig.RegisterMappings();
@@ -51,5 +57,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.AddRecipesEndpoints();
+app.AddRecipeEndpoints();
 app.UseCors("AllowFrontend");
 app.Run();

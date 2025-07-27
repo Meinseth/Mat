@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Mat.Database.Model;
 
-public class Recipe() : Tracker
+public class Recipe : Tracker
 {
     public int Id { get; set; }
 

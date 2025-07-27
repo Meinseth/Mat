@@ -1,16 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 using Mat.Enums;
 
-namespace Mat.Database.Model
-{
-    public class Ingredient()
-    {
-        public int Id { get; set; }
+namespace Mat.Database.Model;
 
-        [MaxLength(64)]
-        public required string Name { get; set; }
-        public Unit Unit { get; set; }
-        public int Amount { get; set; }
-        public Recipe? Recipe { get; set; }
-    }
+public class Ingredient
+{
+    public int Id { get; set; }
+
+    [MaxLength(64)]
+    public required string Name { get; set; }
+    public Unit Unit { get; set; }
+    public int Amount { get; set; }
+    public Recipe? Recipe { get; set; }
 }

@@ -18,11 +18,8 @@ export class ApiClient {
         this.baseUrl = baseUrl ?? "http://localhost:5000";
     }
 
-    getRecipes(id: number): Promise<Recipe> {
-        let url_ = this.baseUrl + "/recipes/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+    getRecipes(): Promise<RecipeDto[]> {
+        let url_ = this.baseUrl + "/recipes";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -37,13 +34,13 @@ export class ApiClient {
         });
     }
 
-    protected processGetRecipes(response: Response): Promise<Recipe> {
+    protected processGetRecipes(response: Response): Promise<RecipeDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Recipe;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as RecipeDto[];
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -51,17 +48,53 @@ export class ApiClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Recipe>(null as any);
+        return Promise.resolve<RecipeDto[]>(null as any);
     }
 
-    putRecipes(id: number, updatedRecipe: Recipe): Promise<void> {
-        let url_ = this.baseUrl + "/recipes/{id}";
+    getRecipe(id: number): Promise<RecipeDto> {
+        let url_ = this.baseUrl + "/recipe/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(updatedRecipe);
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetRecipe(_response);
+        });
+    }
+
+    protected processGetRecipe(response: Response): Promise<RecipeDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as RecipeDto;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<RecipeDto>(null as any);
+    }
+
+    putRecipe(id: number, updatedRecipeDto: RecipeDto): Promise<void> {
+        let url_ = this.baseUrl + "/recipe/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(updatedRecipeDto);
 
         let options_: RequestInit = {
             body: content_,
@@ -72,11 +105,11 @@ export class ApiClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPutRecipes(_response);
+            return this.processPutRecipe(_response);
         });
     }
 
-    protected processPutRecipes(response: Response): Promise<void> {
+    protected processPutRecipe(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -91,8 +124,8 @@ export class ApiClient {
         return Promise.resolve<void>(null as any);
     }
 
-    deleteRecipes(id: number): Promise<void> {
-        let url_ = this.baseUrl + "/recipes/{id}";
+    deleteRecipe(id: number): Promise<void> {
+        let url_ = this.baseUrl + "/recipe/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -105,11 +138,11 @@ export class ApiClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processDeleteRecipes(_response);
+            return this.processDeleteRecipe(_response);
         });
     }
 
-    protected processDeleteRecipes(response: Response): Promise<void> {
+    protected processDeleteRecipe(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -124,41 +157,8 @@ export class ApiClient {
         return Promise.resolve<void>(null as any);
     }
 
-    getRecipesAll(): Promise<Recipe[]> {
-        let url_ = this.baseUrl + "/recipes";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetRecipesAll(_response);
-        });
-    }
-
-    protected processGetRecipesAll(response: Response): Promise<Recipe[]> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Recipe[];
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Recipe[]>(null as any);
-    }
-
-    postRecipes(recipeDto: RecipeDto): Promise<void> {
-        let url_ = this.baseUrl + "/recipes";
+    postRecipe(recipeDto: RecipeDto): Promise<void> {
+        let url_ = this.baseUrl + "/recipe";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(recipeDto);
@@ -172,11 +172,11 @@ export class ApiClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPostRecipes(_response);
+            return this.processPostRecipe(_response);
         });
     }
 
-    protected processPostRecipes(response: Response): Promise<void> {
+    protected processPostRecipe(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -190,36 +190,6 @@ export class ApiClient {
         }
         return Promise.resolve<void>(null as any);
     }
-}
-
-export interface Tracker {
-    createdDate?: Date;
-    modifiedDate?: Date | undefined;
-}
-
-export interface Recipe extends Tracker {
-    id?: number;
-    name?: string;
-    instructions?: string;
-    cookingTime?: number;
-    servings?: number;
-    ingredients?: Ingredient[];
-}
-
-export interface Ingredient {
-    id?: number;
-    name?: string;
-    unit?: Unit;
-    amount?: number;
-    recipe?: Recipe | undefined;
-}
-
-export enum Unit {
-    Gram = 0,
-    Kilogram = 1,
-    Milliliter = 2,
-    Desiliter = 3,
-    Liter = 4,
 }
 
 export interface RecipeDto {
@@ -236,8 +206,10 @@ export interface IngredientDto {
     unit?: Unit;
 }
 
+export type Unit = "Gram" | "Kilogram" | "Milliliter" | "Desiliter" | "Liter";
+
 export class ApiException extends Error {
-    message: string;
+    override message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };
