@@ -60,7 +60,11 @@ const AddRecipeModel: React.FC<Props> = ({ isOpen, onClose, onAdd }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column" }}
+      >
+        <h2>Add Recipe</h2>
         <input
           placeholder="Name"
           value={form.name ?? ""}

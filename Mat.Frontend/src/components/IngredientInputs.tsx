@@ -53,15 +53,11 @@ export const IngredientInputs: React.FC<Props> = ({
             value={ingredient.unit ?? 0}
             onChange={(e) => onChange(index, "unit", Number(e.target.value))}
           >
-            {
-              <select>
-                {unitOptions.map(({ label, value }) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            }
+            {unitOptions.map(({ label, value }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
           </select>
           <button type="button" onClick={() => onRemove(index)}>
             Remove
