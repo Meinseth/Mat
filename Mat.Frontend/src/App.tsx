@@ -26,7 +26,9 @@ function App() {
     <>
       <div></div>
       <h1>Mat</h1>
-      <button onClick={() => setModalOpen(true)}>Add Recipe</button>
+      <button className="button" onClick={() => setModalOpen(true)}>
+        Add Recipe
+      </button>
       <AddRecipeModel
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}

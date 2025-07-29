@@ -60,43 +60,54 @@ const AddRecipeModel: React.FC<Props> = ({ isOpen, onClose, onAdd }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column" }}
-      >
+      <form onSubmit={handleSubmit}>
         <h2>Add Recipe</h2>
-        <input
-          placeholder="Name"
-          value={form.name ?? ""}
-          onChange={(e) => update("name", e.target.value)}
-        />
-        <textarea
-          placeholder="Instructions"
-          value={form.instructions ?? ""}
-          onChange={(e) => update("instructions", e.target.value)}
-        />
-        <input
-          placeholder="Cooking Time"
-          type="number"
-          value={form.cookingTime ?? ""}
-          onChange={(e) => update("cookingTime", Number(e.target.value))}
-        />
-        <input
-          placeholder="Servings"
-          type="number"
-          value={form.servings ?? ""}
-          onChange={(e) => update("servings", Number(e.target.value))}
-        />
+
+        <div className="recipe-inputs">
+          <input
+            placeholder="Name"
+            value={form.name ?? ""}
+            onChange={(e) => update("name", e.target.value)}
+          />
+          <textarea
+            placeholder="Instructions"
+            value={form.instructions ?? ""}
+            onChange={(e) => update("instructions", e.target.value)}
+            rows={3}
+          />
+          <input
+            placeholder="Cooking Time"
+            type="number"
+            value={form.cookingTime ?? ""}
+            onChange={(e) => update("cookingTime", Number(e.target.value))}
+          />
+          <input
+            placeholder="Servings"
+            type="number"
+            value={form.servings ?? ""}
+            onChange={(e) => update("servings", Number(e.target.value))}
+          />
+        </div>
+
         <IngredientInputs
           ingredients={form.ingredients ?? []}
           onChange={handleIngredientChange}
           onAdd={addIngredient}
           onRemove={removeIngredient}
         />
-        <button type="submit">Add</button>
-        <button type="button" onClick={onClose}>
-          Cancel
-        </button>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <button className="button" style={{ flexGrow: 1 }} type="submit">
+            Add
+          </button>
+          <button
+            className="button"
+            style={{ flexGrow: 1 }}
+            type="button"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </Modal>
   );

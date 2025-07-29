@@ -37,7 +37,7 @@ export const IngredientInputs: React.FC<Props> = ({
     <div>
       <h4>Ingredients</h4>
       {ingredients.map((ingredient, index) => (
-        <div key={index}>
+        <div className="ingredient-inputs" key={index}>
           <input
             placeholder="Name"
             value={ingredient.name ?? ""}
@@ -64,7 +64,7 @@ export const IngredientInputs: React.FC<Props> = ({
           </button>
         </div>
       ))}
-      <button type="button" onClick={onAdd}>
+      <button className="button" type="button" onClick={onAdd}>
         Add Ingredient
       </button>
     </div>
