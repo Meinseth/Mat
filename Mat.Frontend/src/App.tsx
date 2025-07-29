@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import { ApiClient, type RecipeDto } from "../ApiClient.ts";
-import AddRecipeModel from "./components/addRecipe.tsx";
+import AddRecipeModel from "./components/addRecipeModal.tsx";
 
 function App() {
   const api = new ApiClient();

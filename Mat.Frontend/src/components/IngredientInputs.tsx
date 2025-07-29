@@ -1,5 +1,6 @@
 import React from "react";
 import type { Unit, IngredientDto } from "../../ApiClient";
+import { X } from "lucide-react";
 
 interface Props {
   ingredients: IngredientDto[];
@@ -60,7 +61,7 @@ export const IngredientInputs: React.FC<Props> = ({
             ))}
           </select>
           <button type="button" onClick={() => onRemove(index)}>
-            Remove
+            <X size="16" />
           </button>
         </div>
       ))}
