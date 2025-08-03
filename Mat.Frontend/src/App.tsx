@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { ApiClient, type RecipeDto } from "../ApiClient.ts";
-import AddRecipeModel from "./components/addRecipeModal.tsx";
+import AddRecipeModal from "./components/addRecipeModal.tsx";
 
-function App() {
+export default function App() {
   const api = new ApiClient();
 
   const [recipes, setRecipes] = useState<RecipeDto[]>([]);
@@ -28,7 +28,7 @@ function App() {
       <button className="button" onClick={() => setModalOpen(true)}>
         Add Recipe
       </button>
-      <AddRecipeModel
+      <AddRecipeModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         onAdd={handleAddRecipe}
@@ -39,5 +39,3 @@ function App() {
     </>
   );
 }
-
-export default App;

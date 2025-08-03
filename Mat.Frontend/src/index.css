@@ -104,7 +104,7 @@ button {
 }
 
 .ingredient-inputs > input[type="number"] {
-  width: 5ch;
+  width: 7ch;
   min-width: 3ch;
   max-width: 10ch;
 }

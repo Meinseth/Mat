@@ -1,25 +1,23 @@
 import React from "react";
 
-interface ModalProps {
+interface Props {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
+export default function Modal(props: Props) {
+  if (!props.isOpen) return null;
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      onClose();
+      props.onClose();
     }
   };
 
   return (
     <div className="modal-backdrop" onClick={handleBackdropClick}>
-      <div className="modal">{children}</div>
+      <div className="modal">{props.children}</div>
     </div>
   );
-};
-
-export default Modal;
+}

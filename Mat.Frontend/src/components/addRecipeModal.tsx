@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import type { IngredientDto, RecipeDto } from "../../ApiClient";
+import type { RecipeDto } from "../../ApiClient";
 import { IngredientInputs } from "./IngredientInputs";
 import Modal from "./modal";
 
@@ -9,91 +9,79 @@ interface Props {
   onAdd: (recipe: RecipeDto) => void;
 }
 
-const AddRecipeModel: React.FC<Props> = ({ isOpen, onClose, onAdd }) => {
-  const [form, setForm] = useState<RecipeDto>({
-    name: "",
-    instructions: "",
-    cookingTime: undefined,
-    servings: undefined,
-    ingredients: [],
-  });
+const emptyForm: RecipeDto = {
+  name: "",
+  instructions: "",
+  cookingTime: undefined,
+  servings: undefined,
+  ingredients: [],
+};
 
-  const update = (field: keyof RecipeDto, value: any) =>
-    setForm((f) => ({ ...f, [field]: value }));
+export default function AddRecipeModal(props: Props) {
+  const [form, setForm] = useState<RecipeDto>(emptyForm);
 
-  const handleIngredientChange = (
-    i: number,
-    field: keyof IngredientDto,
-    value: string | number
-  ) => {
-    const ing = [...(form.ingredients ?? [])];
-    ing[i] = { ...ing[i], [field]: value };
-    update("ingredients", ing);
-  };
+  const update = <field extends keyof RecipeDto>(
+    field: field,
+    value: RecipeDto[field]
+  ) => setForm((recipe) => ({ ...recipe, [field]: value }));
 
-  const addIngredient = () =>
-    update("ingredients", [
-      ...(form.ingredients ?? []),
-      { name: "", amount: 0, unit: 0 },
-    ]);
-
-  const removeIngredient = (i: number) =>
-    update(
-      "ingredients",
-      form.ingredients?.filter((_, idx) => idx !== i) ?? []
-    );
+  const updateRecipe =
+    (field: keyof RecipeDto) =>
+    (
+      e:
+        | React.ChangeEvent<HTMLInputElement>
+        | React.ChangeEvent<HTMLTextAreaElement>
+    ) => {
+      update(field, e.target.value);
+    };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onAdd(form);
-    setForm({
-      name: "",
-      instructions: "",
-      cookingTime: undefined,
-      servings: undefined,
-      ingredients: [],
-    });
-    onClose();
+
+    props.onAdd(form);
+
+    setForm(emptyForm);
+
+    props.onClose();
   };
 
-  if (!isOpen) return null;
-
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={props.isOpen} onClose={props.onClose}>
       <form onSubmit={handleSubmit}>
         <h2>Add Recipe</h2>
 
         <div className="recipe-inputs">
           <input
+            required
             placeholder="Name"
-            value={form.name ?? ""}
-            onChange={(e) => update("name", e.target.value)}
+            value={form.name}
+            onChange={updateRecipe("name")}
           />
           <textarea
             placeholder="Instructions"
-            value={form.instructions ?? ""}
-            onChange={(e) => update("instructions", e.target.value)}
+            value={form.instructions}
+            onChange={updateRecipe("instructions")}
             rows={3}
           />
           <input
+            required
             placeholder="Cooking Time"
             type="number"
             value={form.cookingTime ?? ""}
-            onChange={(e) => update("cookingTime", Number(e.target.value))}
+            onChange={updateRecipe("cookingTime")}
           />
           <input
+            required
             placeholder="Servings"
             type="number"
             value={form.servings ?? ""}
-            onChange={(e) => update("servings", Number(e.target.value))}
+            onChange={updateRecipe("servings")}
           />
         </div>
 
         <IngredientInputs
           ingredients={form.ingredients ?? []}
-          onChange={handleIngredientChange}
-          onAdd={addIngredient}
-          onRemove={removeIngredient}
+          update={update}
         />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <button className="button" style={{ flexGrow: 1 }} type="submit">
@@ -103,7 +91,7 @@ const AddRecipeModel: React.FC<Props> = ({ isOpen, onClose, onAdd }) => {
             className="button"
             style={{ flexGrow: 1 }}
             type="button"
-            onClick={onClose}
+            onClick={props.onClose}
           >
             Cancel
           </button>
@@ -111,6 +99,4 @@ const AddRecipeModel: React.FC<Props> = ({ isOpen, onClose, onAdd }) => {
       </form>
     </Modal>
   );
-};
-
-export default AddRecipeModel;
+}
