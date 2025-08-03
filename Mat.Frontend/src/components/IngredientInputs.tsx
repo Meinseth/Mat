@@ -7,18 +7,13 @@ interface Props {
 }
 
 export function IngredientInputs(props: Props) {
-  const unitList = [
+  const unitOptions = [
     "Gram",
     "Kilogram",
     "Milliliter",
     "Desiliter",
     "Liter",
   ] as const satisfies readonly Unit[];
-
-  const unitOptions = unitList.map((unit) => ({
-    label: unit,
-    value: unit,
-  }));
 
   const updateIngredient =
     (index: number, field: keyof IngredientDto) =>
@@ -44,8 +39,10 @@ export function IngredientInputs(props: Props) {
     );
 
   return (
-    <div>
-      <h4>Ingredients</h4>
+    <>
+      <button className="button" type="button" onClick={addIngredient}>
+        Add Ingredient
+      </button>
       {props.ingredients.map((ingredient, index) => (
         <div className="ingredient-inputs" key={index}>
           <input
@@ -65,9 +62,9 @@ export function IngredientInputs(props: Props) {
             value={ingredient.unit}
             onChange={updateIngredient(index, "unit")}
           >
-            {unitOptions.map(({ label, value }) => (
-              <option key={value} value={value}>
-                {label}
+            {unitOptions.map((unitOption) => (
+              <option key={unitOption} value={unitOption}>
+                {unitOption}
               </option>
             ))}
           </select>
@@ -76,9 +73,6 @@ export function IngredientInputs(props: Props) {
           </button>
         </div>
       ))}
-      <button className="button" type="button" onClick={addIngredient}>
-        Add Ingredient
-      </button>
-    </div>
+    </>
   );
 }
