@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "../styles.module.css";
 
 interface Props {
   isOpen: boolean;
@@ -16,8 +17,8 @@ export default function Modal(props: Props) {
   };
 
   return (
-    <div className="modal-backdrop" onClick={handleBackdropClick}>
-      <div className="modal">{props.children}</div>
+    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
+      <div className={styles.modal}>{props.children}</div>
     </div>
   );
 }

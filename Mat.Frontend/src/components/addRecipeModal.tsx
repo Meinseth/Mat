@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import type { RecipeDto } from "../../ApiClient";
 import { IngredientInputs } from "./IngredientInputs";
 import Modal from "./modal";
+import styles from "../styles.module.css";
 
 interface Props {
   isOpen: boolean;
@@ -50,7 +51,7 @@ export default function AddRecipeModal(props: Props) {
       <form onSubmit={handleSubmit}>
         <h2>Add Recipe</h2>
 
-        <div className="recipe-inputs">
+        <div className={styles.recipeInputs}>
           <input
             required
             placeholder="Name"
@@ -84,11 +85,15 @@ export default function AddRecipeModal(props: Props) {
           update={update}
         />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <button className="button" style={{ flexGrow: 1 }} type="submit">
+          <button
+            className={styles.button}
+            style={{ flexGrow: 1 }}
+            type="submit"
+          >
             Add
           </button>
           <button
-            className="button"
+            className={styles.button}
             style={{ flexGrow: 1 }}
             type="button"
             onClick={props.onClose}

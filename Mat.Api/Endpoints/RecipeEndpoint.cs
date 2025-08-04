@@ -26,54 +26,65 @@ public static class RecipeEndpoint
                     return Results.Ok(recipe.Adapt<RecipeDto>());
                 }
             )
-            .Produces<RecipeDto>();
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces<RecipeDto>(StatusCodes.Status200OK);
 
-        recipeGroup.MapPost(
-            "",
-            async (RecipeDto recipeDto, MatDbContext db) =>
-            {
-                var recipe = recipeDto.Adapt<Recipe>();
-
-                db.Recipes.Add(recipe);
-
-                await db.SaveChangesAsync();
-
-                return Results.Created($"/recipes/{recipe.Id}", recipeDto);
-            }
-        );
-
-        recipeGroup.MapPut(
-            "/{id}",
-            async (int id, RecipeDto updatedRecipeDto, MatDbContext db) =>
-            {
-                var recipe = await db.Recipes.FindAsync(id);
-
-                if (recipe is null)
-                    return Results.NotFound();
-
-                updatedRecipeDto.Adapt(recipe);
-
-                await db.SaveChangesAsync();
-
-                return Results.NoContent();
-            }
-        );
-
-        recipeGroup.MapDelete(
-            "{id:int}",
-            async (int id, MatDbContext db) =>
-            {
-                if (await db.Recipes.FindAsync(id) is Recipe recipe)
+        recipeGroup
+            .MapPost(
+                "",
+                async (RecipeDto recipeDto, MatDbContext db) =>
                 {
-                    db.Recipes.Remove(recipe);
+                    var recipe = recipeDto.Adapt<Recipe>();
+
+                    db.Recipes.Add(recipe);
+
+                    await db.SaveChangesAsync();
+
+                    return Results.Created($"/recipes/{recipe.Id}", recipeDto);
+                }
+            )
+            .Produces<RecipeDto>(StatusCodes.Status201Created);
+
+        recipeGroup
+            .MapPut(
+                "/{id}",
+                async (int id, RecipeDto updatedRecipeDto, MatDbContext db) =>
+                {
+                    var recipe = await db.Recipes.FindAsync(id);
+
+                    if (recipe is null)
+                        return Results.NotFound();
+
+                    updatedRecipeDto.Adapt(recipe);
 
                     await db.SaveChangesAsync();
 
                     return Results.NoContent();
                 }
+            )
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound);
+        ;
 
-                return Results.NotFound();
-            }
-        );
+        recipeGroup
+            .MapDelete(
+                "{id:int}",
+                async (int id, MatDbContext db) =>
+                {
+                    if (await db.Recipes.FindAsync(id) is Recipe recipe)
+                    {
+                        db.Recipes.Remove(recipe);
+
+                        await db.SaveChangesAsync();
+
+                        return Results.NoContent();
+                    }
+
+                    return Results.NotFound();
+                }
+            )
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound);
+        ;
     }
 }

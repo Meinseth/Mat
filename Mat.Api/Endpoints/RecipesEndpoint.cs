@@ -18,12 +18,13 @@ public static class RecipesEndpoint
                 {
                     var recipes = await db.Recipes.Include(r => r.Ingredients).ToListAsync();
 
-                    if (recipes is null || recipes.Count == 0)
+                    if (recipes.Count is 0)
                         return Results.NoContent();
 
                     return Results.Ok(recipes.Adapt<List<RecipeDto>>());
                 }
             )
-            .Produces<RecipeDto[]>();
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces<RecipeDto[]>(StatusCodes.Status200OK);
     }
 }

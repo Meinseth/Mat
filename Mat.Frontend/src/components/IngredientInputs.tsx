@@ -1,5 +1,6 @@
 import type { Unit, IngredientDto, RecipeDto } from "../../ApiClient";
 import { X } from "lucide-react";
+import styles from "../styles.module.css";
 
 interface Props {
   ingredients: IngredientDto[];
@@ -40,11 +41,11 @@ export function IngredientInputs(props: Props) {
 
   return (
     <>
-      <button className="button" type="button" onClick={addIngredient}>
+      <button className={styles.button} type="button" onClick={addIngredient}>
         Add Ingredient
       </button>
       {props.ingredients.map((ingredient, index) => (
-        <div className="ingredient-inputs" key={index}>
+        <div className={styles.ingredientInputs} key={index}>
           <input
             required
             placeholder="Name"

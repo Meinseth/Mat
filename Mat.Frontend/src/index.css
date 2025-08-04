@@ -16,7 +16,9 @@
   -moz-osx-font-smoothing: grayscale;
 
   --white: rgba(255, 255, 255, 0.87);
+  --lighter-grey: rgba(255, 255, 255, 0.5);
   --light-grey: rgba(255, 255, 255, 0.3);
+
   --dark: rgba(0, 0, 0, 0.5);
   --darker: rgba(0, 0, 0, 0.3);
 
@@ -29,90 +31,6 @@ h1 {
   line-height: 1.1;
 }
 
-.modal {
-  background: darkgrey;
-  padding: 1rem;
-  border-radius: var(--border-radius-large);
-  max-width: 100%;
-  max-height: 100%;
-  overflow-y: auto;
-  width: 38rem;
-}
-
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--dark);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-button {
-  cursor: pointer;
-}
-
-.button {
-  margin: 1rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: var(--border-radius);
-  color: var(--white);
-  font-size: 1rem;
-  transition: background-color 0.2s;
-}
-
-.recipe-inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.recipe-inputs > * {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: text;
-}
-
-.recipe-inputs > textarea {
-  resize: vertical;
-}
-
-.ingredient-inputs {
-  background-color: var(--light-grey);
-  border-radius: var(--border-radius);
-  padding: 0.5rem;
-  margin: 0.5rem 0;
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-}
-
-.ingredient-inputs > * {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: var(--border-radius);
-}
-
-.ingredient-inputs > :first-child {
-  flex-grow: 1;
-}
-
-.ingredient-inputs > input[type="number"] {
-  width: 7ch;
-  min-width: 3ch;
-  max-width: 10ch;
-}
-
-.ingredient-inputs > select {
-  cursor: pointer;
-}
-
 input[type="text"] {
   cursor: text;
 }
@@ -121,4 +39,8 @@ input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
   cursor: text;
+}
+
+button {
+  cursor: pointer;
 }
