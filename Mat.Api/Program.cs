@@ -24,10 +24,7 @@ builder.Services.AddCors(options =>
         "AllowFrontend",
         policy =>
         {
-            policy
-                .WithOrigins("http://localhost:5001", "http://api")
-                .AllowAnyMethod()
-                .AllowAnyHeader();
+            policy.WithOrigins("http://localhost:5001").AllowAnyMethod().AllowAnyHeader();
         }
     );
 });
@@ -55,8 +52,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<MatDbContext>();
     db.Database.Migrate(); // Applies migrations automatically
 }
-
+app.UseCors("AllowFrontend");
 app.AddRecipesEndpoints();
 app.AddRecipeEndpoints();
-app.UseCors("AllowFrontend");
 app.Run();
