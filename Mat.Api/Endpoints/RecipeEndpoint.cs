@@ -9,7 +9,7 @@ public static class RecipeEndpoint
 {
     public static void AddRecipeEndpoints(this IEndpointRouteBuilder app)
     {
-        var recipeGroup = app.MapGroup("/recipe/");
+        var recipeGroup = app.MapGroup("/api/recipe/");
 
         recipeGroup
             .MapGet(
