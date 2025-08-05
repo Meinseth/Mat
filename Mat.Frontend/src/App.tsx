@@ -16,14 +16,14 @@ export default function App() {
 
   useEffect(() => {
     api
-      .getRecipes()
+      .getApiRecipes()
       .then((data) => setRecipes(data))
       .catch((error) => console.error("Fetch error:", error));
   }, []);
 
   const handleAddRecipe = (recipe: RecipeDto) => {
     api
-      .postRecipe(recipe)
+      .postApiRecipe(recipe)
       .then((data) => console.log("success", data))
       .catch((error) => {
         console.error("error", error);

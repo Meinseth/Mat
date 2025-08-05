@@ -24,8 +24,8 @@ export class ApiClient {
     this.baseUrl = baseUrl ?? "http://localhost:5000";
   }
 
-  getRecipes(): Promise<RecipeDto[]> {
-    let url_ = this.baseUrl + "/recipes";
+  getApiRecipes(): Promise<RecipeDto[]> {
+    let url_ = this.baseUrl + "/api/recipes";
     url_ = url_.replace(/[?&]$/, "");
 
     let options_: RequestInit = {
@@ -36,11 +36,11 @@ export class ApiClient {
     };
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetRecipes(_response);
+      return this.processGetApiRecipes(_response);
     });
   }
 
-  protected processGetRecipes(response: Response): Promise<RecipeDto[]> {
+  protected processGetApiRecipes(response: Response): Promise<RecipeDto[]> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && response.headers.forEach) {
@@ -77,8 +77,8 @@ export class ApiClient {
     return Promise.resolve<RecipeDto[]>(null as any);
   }
 
-  getRecipe(id: number): Promise<RecipeDto> {
-    let url_ = this.baseUrl + "/recipe/{id}";
+  getApiRecipe(id: number): Promise<RecipeDto> {
+    let url_ = this.baseUrl + "/api/recipe/{id}";
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -92,11 +92,11 @@ export class ApiClient {
     };
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetRecipe(_response);
+      return this.processGetApiRecipe(_response);
     });
   }
 
-  protected processGetRecipe(response: Response): Promise<RecipeDto> {
+  protected processGetApiRecipe(response: Response): Promise<RecipeDto> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && response.headers.forEach) {
@@ -133,8 +133,8 @@ export class ApiClient {
     return Promise.resolve<RecipeDto>(null as any);
   }
 
-  putRecipe(id: number, updatedRecipeDto: RecipeDto): Promise<void> {
-    let url_ = this.baseUrl + "/recipe/{id}";
+  putApiRecipe(id: number, updatedRecipeDto: RecipeDto): Promise<void> {
+    let url_ = this.baseUrl + "/api/recipe/{id}";
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -151,11 +151,11 @@ export class ApiClient {
     };
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processPutRecipe(_response);
+      return this.processPutApiRecipe(_response);
     });
   }
 
-  protected processPutRecipe(response: Response): Promise<void> {
+  protected processPutApiRecipe(response: Response): Promise<void> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && response.headers.forEach) {
@@ -187,8 +187,8 @@ export class ApiClient {
     return Promise.resolve<void>(null as any);
   }
 
-  deleteRecipe(id: number): Promise<void> {
-    let url_ = this.baseUrl + "/recipe/{id}";
+  deleteApiRecipe(id: number): Promise<void> {
+    let url_ = this.baseUrl + "/api/recipe/{id}";
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -200,11 +200,11 @@ export class ApiClient {
     };
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processDeleteRecipe(_response);
+      return this.processDeleteApiRecipe(_response);
     });
   }
 
-  protected processDeleteRecipe(response: Response): Promise<void> {
+  protected processDeleteApiRecipe(response: Response): Promise<void> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && response.headers.forEach) {
@@ -236,8 +236,8 @@ export class ApiClient {
     return Promise.resolve<void>(null as any);
   }
 
-  postRecipe(recipeDto: RecipeDto): Promise<RecipeDto> {
-    let url_ = this.baseUrl + "/recipe";
+  postApiRecipe(recipeDto: RecipeDto): Promise<RecipeDto> {
+    let url_ = this.baseUrl + "/api/recipe";
     url_ = url_.replace(/[?&]$/, "");
 
     const content_ = JSON.stringify(recipeDto);
@@ -252,11 +252,11 @@ export class ApiClient {
     };
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processPostRecipe(_response);
+      return this.processPostApiRecipe(_response);
     });
   }
 
-  protected processPostRecipe(response: Response): Promise<RecipeDto> {
+  protected processPostApiRecipe(response: Response): Promise<RecipeDto> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && response.headers.forEach) {
