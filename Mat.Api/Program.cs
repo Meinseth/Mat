@@ -24,7 +24,14 @@ builder.Services.AddCors(options =>
         "AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5001").AllowAnyMethod().AllowAnyHeader();
+            policy
+                .WithOrigins(
+                    "http://localhost:5001",
+                    "https://mat.local.meinseth.no",
+                    "https://mat.meinseth.no"
+                )
+                .AllowAnyMethod()
+                .AllowAnyHeader();
         }
     );
 });
