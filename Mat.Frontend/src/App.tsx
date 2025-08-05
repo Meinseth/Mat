@@ -6,7 +6,7 @@ import RecipeList from "./components/recipeList.tsx";
 export default function App() {
   const apiBaseUrl =
     process.env.NODE_ENV === "production"
-      ? "https://mat.local.meinseth.no/api"
+      ? "https://mat.local.meinseth.no"
       : "http://localhost:5000";
   const api = new ApiClient(apiBaseUrl);
 
