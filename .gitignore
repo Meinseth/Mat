@@ -3,3 +3,4 @@
 /Mat.Api/obj
 /Mat.Api/bin
 /Mat.Api/appsettings.Production.json
+.env
