@@ -5,7 +5,7 @@ import RecipeList from "./components/recipeList.tsx";
 
 export default function App() {
   const apiBaseUrl =
-    process.env.NODE_ENV === "production" ? "/api/" : "http://localhost:5000";
+    process.env.NODE_ENV === "production" ? "/proxy" : "http://localhost:5000";
   const api = new ApiClient(apiBaseUrl);
 
   const [recipes, setRecipes] = useState<RecipeDto[]>([]);
