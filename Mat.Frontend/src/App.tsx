@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { ApiClient, type RecipeDto } from "../ApiClient.ts";
 import AddRecipeModal from "./components/addRecipeModal.tsx";
 import RecipeList from "./components/recipeList.tsx";
+import { API_BASE_URL } from "./ApiBaseUrl.ts";
 
 export default function App() {
-  const apiBaseUrl =
-    process.env.NODE_ENV === "production" ? "/proxy" : "http://localhost:5000";
-  const api = new ApiClient(apiBaseUrl);
+  const api = new ApiClient(API_BASE_URL);
 
   const [recipes, setRecipes] = useState<RecipeDto[]>([]);
 
