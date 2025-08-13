@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5001:80"
+    expose:
+      - "5000"
     depends_on:
       - api
     restart: unless-stopped
@@ -24,6 +26,7 @@ services:
       - Cors__AllowedOrigins__0=${Cors__AllowedOrigins__0}
       - Cors__AllowedOrigins__1=${Cors__AllowedOrigins__1}
       - Cors__AllowedOrigins__2=${Cors__AllowedOrigins__2}
+      - Cors__AllowedOrigins__3=${Cors__AllowedOrigins__3}
     restart: unless-stopped
 
   db:
