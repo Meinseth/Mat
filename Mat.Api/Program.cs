@@ -18,17 +18,13 @@ builder.Services.AddOpenApiDocument(config =>
     config.Version = "v1";
 });
 
-var allowedOrigins =
-    builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
-    ?? throw new InvalidOperationException("Cors:AllowedOrigins is missing");
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
         "AllowFrontend",
         policy =>
         {
-            policy.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader();
+            policy.WithOrigins("http://localhost:5001").AllowAnyMethod().AllowAnyHeader();
         }
     );
 });
