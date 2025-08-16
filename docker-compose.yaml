@@ -25,6 +25,9 @@ services:
 
   db:
     container_name: mat-db
+    build: 
+      context: ./Mat.Db
+      dockerfile: Dockerfile
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       - ACCEPT_EULA=Y
@@ -32,9 +35,6 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
     volumes:
       - mat_data:/var/opt/mssql
-      - ./Mat.Db/setup.sql:/setup.sql
-      - ./Mat.Db/entrypoint.sh:/entrypoint.sh:ro
-    entrypoint: ["/entrypoint.sh"]
     restart: unless-stopped
 
 volumes:
