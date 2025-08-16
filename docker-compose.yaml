@@ -25,12 +25,9 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       SA_PASSWORD: ${SA_PASSWORD}
-      DB_PASSWORD: ${DB_PASSWORD} 
-      ACCEPT_EULA: "Y"
+      DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mat_data:/var/opt/mssql
-      - ./db/entrypoint.sh:/entrypoint.sh
-    command: ["/entrypoint.sh"]
     restart: unless-stopped
 
 volumes:
