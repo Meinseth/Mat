@@ -1,6 +1,6 @@
-import type { Unit, IngredientDto, RecipeDto } from "src/ApiClient";
+import type { Unit, IngredientDto, RecipeDto } from "src/services/ApiClient";
 import { X } from "lucide-react";
-import styles from "../styles.module.css";
+import styles from "src/styles/styles.module.css";
 
 interface Props {
   ingredients: IngredientDto[];

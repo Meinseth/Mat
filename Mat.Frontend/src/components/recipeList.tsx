@@ -1,5 +1,5 @@
-import type { RecipeDto } from "src/ApiClient";
-import styles from "../styles.module.css";
+import type { RecipeDto } from "src/services/ApiClient";
+import styles from "src/styles/styles.module.css";
 
 interface Props {
   recipes: RecipeDto[];

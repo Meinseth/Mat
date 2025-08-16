@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { ApiClient, type RecipeDto } from "src/ApiClient.ts";
+import { ApiClient, type RecipeDto } from "src/services/ApiClient.ts";
 import AddRecipeModal from "./components/modals/addRecipeModal.tsx";
 import RecipeList from "./components/recipeList.tsx";
-import { API_BASE_URL } from "./ApiBaseUrl.ts";
+import { API_BASE_URL } from "./services/ApiBaseUrl.ts";
 
 export default function App() {
   const api = new ApiClient(API_BASE_URL);

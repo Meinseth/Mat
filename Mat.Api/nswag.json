@@ -66,7 +66,7 @@
       "templateDirectory": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../Mat.Frontend/src/ApiClient.ts",
+      "output": "../Mat.Frontend/src/services/ApiClient.ts",
       "newLineBehavior": "Auto"
     }
   }

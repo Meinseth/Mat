@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import type { RecipeDto } from "src/ApiClient";
+import type { RecipeDto } from "src/services/ApiClient";
 import { IngredientInputs } from "src/components/IngredientInputs";
 import Modal from "./modal";
-import styles from "src/styles.module.css";
+import styles from "src/styles/styles.module.css";
 
 interface Props {
   isOpen: boolean;
@@ -29,15 +29,14 @@ export default function AddRecipeModal(props: Props) {
   const updateRecipe =
     (field: keyof RecipeDto) =>
     (
-      e:
+      event:
         | React.ChangeEvent<HTMLInputElement>
         | React.ChangeEvent<HTMLTextAreaElement>
-    ) => {
-      update(field, e.target.value);
-    };
+    ) =>
+      update(field, event.target.value);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     props.onAdd(form);
 
