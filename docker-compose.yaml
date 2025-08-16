@@ -14,25 +14,32 @@ services:
     build:
       context: ./Mat.Api
       dockerfile: Dockerfile
-    expose:
-      - "80"
     depends_on:
-      - db
+      - db: 
+        condition: service_healthy
     environment:
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=db;Database=Mat;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=db;Database=Mat;User Id=matuser;Password=${DB_PASSWORD};TrustServerCertificate=True;
     restart: unless-stopped
 
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
-      SA_PASSWORD: "YourStrong!Passw0rd"
+      SA_PASSWORD: ${SA_PASSWORD}
+      DB_PASSWORD: ${DB_PASSWORD} 
       ACCEPT_EULA: "Y"
-    expose:
-      - "1433"
     volumes:
       - mat_data:/var/opt/mssql
+      - ./db/entrypoint.sh:/entrypoint.sh
+    command: ["/entrypoint.sh"]
     restart: unless-stopped
+    healthcheck:
+    test: >
+      /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$SA_PASSWORD" -Q "SELECT 1" || exit 1
+    interval: 5s
+    timeout: 5s
+    retries: 10
+    start_period: 15s
 
 volumes:
   mat_data:
