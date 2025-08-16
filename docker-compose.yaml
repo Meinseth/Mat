@@ -20,22 +20,17 @@ services:
       - db
     environment:
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=db;Database=Mat;User Id=matuser;Password=${DB_PASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=db;Database=Mat;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;
     restart: unless-stopped
 
   db:
     container_name: mat-db
-    build: 
-      context: ./Mat.Db
-      dockerfile: Dockerfile
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=${SA_PASSWORD}
-      - DB_PASSWORD=${DB_PASSWORD}
     volumes:
       - mat_data:/var/opt/mssql
-      - ./Mat.Db/entrypoint.sh:/entrypoint.sh:ro
     restart: unless-stopped
 
 volumes:
