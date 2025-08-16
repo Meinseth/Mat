@@ -1,11 +1,12 @@
+-- Create database if not exists
 IF DB_ID('Mat') IS NULL
     CREATE DATABASE Mat;
 GO
 
--- Create login if not exists
+-- Create login (placeholder for password)
 IF NOT EXISTS (SELECT * FROM sys.sql_logins WHERE name = 'matuser')
 BEGIN
-    CREATE LOGIN matuser WITH PASSWORD = '${DB_PASSWORD}';
+    CREATE LOGIN matuser WITH PASSWORD = '{{DB_PASSWORD}}';
 END
 GO
 

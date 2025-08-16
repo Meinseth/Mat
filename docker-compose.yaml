@@ -29,15 +29,11 @@ services:
     environment:
       - SA_PASSWORD=${SA_PASSWORD}
       - ACCEPT_EULA=Y
+      - DB_PASSWORD=${DB_PASSWORD}
     volumes:
       - mat_data:/var/opt/mssql
-      - ./Mat.Db:/scripts
-    entrypoint:
-      - /bin/bash
-      - -c
-      - |
-        /opt/mssql/bin/sqlservr & sleep 15s;
-        /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -d master -i /scripts/setup.sql; wait
+      - ./Mat.Db/entrypoint.sh:/entrypoint.sh
+    entrypoint: ["/entrypoint.sh"]
     restart: unless-stopped
 
 volumes:
