@@ -28,9 +28,9 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       SA_PASSWORD: ${SA_PASSWORD}
-      DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mat_data:/var/opt/mssql
+      - ./db/setup.sql:/docker-entrypoint-initdb.d/setup.sql
     restart: unless-stopped
 
 volumes:

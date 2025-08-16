@@ -1,19 +1,20 @@
-USE master;
-
--- Create database
 IF DB_ID('Mat') IS NULL
     CREATE DATABASE Mat;
 GO
 
--- Create login
+-- Create login if not exists
 IF NOT EXISTS (SELECT * FROM sys.sql_logins WHERE name = 'matuser')
-    CREATE LOGIN matuser WITH PASSWORD = N'${DB_PASSWORD}';
+BEGIN
+    CREATE LOGIN matuser WITH PASSWORD = '${DB_PASSWORD}';
+END
 GO
 
--- Create user in the database
+-- Map login to database user
 USE Mat;
 IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'matuser')
+BEGIN
     CREATE USER matuser FOR LOGIN matuser;
-ALTER ROLE db_datareader ADD MEMBER matuser;
-ALTER ROLE db_datawriter ADD MEMBER matuser;
+    ALTER ROLE db_datareader ADD MEMBER matuser;
+    ALTER ROLE db_datawriter ADD MEMBER matuser;
+END
 GO
