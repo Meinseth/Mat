@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import type { RecipeDto } from "../../ApiClient";
-import { IngredientInputs } from "./IngredientInputs";
+import type { RecipeDto } from "src/ApiClient";
+import { IngredientInputs } from "src/components/IngredientInputs";
 import Modal from "./modal";
-import styles from "../styles.module.css";
+import styles from "src/styles.module.css";
 
 interface Props {
   isOpen: boolean;

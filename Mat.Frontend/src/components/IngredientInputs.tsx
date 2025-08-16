@@ -1,4 +1,4 @@
-import type { Unit, IngredientDto, RecipeDto } from "../../ApiClient";
+import type { Unit, IngredientDto, RecipeDto } from "src/ApiClient";
 import { X } from "lucide-react";
 import styles from "../styles.module.css";
 
