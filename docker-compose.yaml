@@ -32,6 +32,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
     volumes:
       - mat_data:/var/opt/mssql
+      - ./Mat.Db/setup.sql:/setup.sql
       - ./Mat.Db/entrypoint.sh:/entrypoint.sh
     entrypoint: ["/entrypoint.sh"]
     restart: unless-stopped
