@@ -27,10 +27,17 @@ services:
     container_name: mat-db
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
-      SA_PASSWORD: ${SA_PASSWORD}
+      - SA_PASSWORD=${SA_PASSWORD}
+      - ACCEPT_EULA=Y
     volumes:
       - mat_data:/var/opt/mssql
-      - ./db/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./Mat.Db:/scripts
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        /opt/mssql/bin/sqlservr & sleep 15s;
+        /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${SQL_PASSWORD} -d master -i /scripts/setup.sql; wait
     restart: unless-stopped
 
 volumes:
