@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Mat.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,18 +17,27 @@ namespace Mat.Migrations
                 columns: table => new
                 {
                     Id = table
-                        .Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Column<int>(type: "integer", nullable: false)
+                        .Annotation(
+                            "Npgsql:ValueGenerationStrategy",
+                            NpgsqlValueGenerationStrategy.IdentityByDefaultColumn
+                        ),
                     Name = table.Column<string>(
-                        type: "nvarchar(64)",
+                        type: "character varying(64)",
                         maxLength: 64,
                         nullable: false
                     ),
-                    Instructions = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CookingTime = table.Column<int>(type: "int", nullable: false),
-                    Servings = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Instructions = table.Column<string>(type: "text", nullable: false),
+                    CookingTime = table.Column<int>(type: "integer", nullable: false),
+                    Servings = table.Column<int>(type: "integer", nullable: false),
+                    CreatedDate = table.Column<DateTime>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
+                    ModifiedDate = table.Column<DateTime>(
+                        type: "timestamp with time zone",
+                        nullable: true
+                    ),
                 },
                 constraints: table =>
                 {
@@ -40,16 +50,19 @@ namespace Mat.Migrations
                 columns: table => new
                 {
                     Id = table
-                        .Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Column<int>(type: "integer", nullable: false)
+                        .Annotation(
+                            "Npgsql:ValueGenerationStrategy",
+                            NpgsqlValueGenerationStrategy.IdentityByDefaultColumn
+                        ),
                     Name = table.Column<string>(
-                        type: "nvarchar(64)",
+                        type: "character varying(64)",
                         maxLength: 64,
                         nullable: false
                     ),
-                    Unit = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    RecipeId = table.Column<int>(type: "int", nullable: false),
+                    Unit = table.Column<int>(type: "integer", nullable: false),
+                    Amount = table.Column<int>(type: "integer", nullable: false),
+                    RecipeId = table.Column<int>(type: "integer", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -58,8 +71,7 @@ namespace Mat.Migrations
                         name: "FK_Ingredients_Recipes_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade
+                        principalColumn: "Id"
                     );
                 }
             );

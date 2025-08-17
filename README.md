@@ -40,3 +40,11 @@ npm run dev
 cd Mat.Api
 dotnet run
 ```
+
+## Local testing
+
+```bash
+dotnet user-secrets init
+dotnet user-secrets set "DbPassword" "changepasswordhere"
+
+```

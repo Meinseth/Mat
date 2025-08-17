@@ -5,8 +5,17 @@ using Mat.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString =
+    builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new Exception("No connection string");
+
+var dbPassword = builder.Configuration["DbPassword"];
+
+connectionString = connectionString.Replace("Password=", $"Password={dbPassword}");
+
 builder.Services.AddDbContext<MatDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 builder.Services.AddMapster();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
