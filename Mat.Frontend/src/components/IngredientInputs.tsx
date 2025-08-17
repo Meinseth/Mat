@@ -1,6 +1,7 @@
-import type { Unit, IngredientDto, RecipeDto } from "src/services/ApiClient";
+import type { IngredientDto, RecipeDto } from "src/services/ApiClient";
 import { X } from "lucide-react";
 import styles from "src/styles/styles.module.css";
+import { useIngredients } from "src/hooks/useIngredients";
 
 interface Props {
   ingredients: IngredientDto[];
@@ -8,43 +9,20 @@ interface Props {
 }
 
 export function IngredientInputs(props: Props) {
-  const unitOptions = [
-    "Gram",
-    "Kilogram",
-    "Milliliter",
-    "Desiliter",
-    "Liter",
-  ] as const satisfies readonly Unit[];
-
-  const updateIngredient =
-    (index: number, field: keyof IngredientDto) =>
-    (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      const ingredients = [...(props.ingredients ?? [])];
-      ingredients[index] = {
-        ...ingredients[index],
-        [field]: event.target.value,
-      };
-      props.update("ingredients", ingredients);
-    };
-
-  const addIngredient = () =>
-    props.update("ingredients", [
-      ...(props.ingredients ?? []),
-      { name: "", amount: undefined, unit: "Gram" },
-    ]);
-
-  const removeIngredient = (idToRemove: number) =>
-    props.update(
-      "ingredients",
-      props.ingredients?.filter((_, id) => id !== idToRemove) ?? []
-    );
+  const {
+    ingredients,
+    unitOptions,
+    updateIngredient,
+    addIngredient,
+    removeIngredient,
+  } = useIngredients(props.ingredients, props.update);
 
   return (
     <>
       <button className={styles.button} type="button" onClick={addIngredient}>
         Add Ingredient
       </button>
-      {props.ingredients.map((ingredient, index) => (
+      {ingredients.map((ingredient, index) => (
         <div className={styles.ingredientInputs} key={index}>
           <input
             required
