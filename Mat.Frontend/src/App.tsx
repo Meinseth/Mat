@@ -3,6 +3,7 @@ import { ApiClient, type RecipeDto } from "src/services/ApiClient.ts";
 import AddRecipeModal from "./components/modals/addRecipeModal.tsx";
 import RecipeList from "./components/recipeList.tsx";
 import { API_BASE_URL } from "./services/ApiBaseUrl.ts";
+import { Plus } from "lucide-react";
 
 export default function App() {
   const api = new ApiClient(API_BASE_URL);
@@ -32,8 +33,9 @@ export default function App() {
       <div></div>
       <h1>Mat</h1>
       <button className="button" onClick={() => setModalOpen(true)}>
-        Add Recipe
+        <Plus>Add Recipe</Plus>
       </button>
+
       <AddRecipeModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
