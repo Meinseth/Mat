@@ -1,7 +1,4 @@
 :root {
-  padding: 2rem;
-  text-align: center;
-
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -18,12 +15,17 @@
   --white: rgba(255, 255, 255, 0.87);
   --lighter-grey: rgba(255, 255, 255, 0.5);
   --light-grey: rgba(255, 255, 255, 0.3);
+  --black: rgba(0, 0, 0, 0.8);
 
   --dark: rgba(0, 0, 0, 0.5);
   --darker: rgba(0, 0, 0, 0.3);
 
   --border-radius-large: 0.6rem;
   --border-radius: 0.4rem;
+}
+
+body {
+  margin: 0;
 }
 
 h1 {

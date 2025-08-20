@@ -1,5 +1,5 @@
 import Modal from "./modal";
-import type { RecipeDto } from "src/services/ApiClient";
+import type { RecipeDto } from "services/ApiClient";
 
 interface Props {
   recipe: RecipeDto | null;
