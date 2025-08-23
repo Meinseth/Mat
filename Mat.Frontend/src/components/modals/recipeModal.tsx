@@ -13,15 +13,28 @@ export default function recipeModal({ recipe, onClose }: Props) {
       {recipe && (
         <>
           <h1>{recipe.name}</h1>
-          {recipe.ingredients?.map((ingredient, index) => (
-            <div className={styles.IngredientRow} key={index}>
-              <div>{ingredient.name}:</div>
-              <div>{ingredient.amount}</div>
-              <div>{ingredient.unit}</div>
+
+          <div className={styles.conteinerOuter}>
+            <div className={styles.conteiner}>
+              <h3>Ingredienser</h3>
+              <div className={styles.IngredientRow}>
+                <div>Porsjoner </div>
+                <div>{recipe.servings}</div>
+              </div>
+              <hr />
+              {recipe.ingredients?.map((ingredient, index) => (
+                <div className={styles.IngredientRow} key={index}>
+                  <div>{ingredient.name}</div>
+                  <div>
+                    {ingredient.amount}&nbsp;{ingredient.unit}
+                  </div>
+                </div>
+              ))}
+
+              <h3>Slik gjør du</h3>
+              <div>{recipe.instructions}</div>
             </div>
-          ))}
-          <br />
-          <div>{recipe.instructions}</div>
+          </div>
         </>
       )}
     </Modal>

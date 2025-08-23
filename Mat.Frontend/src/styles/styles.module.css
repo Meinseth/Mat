@@ -10,6 +10,11 @@
   color: var(--black);
 }
 
+.modalTop {
+  display: flex;
+  justify-content: end;
+}
+
 .modalBackdrop {
   position: fixed;
   top: 0;
@@ -123,9 +128,28 @@
   justify-content: start;
 }
 
+.conteinerOuter {
+  display: flex;
+  justify-content: center;
+}
+
+.conteiner {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 20rem;
+  width: 70%;
+  text-align: start;
+}
+
 .IngredientRow {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+.IngredientRow > *:nth-child(1) {
+  flex: 1;
+}
+.IngredientRow > *:nth-child(2) {
+  flex: 2;
 }

@@ -46,3 +46,10 @@ input[type="number"] {
 button {
   cursor: pointer;
 }
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--light-grey);
+  margin: 1rem 0.5rem;
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../../styles/styles.module.css";
+import { X } from "lucide-react";
 
 interface Props {
   isOpen: boolean;
@@ -17,7 +18,12 @@ export default function Modal(props: Props) {
   };
   return (
     <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
-      <div className={styles.modal}>{props.children}</div>
+      <div className={styles.modal}>
+        <div className={styles.modalTop}>
+          <X className={styles.invisibleButton} onClick={props.onClose} />
+        </div>
+        {props.children}
+      </div>
     </div>
   );
 }
