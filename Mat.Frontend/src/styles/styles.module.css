@@ -122,3 +122,10 @@
   display: flex;
   justify-content: start;
 }
+
+.IngredientRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+}

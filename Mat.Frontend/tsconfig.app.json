@@ -7,12 +7,6 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "baseUrl": ".",
-    "paths": {
-      "components/*": ["src/components/*"],
-      "hooks/*": ["src/hooks/*"],
-      "services/*": ["src/services/*"],
-      "styles/*": ["src/styles/*"]
-    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

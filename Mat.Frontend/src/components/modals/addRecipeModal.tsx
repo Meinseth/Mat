@@ -1,8 +1,8 @@
-import type { RecipeDto } from "services/ApiClient";
-import { IngredientInputs } from "components/IngredientInputs";
+import type { RecipeDto } from "../../services/ApiClient";
+import { IngredientInputs } from "../../components/IngredientInputs";
 import Modal from "./modal";
-import styles from "styles/styles.module.css";
-import { useRecipeForm } from "hooks/useRecipeForm";
+import styles from "../../styles/styles.module.css";
+import { useRecipeForm } from "../../hooks/useRecipeForm";
 
 interface Props {
   isOpen: boolean;

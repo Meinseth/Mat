@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { RecipeDto } from "services/ApiClient";
+import type { RecipeDto } from "../services/ApiClient";
 
 const emptyForm: RecipeDto = {
   name: "",

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import type { Unit, IngredientDto, RecipeDto } from "services/ApiClient";
+import type { Unit, IngredientDto, RecipeDto } from "../services/ApiClient";
 
 export function useIngredients(
   ingredients: IngredientDto[] = [],

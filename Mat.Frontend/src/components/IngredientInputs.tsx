@@ -1,7 +1,7 @@
-import type { IngredientDto, RecipeDto } from "services/ApiClient";
+import type { IngredientDto, RecipeDto } from "../services/ApiClient";
 import { X } from "lucide-react";
-import styles from "styles/styles.module.css";
-import { useIngredients } from "hooks/useIngredients";
+import styles from "../styles/styles.module.css";
+import { useIngredients } from "../hooks/useIngredients";
 
 interface Props {
   ingredients: IngredientDto[];

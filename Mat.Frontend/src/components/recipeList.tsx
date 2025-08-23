@@ -1,7 +1,7 @@
 import { useState } from "react";
-import type { RecipeDto } from "services/ApiClient";
-import styles from "styles/styles.module.css";
-import RecipeModal from "components/modals/recipeModal";
+import type { RecipeDto } from "../services/ApiClient";
+import styles from "../styles/styles.module.css";
+import RecipeModal from "../components/modals/recipeModal";
 
 interface Props {
   recipes: RecipeDto[];

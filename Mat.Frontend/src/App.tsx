@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { ApiClient, type RecipeDto } from "services/ApiClient.ts";
-import AddRecipeModal from "components/modals/addRecipeModal.tsx";
-import RecipeList from "components/recipeList.tsx";
-import { API_BASE_URL } from "services/ApiBaseUrl.ts";
+import { ApiClient, type RecipeDto } from "./services/ApiClient.ts";
+import AddRecipeModal from "./components/modals/addRecipeModal.tsx";
+import RecipeList from "./components/recipeList.tsx";
+import { API_BASE_URL } from "./services/ApiBaseUrl.ts";
 import { Plus } from "lucide-react";
-import styles from "styles/styles.module.css";
+import styles from "./styles/styles.module.css";
 
 export default function App() {
   const api = new ApiClient(API_BASE_URL);
