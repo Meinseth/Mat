@@ -1,6 +1,6 @@
 .modal {
   background: darkgrey;
-  padding: 1rem;
+  padding: 0 0 3rem 0;
   margin: 2rem;
   border-radius: var(--border-radius-large);
   max-width: 100%;
