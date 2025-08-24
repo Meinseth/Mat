@@ -1,63 +1,37 @@
-import { useEffect, useState } from "react";
-import { ApiClient, type RecipeDto } from "./services/ApiClient.ts";
+import { useEffect } from "react";
 import AddRecipeModal from "./components/modals/addRecipeModal.tsx";
 import RecipeList from "./components/recipeList.tsx";
-import { ApiBaseUrl } from "./services/ApiBaseUrl.ts";
 import { Plus } from "lucide-react";
 import styles from "./styles/styles.module.css";
+import { useRecipesContext } from "./context/recipeContext.tsx";
+import { useModalContext } from "./context/modalContext.tsx";
+import RecipeModal from "./components/modals/recipeModal.tsx";
 
 export default function App() {
-  const api = new ApiClient(ApiBaseUrl);
+  const { getRecipes } = useRecipesContext();
 
-  const [recipes, setRecipes] = useState<RecipeDto[]>([]);
-
-  const [isModalOpen, setModalOpen] = useState(false);
+  const { openModal } = useModalContext();
 
   useEffect(() => {
-    getApiRecipes();
+    getRecipes();
   }, []);
-
-  const getApiRecipes = () => {
-    api
-      .getApiRecipes()
-      .then((recipes) => setRecipes(recipes))
-      .catch((error) => console.error("Fetch error:", error));
-  };
-
-  const handleAddRecipe = (recipe: RecipeDto) => {
-    api
-      .postApiRecipe(recipe)
-      .then((newRecipe) => setRecipes((recpies) => [...recpies, newRecipe]))
-      .catch((error) => {
-        console.error("error", error);
-      });
-  };
 
   return (
     <>
       <div className={styles.topBar}>
         <button
           className={styles.invisibleButton}
-          onClick={() => setModalOpen(true)}
+          onClick={() => openModal("addRecipe")}
         >
           <Plus size={30} />
         </button>
       </div>
       <div className={styles.content}>
         <h1>Mat</h1>
-
-        <AddRecipeModal
-          isOpen={isModalOpen}
-          onClose={() => setModalOpen(false)}
-          onAdd={handleAddRecipe}
-        />
-        <RecipeList
-          recipes={recipes}
-          onDelete={(id) =>
-            setRecipes(recipes.filter((recipe) => recipe.id !== id))
-          }
-        />
+        <RecipeList />
       </div>
+      <AddRecipeModal />
+      <RecipeModal />
     </>
   );
 }

@@ -1,32 +1,26 @@
-import { useState } from "react";
-import type { RecipeDto } from "../services/ApiClient";
 import styles from "../styles/styles.module.css";
-import RecipeModal from "../components/modals/recipeModal";
+import { useRecipesContext } from "../context/recipeContext";
+import { useModalContext } from "../context/modalContext";
 
-interface Props {
-  recipes: RecipeDto[];
-  onDelete: (id: number) => void;
-}
-
-export default function recipeList(props: Props) {
-  const [selectedRecipe, setSelectedRecipe] = useState<RecipeDto | undefined>(
-    undefined
-  );
+export default function recipeList() {
+  const { recipes, setSelectedRecipe } = useRecipesContext();
+  const { openModal } = useModalContext();
 
   return (
     <>
       <div className={styles.recipeList}>
-        {props.recipes?.map((recipe, index) => (
-          <div onClick={() => setSelectedRecipe(recipe)} key={index}>
+        {recipes.map((recipe, index) => (
+          <div
+            onClick={() => {
+              setSelectedRecipe(recipe);
+              openModal("viewRecipe");
+            }}
+            key={index}
+          >
             {recipe.name}
           </div>
         ))}
       </div>
-      <RecipeModal
-        recipe={selectedRecipe}
-        onClose={() => setSelectedRecipe(undefined)}
-        onDelete={(id) => props.onDelete(id)}
-      />
     </>
   );
 }

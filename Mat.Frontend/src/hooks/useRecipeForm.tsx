@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { RecipeDto } from "../services/ApiClient";
+import { useRecipesContext } from "../context/recipeContext";
 
 const emptyForm: RecipeDto = {
   name: "",
@@ -9,11 +10,9 @@ const emptyForm: RecipeDto = {
   ingredients: [],
 };
 
-export function useRecipeForm(
-  onAdd: (recipe: RecipeDto) => void,
-  onClose: () => void
-) {
+export function useRecipeForm(onClose: () => void) {
   const [form, setForm] = useState<RecipeDto>(emptyForm);
+  const { addRecipe } = useRecipesContext();
 
   const update = <Field extends keyof RecipeDto>(
     field: Field,
@@ -27,7 +26,7 @@ export function useRecipeForm(
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    onAdd(form);
+    addRecipe(form);
     setForm(emptyForm);
     onClose();
   };

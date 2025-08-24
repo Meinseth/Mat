@@ -1,45 +1,43 @@
 import Modal from "./modal";
-import { ApiClient, type RecipeDto } from "../../services/ApiClient";
 import styles from "../../styles/styles.module.css";
-import { ApiBaseUrl } from "../../services/ApiBaseUrl";
+import { useModalContext } from "../../context/modalContext";
+import { useRecipesContext } from "../../context/recipeContext";
 
-interface Props {
-  recipe: RecipeDto | undefined;
-  onClose: () => void;
-  onDelete: (id: number) => void;
-}
+export default function recipeModal() {
+  const { activeModal, closeModal } = useModalContext();
+  const { selectedRecipe, setSelectedRecipe, deleteRecipe } =
+    useRecipesContext();
+  const isOpen = activeModal === "viewRecipe";
 
-export default function recipeModal({ recipe, onClose, onDelete }: Props) {
-  const api = new ApiClient(ApiBaseUrl);
+  if (!isOpen || !selectedRecipe) return null;
 
-  const handleDelete = () => {
-    api
-      .deleteApiRecipe(recipe?.id!)
-      .then(() => {
-        onDelete(recipe?.id!);
-        onClose();
-        console.log("delete id:", recipe?.id);
-      })
-      .catch((error) => console.error("Fetch error:", error));
+  const onClose = () => {
+    setSelectedRecipe(null);
+    closeModal();
+  };
+
+  const onDelete = () => {
+    deleteRecipe();
+    setSelectedRecipe(null);
   };
   return (
-    <Modal isOpen={!!recipe} onClose={onClose} onDelete={handleDelete}>
-      {recipe && (
+    <Modal isOpen={isOpen} onClose={onClose} onDelete={onDelete}>
+      {selectedRecipe && (
         <>
-          <h1>{recipe.name}</h1>
+          <h1>{selectedRecipe.name}</h1>
           <div className={styles.conteinerOuter}>
             <div className={styles.conteiner}>
               <div className={styles.IngredientRow}>
                 <div>Tid </div>
-                <div>{recipe.cookingTime}</div>
+                <div>{selectedRecipe.cookingTime}</div>
               </div>
-              <h3>Ingredienser</h3>
               <div className={styles.IngredientRow}>
                 <div>Porsjoner </div>
-                <div>{recipe.servings}</div>
+                <div>{selectedRecipe.servings}</div>
               </div>
-              <hr />
-              {recipe.ingredients?.map((ingredient, index) => (
+              <h3>Ingredienser</h3>
+
+              {selectedRecipe.ingredients?.map((ingredient, index) => (
                 <div className={styles.IngredientRow} key={index}>
                   <div>{ingredient.name}</div>
                   <div>
@@ -49,7 +47,7 @@ export default function recipeModal({ recipe, onClose, onDelete }: Props) {
               ))}
 
               <h3>Slik gjør du</h3>
-              <div>{recipe.instructions}</div>
+              <div>{selectedRecipe.instructions}</div>
             </div>
           </div>
         </>

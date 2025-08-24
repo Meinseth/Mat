@@ -1,23 +1,17 @@
-import type { RecipeDto } from "../../services/ApiClient";
 import { IngredientInputs } from "../../components/IngredientInputs";
 import Modal from "./modal";
 import styles from "../../styles/styles.module.css";
 import { useRecipeForm } from "../../hooks/useRecipeForm";
+import { useModalContext } from "../../context/modalContext";
 
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-  onAdd: (recipe: RecipeDto) => void;
-}
-
-export default function AddRecipeModal(props: Props) {
-  const { form, update, updateRecipe, handleSubmit } = useRecipeForm(
-    props.onAdd,
-    props.onClose
-  );
-
+export default function AddRecipeModal() {
+  const { activeModal, closeModal } = useModalContext();
+  const isOpen = activeModal === "addRecipe";
+  const { form, update, updateRecipe, handleSubmit } =
+    useRecipeForm(closeModal);
+  if (!isOpen) return null;
   return (
-    <Modal isOpen={props.isOpen} onClose={props.onClose}>
+    <Modal isOpen={isOpen} onClose={closeModal}>
       <form onSubmit={handleSubmit}>
         <h2>Add Recipe</h2>
         <div className={styles.recipeInputs}>
@@ -57,11 +51,7 @@ export default function AddRecipeModal(props: Props) {
           <button className={styles.button} type="submit">
             Add
           </button>
-          <button
-            className={styles.button}
-            type="button"
-            onClick={props.onClose}
-          >
+          <button className={styles.button} type="button" onClick={closeModal}>
             Cancel
           </button>
         </div>
