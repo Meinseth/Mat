@@ -1,2 +1,2 @@
-export const API_BASE_URL =
+export const ApiBaseUrl =
   process.env.NODE_ENV === "production" ? "/proxy" : undefined;

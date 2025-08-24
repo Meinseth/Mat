@@ -1,21 +1,38 @@
 import Modal from "./modal";
-import type { RecipeDto } from "../../services/ApiClient";
+import { ApiClient, type RecipeDto } from "../../services/ApiClient";
 import styles from "../../styles/styles.module.css";
+import { ApiBaseUrl } from "../../services/ApiBaseUrl";
 
 interface Props {
-  recipe: RecipeDto | null;
+  recipe: RecipeDto | undefined;
   onClose: () => void;
+  onDelete: (id: number) => void;
 }
 
-export default function recipeModal({ recipe, onClose }: Props) {
+export default function recipeModal({ recipe, onClose, onDelete }: Props) {
+  const api = new ApiClient(ApiBaseUrl);
+
+  const handleDelete = () => {
+    api
+      .deleteApiRecipe(recipe?.id!)
+      .then(() => {
+        onDelete(recipe?.id!);
+        onClose();
+        console.log("delete id:", recipe?.id);
+      })
+      .catch((error) => console.error("Fetch error:", error));
+  };
   return (
-    <Modal isOpen={!!recipe} onClose={onClose}>
+    <Modal isOpen={!!recipe} onClose={onClose} onDelete={handleDelete}>
       {recipe && (
         <>
           <h1>{recipe.name}</h1>
-
           <div className={styles.conteinerOuter}>
             <div className={styles.conteiner}>
+              <div className={styles.IngredientRow}>
+                <div>Tid </div>
+                <div>{recipe.cookingTime}</div>
+              </div>
               <h3>Ingredienser</h3>
               <div className={styles.IngredientRow}>
                 <div>Porsjoner </div>

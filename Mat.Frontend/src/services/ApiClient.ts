@@ -212,11 +212,12 @@ export class ApiClient {
 }
 
 export interface RecipeDto {
-    name?: string | undefined;
-    instructions?: string | undefined;
-    cookingTime?: number | undefined;
-    servings?: number | undefined;
-    ingredients?: IngredientDto[] | undefined;
+    id?: number;
+    name?: string;
+    instructions?: string;
+    cookingTime?: number;
+    servings?: number;
+    ingredients?: IngredientDto[];
 }
 
 export interface IngredientDto {

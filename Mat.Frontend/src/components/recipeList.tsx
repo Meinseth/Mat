@@ -5,10 +5,13 @@ import RecipeModal from "../components/modals/recipeModal";
 
 interface Props {
   recipes: RecipeDto[];
+  onDelete: (id: number) => void;
 }
 
 export default function recipeList(props: Props) {
-  const [selectedRecipe, setSelectedRecipe] = useState<RecipeDto | null>(null);
+  const [selectedRecipe, setSelectedRecipe] = useState<RecipeDto | undefined>(
+    undefined
+  );
 
   return (
     <>
@@ -21,7 +24,8 @@ export default function recipeList(props: Props) {
       </div>
       <RecipeModal
         recipe={selectedRecipe}
-        onClose={() => setSelectedRecipe(null)}
+        onClose={() => setSelectedRecipe(undefined)}
+        onDelete={(id) => props.onDelete(id)}
       />
     </>
   );

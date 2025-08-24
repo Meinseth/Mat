@@ -22,8 +22,10 @@ npm install and dotnet run
 Install and run nswag to autogenerate Api Client
 
 ```bash
+//Setup
 dotnet tool install --global NSwag.ConsoleCore
 
+cd Mat.Api
 nswag run nswag.json
 ```
 

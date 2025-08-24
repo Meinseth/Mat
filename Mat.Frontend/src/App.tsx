@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { ApiClient, type RecipeDto } from "./services/ApiClient.ts";
 import AddRecipeModal from "./components/modals/addRecipeModal.tsx";
 import RecipeList from "./components/recipeList.tsx";
-import { API_BASE_URL } from "./services/ApiBaseUrl.ts";
+import { ApiBaseUrl } from "./services/ApiBaseUrl.ts";
 import { Plus } from "lucide-react";
 import styles from "./styles/styles.module.css";
 
 export default function App() {
-  const api = new ApiClient(API_BASE_URL);
+  const api = new ApiClient(ApiBaseUrl);
 
   const [recipes, setRecipes] = useState<RecipeDto[]>([]);
 
@@ -51,7 +51,12 @@ export default function App() {
           onClose={() => setModalOpen(false)}
           onAdd={handleAddRecipe}
         />
-        <RecipeList recipes={recipes} />
+        <RecipeList
+          recipes={recipes}
+          onDelete={(id) =>
+            setRecipes(recipes.filter((recipe) => recipe.id !== id))
+          }
+        />
       </div>
     </>
   );
