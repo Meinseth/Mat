@@ -2,6 +2,7 @@ import Modal from "./modal";
 import styles from "../../styles/styles.module.css";
 import { useModalContext } from "../../context/modalContext";
 import { useRecipesContext } from "../../context/recipeContext";
+import type { IngredientDto } from "../../services/ApiClient";
 
 export default function recipeModal() {
   const { activeModal, closeModal } = useModalContext();
@@ -20,6 +21,31 @@ export default function recipeModal() {
     deleteRecipe();
     setSelectedRecipe(null);
   };
+
+  const IngredientRow = ({ ingredient }: { ingredient: IngredientDto }) => (
+    <div className={styles.IngredientRow}>
+      <dt>{ingredient.name}</dt>
+      <dd>
+        {ingredient.amount} {ingredient.unit}
+      </dd>
+    </div>
+  );
+
+  const Row = ({
+    label,
+    value,
+  }: {
+    label: string;
+    value: string | undefined;
+  }) => {
+    return (
+      <div className={styles.IngredientRow}>
+        <dt>{label}</dt>
+        <dd>{value ?? ""}</dd>
+      </div>
+    );
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} onDelete={onDelete}>
       {selectedRecipe && (
@@ -27,23 +53,17 @@ export default function recipeModal() {
           <h1>{selectedRecipe.name}</h1>
           <div className={styles.conteinerOuter}>
             <div className={styles.conteiner}>
-              <div className={styles.IngredientRow}>
-                <div>Tid </div>
-                <div>{selectedRecipe.cookingTime}</div>
-              </div>
-              <div className={styles.IngredientRow}>
-                <div>Porsjoner </div>
-                <div>{selectedRecipe.servings}</div>
-              </div>
+              <Row
+                label={"Tid"}
+                value={selectedRecipe.cookingTime?.toString()}
+              />
+              <Row
+                label={"Porsjoner"}
+                value={selectedRecipe.servings?.toString()}
+              />
               <h3>Ingredienser</h3>
-
               {selectedRecipe.ingredients?.map((ingredient, index) => (
-                <div className={styles.IngredientRow} key={index}>
-                  <div>{ingredient.name}</div>
-                  <div>
-                    {ingredient.amount}&nbsp;{ingredient.unit}
-                  </div>
-                </div>
+                <IngredientRow key={index} ingredient={ingredient} />
               ))}
 
               <h3>Slik gjør du</h3>
