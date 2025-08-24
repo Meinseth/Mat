@@ -1,6 +1,5 @@
 .modal {
   background: darkgrey;
-  padding: 0 0 3rem 0;
   margin: 2rem;
   border-radius: var(--border-radius-large);
   max-width: 100%;
@@ -13,6 +12,13 @@
 .modalTop {
   display: flex;
   justify-content: end;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 1rem 1rem 1rem;
 }
 
 .modalBackdrop {
@@ -54,8 +60,19 @@
 .invisibleButton {
   background: transparent;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   cursor: pointer;
+}
+
+.strechButtons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.strechButtons > .button {
+  flex-grow: 1;
+  margin: 1rem 0 1rem 0;
 }
 
 .recipeInputs {
@@ -130,7 +147,8 @@
 
 .conteinerOuter {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .conteiner {
@@ -140,6 +158,7 @@
   max-width: 20rem;
   width: 70%;
   text-align: start;
+  margin: 0 0 1rem 0;
 }
 
 .IngredientRow {

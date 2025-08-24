@@ -14,16 +14,20 @@ export default function App() {
   const [isModalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
+    getApiRecipes();
+  }, []);
+
+  const getApiRecipes = () => {
     api
       .getApiRecipes()
-      .then((data) => setRecipes(data))
+      .then((recipes) => setRecipes(recipes))
       .catch((error) => console.error("Fetch error:", error));
-  }, []);
+  };
 
   const handleAddRecipe = (recipe: RecipeDto) => {
     api
       .postApiRecipe(recipe)
-      .then((data) => console.log("success", data))
+      .then((newRecipe) => setRecipes((recpies) => [...recpies, newRecipe]))
       .catch((error) => {
         console.error("error", error);
       });

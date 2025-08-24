@@ -22,7 +22,7 @@ export default function Modal(props: Props) {
         <div className={styles.modalTop}>
           <X className={styles.invisibleButton} onClick={props.onClose} />
         </div>
-        {props.children}
+        <div className={styles.modalContent}>{props.children}</div>
       </div>
     </div>
   );

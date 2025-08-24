@@ -20,7 +20,6 @@ export default function AddRecipeModal(props: Props) {
     <Modal isOpen={props.isOpen} onClose={props.onClose}>
       <form onSubmit={handleSubmit}>
         <h2>Add Recipe</h2>
-
         <div className={styles.recipeInputs}>
           <input
             required
@@ -54,17 +53,12 @@ export default function AddRecipeModal(props: Props) {
           ingredients={form.ingredients ?? []}
           update={update}
         />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <button
-            className={styles.button}
-            style={{ flexGrow: 1 }}
-            type="submit"
-          >
+        <div className={styles.strechButtons}>
+          <button className={styles.button} type="submit">
             Add
           </button>
           <button
             className={styles.button}
-            style={{ flexGrow: 1 }}
             type="button"
             onClick={props.onClose}
           >
