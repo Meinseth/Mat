@@ -1,10 +1,10 @@
 import Modal from "./modal";
-import styles from "../../styles/styles.module.css";
-import { useModalContext } from "../../context/modalContext";
-import { useRecipesContext } from "../../context/recipeContext";
-import type { IngredientDto } from "../../services/ApiClient";
+import styles from "../styles/styles.module.css";
+import { useModalContext } from "../context/modalContext";
+import { useRecipesContext } from "../context/recipeContext";
+import type { IngredientDto } from "../services/ApiClient";
 
-export default function recipeModal() {
+export default function viewRecipeModal() {
   const { activeModal, closeModal } = useModalContext();
   const { selectedRecipe, setSelectedRecipe, deleteRecipe } =
     useRecipesContext();
@@ -51,25 +51,21 @@ export default function recipeModal() {
       {selectedRecipe && (
         <>
           <h1>{selectedRecipe.name}</h1>
-          <div className={styles.conteinerOuter}>
-            <div className={styles.conteiner}>
-              <Row
-                label={"Tid"}
-                value={selectedRecipe.cookingTime?.toString()}
-              />
-              <Row
-                label={"Porsjoner"}
-                value={selectedRecipe.servings?.toString()}
-              />
-              <h3>Ingredienser</h3>
-              {selectedRecipe.ingredients?.map((ingredient, index) => (
-                <IngredientRow key={index} ingredient={ingredient} />
-              ))}
+          <Row
+            label={"Tid"}
+            value={selectedRecipe.cookingTime?.toString() + " minutes"}
+          />
+          <Row
+            label={"Porsjoner"}
+            value={selectedRecipe.servings?.toString()}
+          />
+          <h3>Ingredienser</h3>
+          {selectedRecipe.ingredients?.map((ingredient, index) => (
+            <IngredientRow key={index} ingredient={ingredient} />
+          ))}
 
-              <h3>Slik gjør du</h3>
-              <div>{selectedRecipe.instructions}</div>
-            </div>
-          </div>
+          <h3>Slik gjør du</h3>
+          <div>{selectedRecipe.instructions}</div>
         </>
       )}
     </Modal>

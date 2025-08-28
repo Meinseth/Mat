@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import AddRecipeModal from "./components/modals/addRecipeModal.tsx";
+import AddRecipeModal from "./modals/addRecipeModal.tsx";
 import RecipeList from "./components/recipeList.tsx";
 import { Plus } from "lucide-react";
 import styles from "./styles/styles.module.css";
 import { useRecipesContext } from "./context/recipeContext.tsx";
 import { useModalContext } from "./context/modalContext.tsx";
-import RecipeModal from "./components/modals/recipeModal.tsx";
+import RecipeModal from "./modals/viewRecipeModal.tsx";
 
 export default function App() {
   const { getRecipes } = useRecipesContext();

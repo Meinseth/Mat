@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/styles.module.css";
+import styles from "../styles/styles.module.css";
 import { Trash, X } from "lucide-react";
 
 interface Props {
@@ -29,7 +29,9 @@ export default function Modal(props: Props) {
           )}
           <X className={styles.invisibleButton} onClick={props.onClose} />
         </div>
-        <div className={styles.modalContent}>{props.children}</div>
+        <div className={styles.modalContent}>
+          <div className={styles.conteinerCenter}>{props.children}</div>
+        </div>
       </div>
     </div>
   );
