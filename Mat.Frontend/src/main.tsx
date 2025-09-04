@@ -5,7 +5,7 @@ import "./styles/index.css";
 import App from "./App.tsx";
 import { RecipeProvider } from "./context/recipeContext.tsx";
 import { ModalProvider } from "./context/modalContext.tsx";
-import { Callback } from "./services/callback.tsx";
+import Callback from "./routes/callback.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

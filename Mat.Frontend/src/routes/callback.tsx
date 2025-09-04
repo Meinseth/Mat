@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import userManager from "./authService";
+import userManager from "../services/authService";
 
-export function Callback() {
+export default function Callback() {
   useEffect(() => {
     userManager.signinRedirectCallback().then((user) => {
       localStorage.setItem("token", user.access_token);
