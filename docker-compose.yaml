@@ -5,11 +5,11 @@ services:
     build:
       context: ./Mat.Frontend
       dockerfile: Dockerfile
+      args:
+        VITE_AUTH: ${VITE_AUTH}
+        VITE_CLIENT_ID: ${VITE_CLIENT_ID}
     ports:
       - "5001:80"
-    environment:
-      - VITE_AUTH=${VITE_AUTH}
-      - VITE_CLIENT_ID=${VITE_CLIENT_ID}
     depends_on:
       - api
     restart: unless-stopped
