@@ -8,6 +8,9 @@ services:
       args:
         VITE_AUTH: ${VITE_AUTH}
         VITE_CLIENT_ID: ${VITE_CLIENT_ID}
+      environment:
+        - VITE_AUTH=${VITE_AUTH}
+        - VITE_CLIENT_ID=${VITE_CLIENT_ID}
     ports:
       - "5001:80"
     depends_on:

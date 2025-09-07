@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { ApiClient, type RecipeDto } from "../services/ApiClient";
 import { ApiBaseUrl } from "../services/ApiBaseUrl";
 
