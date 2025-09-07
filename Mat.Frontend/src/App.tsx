@@ -1,54 +1,26 @@
-import { useEffect, useState } from "react";
 import AddRecipeModal from "./modals/addRecipeModal.tsx";
 import RecipeList from "./components/recipeList.tsx";
 import { Plus } from "lucide-react";
 import styles from "./styles/styles.module.css";
-import { useRecipesContext } from "./context/recipeContext.tsx";
 import { useModalContext } from "./context/modalContext.tsx";
 import RecipeModal from "./modals/viewRecipeModal.tsx";
-import userManager from "./services/authService.ts";
+import { useAuthContext } from "./context/AuthContext.tsx";
+import { useEffect } from "react";
+import { useRecipesContext } from "./context/recipeContext.tsx";
 
 export default function App() {
   const { getRecipes } = useRecipesContext();
   const { openModal } = useModalContext();
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem("token")
-  );
-
-  function LoginButton() {
-    return (
-      <button onClick={async () => await userManager.signinRedirect()}>
-        Login
-      </button>
-    );
-  }
-
-  function LogoutButton() {
-    return (
-      <button
-        onClick={async () => {
-          await userManager.removeUser();
-
-          localStorage.removeItem("token");
-
-          setToken(null);
-
-          window.location.reload();
-        }}
-      >
-        Logout
-      </button>
-    );
-  }
+  const { user, login, logout } = useAuthContext();
 
   useEffect(() => {
-    getRecipes();
-  }, []);
+    if (user) getRecipes();
+  }, [user]);
 
   return (
     <>
-      {!token && <LoginButton />}
-      {token && (
+      {!user && <button onClick={login}>Login</button>}
+      {user && (
         <>
           <div className={styles.topBar}>
             <button
@@ -57,7 +29,7 @@ export default function App() {
             >
               <Plus size={30} />
             </button>
-            <LogoutButton />
+            <button onClick={logout}>Logout</button>
           </div>
           <div className={styles.content}>
             <h1>Mat</h1>

@@ -1,13 +1,21 @@
 import { useEffect } from "react";
-import userManager from "../services/authService";
+import { useNavigate } from "react-router-dom";
+import { userManager } from "../services/userManager";
+import { useAuthContext } from "../context/AuthContext";
 
 export default function Callback() {
+  const navigate = useNavigate();
+  const { setUser } = useAuthContext();
+
   useEffect(() => {
     userManager.signinRedirectCallback().then((user) => {
-      localStorage.setItem("token", user.access_token);
-      window.location.href = "/";
+      if (user) {
+        setUser(user);
+        localStorage.setItem("token", user.access_token);
+      }
+      navigate("/", { replace: true });
     });
   }, []);
 
-  return <div>Loading...</div>;
+  return <p>Fullfører innlogging...</p>;
 }

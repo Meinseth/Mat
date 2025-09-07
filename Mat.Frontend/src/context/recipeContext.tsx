@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ApiClient, type RecipeDto } from "../services/ApiClient";
 import { ApiBaseUrl } from "../services/ApiBaseUrl";
 
@@ -67,6 +67,6 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
 export const useRecipesContext = () => {
   const context = useContext(RecipeContext);
   if (!context)
-    throw new Error("useRecipes must be used inside RecipeProvider");
+    throw new Error("useRecipesContext must be used inside RecipeProvider");
   return context;
 };
