@@ -1,12 +1,13 @@
 import AddRecipeModal from "./modals/addRecipeModal.tsx";
 import RecipeList from "./components/recipeList.tsx";
-import { Plus } from "lucide-react";
+import { Plus, User } from "lucide-react";
 import styles from "./styles/styles.module.css";
 import { useModalContext } from "./context/modalContext.tsx";
 import RecipeModal from "./modals/viewRecipeModal.tsx";
 import { useAuthContext } from "./context/AuthContext.tsx";
 import { useEffect } from "react";
 import { useRecipesContext } from "./context/recipeContext.tsx";
+import { Dropdown } from "./components/dropdown/dropdown.tsx";
 
 export default function App() {
   const { getRecipes } = useRecipesContext();
@@ -19,26 +20,35 @@ export default function App() {
 
   return (
     <>
-      {!user && <button onClick={login}>Login</button>}
-      {user && (
-        <>
-          <div className={styles.topBar}>
+      <div className={styles.topBar}>
+        {user && (
+          <>
             <button
               className={styles.invisibleButton}
               onClick={() => openModal("addRecipe")}
             >
               <Plus size={30} />
             </button>
-            <button onClick={logout}>Logout</button>
-          </div>
-          <div className={styles.content}>
-            <h1>Mat</h1>
-            <RecipeList />
-          </div>
-          <AddRecipeModal />
-          <RecipeModal />
-        </>
-      )}
+
+            <Dropdown>
+              <Dropdown.Button>
+                <User onClick={logout} />
+              </Dropdown.Button>
+            </Dropdown>
+          </>
+        )}
+      </div>
+      <div className={styles.content}>
+        <h1>Mat</h1>
+        {!user && (
+          <button className={styles.button} onClick={login}>
+            Login
+          </button>
+        )}
+        {user && <RecipeList />}
+      </div>
+      <AddRecipeModal />
+      <RecipeModal />
     </>
   );
 }

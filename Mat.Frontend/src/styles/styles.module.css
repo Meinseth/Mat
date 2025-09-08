@@ -57,6 +57,7 @@
   flex-direction: column;
   padding: 2rem;
   text-align: center;
+  align-items: center;
 }
 
 .button {
