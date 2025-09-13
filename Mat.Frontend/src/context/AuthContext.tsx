@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { ApiClient, type UserDto } from "../services/ApiClient";
-import { ApiBaseUrl } from "src/services/ApiBaseUrl";
+import { ApiBaseUrl } from "../services/ApiBaseUrl";
 
 type AuthContextType = {
   user: UserDto | null;

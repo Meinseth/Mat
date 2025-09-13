@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { ApiClient, type RecipeDto } from "../services/ApiClient";
-import { ApiBaseUrl } from "src/services/ApiBaseUrl";
+import { ApiBaseUrl } from "../services/ApiBaseUrl";
 
 interface RecipeContextType {
   recipes: RecipeDto[];
