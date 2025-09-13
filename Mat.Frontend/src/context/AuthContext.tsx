@@ -15,6 +15,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserDto | null>(null);
   const [loading, setLoading] = useState(true);
+  console.log(ApiBaseUrl);
   const api = new ApiClient(ApiBaseUrl, {
     fetch: (input, init) => {
       return window.fetch(input, {
