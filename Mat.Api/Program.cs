@@ -6,6 +6,7 @@ using Mat.Mappings;
 using Mat.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
@@ -55,9 +56,6 @@ builder
             options.Scope.Add("openid");
             options.Scope.Add("profile");
             options.Scope.Add("email");
-
-            if (builder.Environment.IsProduction())
-                options.CallbackPath = $"{frontendBaseUrl}/signin-oidc";
         }
     );
 builder.Services.AddScoped<IUserService, UserService>();
@@ -109,7 +107,15 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<MatDbContext>();
     db.Database.Migrate();
 }
-
+app.UseForwardedHeaders(
+    new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+        //trust all proxies in your internal Docker network
+        KnownNetworks = { },
+        KnownProxies = { },
+    }
+);
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
