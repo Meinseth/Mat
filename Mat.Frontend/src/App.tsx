@@ -12,7 +12,7 @@ import { Dropdown } from "./components/dropdown/dropdown.tsx";
 export default function App() {
   const { getRecipes } = useRecipesContext();
   const { openModal } = useModalContext();
-  const { user, login, logout } = useAuthContext();
+  const { user, login, logout, loading } = useAuthContext();
 
   useEffect(() => {
     if (user) getRecipes();
@@ -20,6 +20,7 @@ export default function App() {
 
   return (
     <>
+      {loading ?? <>loading...</>}
       <div className={styles.topBar}>
         {user && (
           <>

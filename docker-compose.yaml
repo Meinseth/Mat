@@ -6,11 +6,11 @@ services:
       context: ./Mat.Frontend
       dockerfile: Dockerfile
       args:
-        VITE_AUTH: ${VITE_AUTH}
-        VITE_CLIENT_ID: ${VITE_CLIENT_ID}
+        VITE_AUTH: ${AUTHORITY}
+        VITE_CLIENT_ID: ${CLIENT_ID}
     environment:
-      - VITE_AUTH=${VITE_AUTH}
-      - VITE_CLIENT_ID=${VITE_CLIENT_ID}
+      - VITE_AUTH=${AUTHORITY}
+      - VITE_CLIENT_ID=${CLIENT_ID}
     ports:
       - "5001:80"
     depends_on:
@@ -26,7 +26,12 @@ services:
       - db
     environment:
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=Mat;User Id=matuser;Password=${POSTGRES_PASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=Mat;User Id=matuser;TrustServerCertificate=True;
+      - Authority=${AUTHORITY}
+      - ClientId=${CLIENT_ID}
+      - ClientSecret=${CLIENT_SECRET}
+      - DbPassword=${POSTGRES_PASSWORD}
+      - Frontend__BaseUrl=${FRONTEND_BASEURL}
     restart: unless-stopped
 
   db:

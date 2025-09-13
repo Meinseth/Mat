@@ -1,39 +1,50 @@
-import { User } from "oidc-client-ts";
 import { createContext, useContext, useEffect, useState } from "react";
-import { userManager } from "../services/userManager";
+import { ApiBaseUrl } from "../services/ApiBaseUrl";
+import { ApiClient, type UserDto } from "../services/ApiClient";
 
 type AuthContextType = {
-  user: User | null;
+  user: UserDto | null;
   login: () => Promise<void>;
   logout: () => Promise<void>;
-  setUser: (user: User | null) => void;
+  setUser: (user: UserDto | null) => void;
+  loading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-
+  const [user, setUser] = useState<UserDto | null>(null);
+  const [loading, setLoading] = useState(true);
+  const api = new ApiClient(ApiBaseUrl, {
+    fetch: (input, init) => {
+      return window.fetch(input, {
+        ...init,
+        credentials: "include",
+      });
+    },
+  });
   useEffect(() => {
-    // Try restoring user from storage on app load
-    userManager.getUser().then((storedUser) => {
-      if (storedUser) setUser(storedUser);
-    });
+    api
+      .getApiUserMe()
+      .then((user) => {
+        setUser(user);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const login = async () => {
-    await userManager.signinRedirect();
+    window.location.href = "api/auth/login";
   };
 
   const logout = async () => {
-    await userManager.removeUser();
-    localStorage.removeItem("token");
-    setUser(null);
-    window.location.reload();
+    window.location.href = "api/auth/logout";
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, setUser }}>
+    <AuthContext.Provider value={{ user, login, logout, setUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

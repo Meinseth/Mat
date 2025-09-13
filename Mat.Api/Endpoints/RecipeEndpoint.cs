@@ -1,4 +1,5 @@
 using Mapster;
+using Mat.Database;
 using Mat.Database.Model;
 using Mat.Dtos;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ public static class RecipeEndpoint
 {
     public static void AddRecipeEndpoints(this IEndpointRouteBuilder app)
     {
-        var recipeGroup = app.MapGroup("/api/recipe/");
+        var recipeGroup = app.MapGroup("/api/recipe/").RequireAuthorization();
 
         recipeGroup
             .MapGet(
@@ -47,7 +48,7 @@ public static class RecipeEndpoint
 
         recipeGroup
             .MapPut(
-                "/{id}",
+                "{id}",
                 async (int id, RecipeDto updatedRecipeDto, MatDbContext db) =>
                 {
                     var recipe = await db.Recipes.FindAsync(id);

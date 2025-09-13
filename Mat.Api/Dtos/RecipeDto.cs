@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Mat.Dtos;
 
-public class RecipeDto
+public sealed record RecipeDto
 {
     public int Id { get; set; }
 

@@ -17,7 +17,14 @@ const RecipeContext = createContext<RecipeContextType | undefined>(undefined);
 export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
   const [recipes, setRecipes] = useState<RecipeDto[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<RecipeDto | null>(null);
-  const api = new ApiClient(ApiBaseUrl);
+  const api = new ApiClient(ApiBaseUrl, {
+    fetch: (input, init) => {
+      return window.fetch(input, {
+        ...init,
+        credentials: "include",
+      });
+    },
+  });
 
   const addRecipe = (recipe: RecipeDto) => {
     api

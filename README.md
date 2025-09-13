@@ -47,6 +47,9 @@ dotnet run
 
 ```bash
 dotnet user-secrets init
-dotnet user-secrets set "DbPassword" "changepasswordhere"
-
+dotnet user-secrets set "DbPassword" "password"
+dotnet user-secrets set "Authority"  "https://auth.example.com/application/o/app"
+dotnet user-secrets set "ClientId" "clientId"
+dotnet user-secrets set "ClientSecret" "secret"
+dotnet user-secrets list
 ```
