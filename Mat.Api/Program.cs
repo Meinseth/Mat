@@ -98,7 +98,8 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
 
-    options.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("172.27.0.0"), 16));
+    // IPv6-mapped
+    options.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("::ffff:172.27.0.0"), 16));
 });
 
 var app = builder.Build();
