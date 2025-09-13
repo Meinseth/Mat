@@ -1,2 +1,1 @@
-export const ApiBaseUrl =
-  import.meta.env.MODE === "production" ? "/proxy" : undefined;
+export const ApiBaseUrl = import.meta.env.MODE === "production" ? "/proxy" : "";
