@@ -36,11 +36,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async () => {
-    window.location.href = "api/auth/login";
+    window.location.href = `${ApiBaseUrl}/api/auth/login`;
   };
 
   const logout = async () => {
-    window.location.href = "api/auth/logout";
+    window.location.href = `${ApiBaseUrl}/api/auth/logout`;
   };
 
   return (
