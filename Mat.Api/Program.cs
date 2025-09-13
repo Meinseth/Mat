@@ -53,6 +53,9 @@ builder
             options.Scope.Add("openid");
             options.Scope.Add("profile");
             options.Scope.Add("email");
+
+            if (builder.Environment.IsProduction())
+                options.CallbackPath = "/proxy/signin-oidc";
         }
     );
 builder.Services.AddScoped<IUserService, UserService>();
