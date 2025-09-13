@@ -1,4 +1,3 @@
-using System.Net;
 using System.Text.Json.Serialization;
 using Mapster;
 using Mat.Database;
@@ -7,10 +6,8 @@ using Mat.Mappings;
 using Mat.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using IPNetwork = Microsoft.AspNetCore.HttpOverrides.IPNetwork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +24,9 @@ var connectionStringWithPassword = $"{connectionString}Password={dbPassword}";
 builder.Services.AddDbContext<MatDbContext>(options =>
     options.UseNpgsql(connectionStringWithPassword)
 );
-
+var frontendBaseUrl =
+    builder.Configuration["Frontend:BaseUrl"]
+    ?? throw new InvalidOperationException("Missing Frontend BaseUrl");
 builder.Services.AddAuthorization();
 builder
     .Services.AddAuthentication(options =>
@@ -56,6 +55,9 @@ builder
             options.Scope.Add("openid");
             options.Scope.Add("profile");
             options.Scope.Add("email");
+
+            if (builder.Environment.IsProduction())
+                options.CallbackPath = $"{frontendBaseUrl}/signin-oidc";
         }
     );
 builder.Services.AddScoped<IUserService, UserService>();
@@ -68,10 +70,6 @@ builder.Services.AddOpenApiDocument(config =>
     config.Title = "MatAPI v1";
     config.Version = "v1";
 });
-
-var frontendBaseUrl =
-    builder.Configuration["Frontend:BaseUrl"]
-    ?? throw new InvalidOperationException("Missing Frontend BaseUrl");
 
 builder.Services.AddCors(options =>
 {
@@ -93,15 +91,6 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
-// Trust your Docker network / reverse proxy
-builder.Services.Configure<ForwardedHeadersOptions>(options =>
-{
-    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-
-    // IPv6-mapped
-    options.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("::ffff:172.27.0.0"), 16));
-});
-
 var app = builder.Build();
 
 MappingConfig.RegisterMappings();
@@ -121,13 +110,6 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
-// redirect_uri (https instead of http)
-app.UseForwardedHeaders(
-    new ForwardedHeadersOptions
-    {
-        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-    }
-);
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
