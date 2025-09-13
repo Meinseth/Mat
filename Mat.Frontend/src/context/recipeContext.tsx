@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
 import { ApiClient, type RecipeDto } from "../services/ApiClient";
-import { ApiBaseUrl } from "../services/ApiBaseUrl";
 
 interface RecipeContextType {
   recipes: RecipeDto[];
@@ -17,7 +16,7 @@ const RecipeContext = createContext<RecipeContextType | undefined>(undefined);
 export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
   const [recipes, setRecipes] = useState<RecipeDto[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<RecipeDto | null>(null);
-  const api = new ApiClient(ApiBaseUrl, {
+  const api = new ApiClient(undefined, {
     fetch: (input, init) => {
       return window.fetch(input, {
         ...init,

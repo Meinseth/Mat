@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { ApiClient, type UserDto } from "../services/ApiClient";
-import { ApiBaseUrl } from "../services/ApiBaseUrl";
 
 type AuthContextType = {
   user: UserDto | null;
@@ -15,8 +14,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserDto | null>(null);
   const [loading, setLoading] = useState(true);
-  console.log(ApiBaseUrl);
-  const api = new ApiClient(ApiBaseUrl, {
+  const api = new ApiClient(undefined, {
     fetch: (input, init) => {
       return window.fetch(input, {
         ...init,
