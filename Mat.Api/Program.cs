@@ -57,6 +57,14 @@ builder
             options.Scope.Add("profile");
             options.Scope.Add("email");
             options.CallbackPath = "/api/signin-oidc";
+            options.Events = new OpenIdConnectEvents
+            {
+                OnRedirectToIdentityProvider = ctx =>
+                {
+                    ctx.ProtocolMessage.RedirectUri = frontendBaseUrl + "/api/signin-oidc";
+                    return Task.CompletedTask;
+                },
+            };
         }
     );
 builder.Services.AddScoped<IUserService, UserService>();
@@ -109,6 +117,7 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.AddRecipesEndpoints();
