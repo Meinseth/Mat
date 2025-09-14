@@ -111,6 +111,8 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     // Tell ASP.NET Core which X‑Forwarded‑* headers we care about
     options.ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedFor;
+    options.KnownProxies.Clear(); // removes any previously added IPs
+    options.KnownNetworks.Clear(); // removes any previously added CIDRs
 });
 
 var app = builder.Build();
@@ -140,4 +142,21 @@ app.AddRecipesEndpoints();
 app.AddRecipeEndpoints();
 app.AddAuthEndpoints(frontendBaseUrl);
 app.AddUserEndpoints();
+app.MapGet(
+    "api/debug/forwarded",
+    (HttpContext ctx) =>
+    {
+        var result = new
+        {
+            Scheme = ctx.Request.Scheme,
+            RemoteIp = ctx.Connection.RemoteIpAddress?.ToString(),
+            Headers = ctx
+                .Request.Headers.Where(h =>
+                    h.Key.StartsWith("X-Forwarded", StringComparison.OrdinalIgnoreCase)
+                )
+                .ToDictionary(h => h.Key, h => h.Value.ToString()),
+        };
+        return Results.Json(result);
+    }
+);
 app.Run();
