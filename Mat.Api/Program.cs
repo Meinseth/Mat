@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +36,15 @@ builder
         options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
     })
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(
+        CookieAuthenticationDefaults.AuthenticationScheme,
+        opts =>
+        {
+            opts.Cookie.HttpOnly = true;
+            opts.Cookie.SameSite = SameSiteMode.Strict;
+            opts.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        }
+    )
     .AddOpenIdConnect(
         OpenIdConnectDefaults.AuthenticationScheme,
         options =>
@@ -56,14 +65,14 @@ builder
             options.Scope.Add("openid");
             options.Scope.Add("profile");
             options.Scope.Add("email");
-            options.CallbackPath = "/api/signin-oidc";
-            options.Events = new OpenIdConnectEvents
+            options.CallbackPath = "/api/auth/callback";
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                OnRedirectToIdentityProvider = ctx =>
-                {
-                    ctx.ProtocolMessage.RedirectUri = frontendBaseUrl + "/api/signin-oidc";
-                    return Task.CompletedTask;
-                },
+                ValidateIssuer = true,
+                ValidIssuer = $"{builder.Configuration["Authority"]}/",
+                ValidateAudience = false, // we don’t care about audience here
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.FromMinutes(2),
             };
         }
     );

@@ -32,5 +32,39 @@ public static class AuthEndpoint
                 );
             }
         );
+        app.MapGet(
+            "callback",
+            async httpContext =>
+            {
+                // This endpoint is handled automatically by the OIDC handler.
+                // We just need to sign the user in with the cookie scheme.
+                var result = await httpContext.AuthenticateAsync(
+                    OpenIdConnectDefaults.AuthenticationScheme
+                );
+                if (!result.Succeeded)
+                {
+                    httpContext.Response.StatusCode = 401;
+                    await httpContext.Response.WriteAsync("Authentication failed.");
+                    return;
+                }
+
+                // Create a principal that includes the OIDC claims
+                var claimsPrincipal = result.Principal!;
+
+                // Sign‑in with the cookie scheme – this writes the session cookie
+                await httpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    claimsPrincipal,
+                    new AuthenticationProperties
+                    {
+                        IsPersistent = true, // optional: remember across browser restarts
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8), // adjust as needed
+                    }
+                );
+
+                // Finally redirect to the page you want the user to land on
+                httpContext.Response.Redirect(redirectUri);
+            }
+        );
     }
 }
