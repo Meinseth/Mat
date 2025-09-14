@@ -107,6 +107,12 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    // Tell ASP.NET Core which X‑Forwarded‑* headers we care about
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedFor;
+});
+
 var app = builder.Build();
 
 MappingConfig.RegisterMappings();
@@ -125,6 +131,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<MatDbContext>();
     db.Database.Migrate();
 }
+app.UseForwardedHeaders();
 app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
