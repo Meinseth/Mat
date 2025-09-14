@@ -56,14 +56,7 @@ builder
             options.Scope.Add("openid");
             options.Scope.Add("profile");
             options.Scope.Add("email");
-            options.Events = new OpenIdConnectEvents
-            {
-                OnRedirectToIdentityProvider = ctx =>
-                {
-                    ctx.ProtocolMessage.RedirectUri = frontendBaseUrl + "/signin-oidc";
-                    return Task.CompletedTask;
-                },
-            };
+            options.CallbackPath = "/api/signin-oidc";
         }
     );
 builder.Services.AddScoped<IUserService, UserService>();
@@ -98,17 +91,6 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 });
 
 var app = builder.Build();
-
-if (app.Environment.IsProduction())
-{
-    var forwardOptions = new ForwardedHeadersOptions
-    {
-        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-    };
-    forwardOptions.KnownNetworks.Clear();
-    forwardOptions.KnownProxies.Clear();
-    app.UseForwardedHeaders(forwardOptions);
-}
 
 MappingConfig.RegisterMappings();
 
