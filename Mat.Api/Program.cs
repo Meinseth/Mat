@@ -120,15 +120,6 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<MatDbContext>();
     db.Database.Migrate();
 }
-app.UseForwardedHeaders(
-    new ForwardedHeadersOptions
-    {
-        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-        //trust all proxies in your internal Docker network
-        KnownNetworks = { },
-        KnownProxies = { },
-    }
-);
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
