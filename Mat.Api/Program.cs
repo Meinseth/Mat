@@ -56,6 +56,14 @@ builder
             options.Scope.Add("openid");
             options.Scope.Add("profile");
             options.Scope.Add("email");
+            options.Events = new OpenIdConnectEvents
+            {
+                OnRedirectToIdentityProvider = ctx =>
+                {
+                    ctx.ProtocolMessage.RedirectUri = frontendBaseUrl + "/signin-oidc";
+                    return Task.CompletedTask;
+                },
+            };
         }
     );
 builder.Services.AddScoped<IUserService, UserService>();
