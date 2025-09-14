@@ -93,6 +93,17 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 
 var app = builder.Build();
 
+if (app.Environment.IsProduction())
+{
+    var forwardOptions = new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    };
+    forwardOptions.KnownNetworks.Clear();
+    forwardOptions.KnownProxies.Clear();
+    app.UseForwardedHeaders(forwardOptions);
+}
+
 MappingConfig.RegisterMappings();
 
 app.UseOpenApi();
