@@ -60,7 +60,7 @@ builder
                 ?? throw new InvalidOperationException("Missing ClientSecret");
 
             options.ResponseType = OpenIdConnectResponseType.Code;
-            options.SaveTokens = true;
+            options.SaveTokens = false;
             options.GetClaimsFromUserInfoEndpoint = true;
             options.Scope.Add("openid");
             options.Scope.Add("profile");
