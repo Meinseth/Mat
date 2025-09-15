@@ -26,9 +26,13 @@ var connectionStringWithPassword = $"{connectionString}Password={dbPassword}";
 builder.Services.AddDbContext<MatDbContext>(options =>
     options.UseNpgsql(connectionStringWithPassword)
 );
-var frontendBaseUrl =
-    builder.Configuration["Frontend:BaseUrl"]
-    ?? throw new InvalidOperationException("Missing Frontend BaseUrl");
+
+// var frontendBaseUrl =
+//     builder.Configuration["Frontend:BaseUrl"]
+//     ?? throw new InvalidOperationException("Missing Frontend BaseUrl");
+var frontendBaseUrl = "http://localhost:5001";
+if (builder.Environment.IsProduction())
+    frontendBaseUrl = "/";
 builder.Services.AddAuthorization();
 builder
     .Services.AddAuthentication(options =>
@@ -86,21 +90,23 @@ builder.Services.AddOpenApiDocument(config =>
     config.Title = "MatAPI v1";
     config.Version = "v1";
 });
-
-builder.Services.AddCors(options =>
+if (builder.Environment.IsDevelopment())
 {
-    options.AddPolicy(
-        "AllowFrontend",
-        policy =>
-        {
-            policy
-                .WithOrigins(frontendBaseUrl)
-                .AllowCredentials()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        }
-    );
-});
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(
+            "AllowLocal",
+            policy =>
+            {
+                policy
+                    .WithOrigins(frontendBaseUrl)
+                    .AllowCredentials()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }
+        );
+    });
+}
 
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
@@ -109,10 +115,9 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
-    // Tell ASP.NET Core which X‑Forwarded‑* headers we care about
     options.ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedFor;
-    options.KnownProxies.Clear(); // removes any previously added IPs
-    options.KnownNetworks.Clear(); // removes any previously added CIDRs
+    options.KnownProxies.Clear();
+    options.KnownNetworks.Clear();
 });
 
 var app = builder.Build();
@@ -134,7 +139,8 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 app.UseForwardedHeaders();
-app.UseCors("AllowFrontend");
+if (builder.Environment.IsDevelopment())
+    app.UseCors("AllowLocal");
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -142,21 +148,4 @@ app.AddRecipesEndpoints();
 app.AddRecipeEndpoints();
 app.AddAuthEndpoints(frontendBaseUrl);
 app.AddUserEndpoints();
-app.MapGet(
-    "api/debug/forwarded",
-    (HttpContext ctx) =>
-    {
-        var result = new
-        {
-            Scheme = ctx.Request.Scheme,
-            RemoteIp = ctx.Connection.RemoteIpAddress?.ToString(),
-            Headers = ctx
-                .Request.Headers.Where(h =>
-                    h.Key.StartsWith("X-Forwarded", StringComparison.OrdinalIgnoreCase)
-                )
-                .ToDictionary(h => h.Key, h => h.Value.ToString()),
-        };
-        return Results.Json(result);
-    }
-);
 app.Run();
