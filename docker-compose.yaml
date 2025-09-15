@@ -25,7 +25,6 @@ services:
       - ClientId=${CLIENT_ID}
       - ClientSecret=${CLIENT_SECRET}
       - DbPassword=${POSTGRES_PASSWORD}
-      - Frontend__BaseUrl=${FRONTEND_BASEURL}
     ports:
       - "5000:80"
     restart: unless-stopped

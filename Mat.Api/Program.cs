@@ -27,12 +27,6 @@ builder.Services.AddDbContext<MatDbContext>(options =>
     options.UseNpgsql(connectionStringWithPassword)
 );
 
-// var frontendBaseUrl =
-//     builder.Configuration["Frontend:BaseUrl"]
-//     ?? throw new InvalidOperationException("Missing Frontend BaseUrl");
-var frontendBaseUrl = "http://localhost:5001";
-if (builder.Environment.IsProduction())
-    frontendBaseUrl = "/";
 builder.Services.AddAuthorization();
 builder
     .Services.AddAuthentication(options =>
@@ -65,19 +59,10 @@ builder
 
             options.ResponseType = OpenIdConnectResponseType.Code;
             options.SaveTokens = false;
-            options.GetClaimsFromUserInfoEndpoint = true;
             options.Scope.Add("openid");
             options.Scope.Add("profile");
             options.Scope.Add("email");
             options.CallbackPath = "/api/auth/callback";
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = $"{builder.Configuration["Authority"]}/",
-                ValidateAudience = false, // we don’t care about audience here
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.FromMinutes(2),
-            };
         }
     );
 builder.Services.AddScoped<IUserService, UserService>();
@@ -90,6 +75,7 @@ builder.Services.AddOpenApiDocument(config =>
     config.Title = "MatAPI v1";
     config.Version = "v1";
 });
+var frontendBaseUrl = builder.Environment.IsDevelopment() ? "http://localhost:5001" : "/";
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddCors(options =>
