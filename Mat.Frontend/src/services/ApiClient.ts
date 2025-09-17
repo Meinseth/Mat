@@ -55,6 +55,15 @@ export class ApiClient {
             : (JSON.parse(_responseText, this.jsonParseReviver) as RecipeDto[]);
         return result200;
       });
+    } else if (status === 401) {
+      return response.text().then((_responseText) => {
+        return throwException(
+          "A server side error occurred.",
+          status,
+          _responseText,
+          _headers
+        );
+      });
     } else if (status !== 200 && status !== 204) {
       return response.text().then((_responseText) => {
         return throwException(
@@ -111,6 +120,15 @@ export class ApiClient {
             : (JSON.parse(_responseText, this.jsonParseReviver) as RecipeDto);
         return result200;
       });
+    } else if (status === 401) {
+      return response.text().then((_responseText) => {
+        return throwException(
+          "A server side error occurred.",
+          status,
+          _responseText,
+          _headers
+        );
+      });
     } else if (status !== 200 && status !== 204) {
       return response.text().then((_responseText) => {
         return throwException(
@@ -157,6 +175,15 @@ export class ApiClient {
         return;
       });
     } else if (status === 404) {
+      return response.text().then((_responseText) => {
+        return throwException(
+          "A server side error occurred.",
+          status,
+          _responseText,
+          _headers
+        );
+      });
+    } else if (status === 401) {
       return response.text().then((_responseText) => {
         return throwException(
           "A server side error occurred.",
@@ -214,6 +241,15 @@ export class ApiClient {
           _headers
         );
       });
+    } else if (status === 401) {
+      return response.text().then((_responseText) => {
+        return throwException(
+          "A server side error occurred.",
+          status,
+          _responseText,
+          _headers
+        );
+      });
     } else if (status !== 200 && status !== 204) {
       return response.text().then((_responseText) => {
         return throwException(
@@ -261,6 +297,15 @@ export class ApiClient {
             ? null
             : (JSON.parse(_responseText, this.jsonParseReviver) as RecipeDto);
         return result201;
+      });
+    } else if (status === 401) {
+      return response.text().then((_responseText) => {
+        return throwException(
+          "A server side error occurred.",
+          status,
+          _responseText,
+          _headers
+        );
       });
     } else if (status !== 200 && status !== 204) {
       return response.text().then((_responseText) => {
@@ -362,7 +407,6 @@ export interface UserDto {
   email?: string | undefined;
   firstName?: string | undefined;
   lastName?: string | undefined;
-  recipes?: RecipeDto[];
 }
 
 export class ApiException extends Error {

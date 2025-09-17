@@ -1,9 +1,6 @@
-using System.Security.Claims;
 using Mapster;
-using Mat.Database;
-using Mat.Database.Model;
 using Mat.Dtos;
-using Microsoft.EntityFrameworkCore;
+using Mat.Services;
 
 namespace Mat.Endpoints;
 
@@ -16,39 +13,11 @@ public static class UserEndpoint
         userGroup
             .MapGet(
                 "me",
-                async (HttpContext httpContext, MatDbContext db) =>
+                async (IUserService userService) =>
                 {
-                    if (!httpContext.User.Identity?.IsAuthenticated ?? true)
-                        return Results.Unauthorized();
-
-                    var claims = httpContext.User.Claims;
-
-                    var username = claims
-                        .FirstOrDefault(c => c.Type == "preferred_username")
-                        ?.Value;
-
-                    if (username is null)
-                        return Results.BadRequest("Missing claims");
-
-                    var user = await db.Users.FirstOrDefaultAsync(u => u.Username == username);
-
+                    var user = await userService.GetCurrentUserAsync();
                     if (user is null)
-                    {
-                        user = new User
-                        {
-                            Username = username!,
-                            Email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
-                            FirstName = claims
-                                .FirstOrDefault(c => c.Type == ClaimTypes.GivenName)
-                                ?.Value,
-                            LastName = claims
-                                .FirstOrDefault(c => c.Type == ClaimTypes.Surname)
-                                ?.Value,
-                        };
-
-                        db.Users.Add(user);
-                        await db.SaveChangesAsync();
-                    }
+                        return Results.Unauthorized();
 
                     return Results.Ok(user.Adapt<UserDto>());
                 }

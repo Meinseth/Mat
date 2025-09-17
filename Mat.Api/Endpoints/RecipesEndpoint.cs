@@ -1,6 +1,7 @@
 using Mapster;
 using Mat.Database;
 using Mat.Dtos;
+using Mat.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mat.Endpoints;
@@ -14,13 +15,22 @@ public static class RecipesEndpoint
         recipesGroup
             .MapGet(
                 "",
-                async (MatDbContext db) =>
+                async (MatDbContext db, IUserService userService) =>
                 {
-                    var recipes = await db.Recipes.Include(r => r.Ingredients).ToListAsync();
+                    var user = await userService.GetCurrentUserAsync();
+                    if (user is null)
+                        return Results.Unauthorized();
+
+                    var recipes = await db
+                        .Recipes.Where(r => r.UserId == user.Id)
+                        .Include(r => r.Ingredients)
+                        .ToListAsync();
 
                     return Results.Ok(recipes.Adapt<List<RecipeDto>>());
                 }
             )
-            .Produces<RecipeDto[]>(StatusCodes.Status200OK);
+            .Produces<RecipeDto[]>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status401Unauthorized);
+        ;
     }
 }

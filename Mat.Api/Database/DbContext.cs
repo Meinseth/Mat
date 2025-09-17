@@ -1,14 +1,13 @@
 using Mat.Database.Model;
-using Mat.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mat.Database;
 
 public class MatDbContext(DbContextOptions<MatDbContext> options) : DbContext(options)
 {
-    public DbSet<Recipe> Recipes => Set<Recipe>();
-    public DbSet<Ingredient> Ingredients => Set<Ingredient>();
-    public DbSet<User> Users => Set<User>();
+    public DbSet<Recipe> Recipes { get; set; }
+    public DbSet<Ingredient> Ingredients { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

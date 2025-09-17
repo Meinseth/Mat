@@ -1,8 +1,8 @@
-using System.Security.Claims;
+using Mat.Database.Model;
 
 namespace Mat.Services;
 
 public interface IUserService
 {
-    Task EnsureUserExistsAsync(ClaimsPrincipal principal);
+    Task<User?> GetCurrentUserAsync();
 }

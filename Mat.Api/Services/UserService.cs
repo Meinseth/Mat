@@ -5,33 +5,39 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mat.Services;
 
-public class UserService(MatDbContext db) : IUserService
+public class UserService(IHttpContextAccessor httpContextAccessor, MatDbContext db) : IUserService
 {
-    public async Task EnsureUserExistsAsync(ClaimsPrincipal principal)
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly MatDbContext _db = db;
+
+    public async Task<User?> GetCurrentUserAsync()
     {
-        var username =
-            principal.FindFirst("preferred_username")?.Value
-            ?? principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var httpContext = _httpContextAccessor.HttpContext;
 
-        if (string.IsNullOrWhiteSpace(username))
-            throw new InvalidOperationException("Cannot locate username in token.");
+        if (httpContext?.User.Identity?.IsAuthenticated != true)
+            return null;
 
-        var existing = await db
-            .Users.AsNoTracking()
-            .SingleOrDefaultAsync(u => u.Username == username);
+        var claims = httpContext.User.Claims;
 
-        if (existing is not null)
-            return;
+        var username = claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
+        if (string.IsNullOrEmpty(username))
+            return null;
 
-        var newUser = new User
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Username == username);
+        if (user is null)
         {
-            Username = username,
-            Email = principal.FindFirst(ClaimTypes.Email)?.Value,
-            FirstName = principal.FindFirst(ClaimTypes.GivenName)?.Value,
-            LastName = principal.FindFirst(ClaimTypes.Surname)?.Value,
-        };
+            user = new User
+            {
+                Username = username,
+                Email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
+                FirstName = claims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value,
+                LastName = claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value,
+            };
 
-        db.Users.Add(newUser);
-        await db.SaveChangesAsync();
+            _db.Users.Add(user);
+            await _db.SaveChangesAsync();
+        }
+
+        return user;
     }
 }
