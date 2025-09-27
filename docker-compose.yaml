@@ -31,7 +31,7 @@ services:
 
   db:
     container_name: mat-db
-    image: postgres:latest
+    image: postgres:17
     environment:
       - POSTGRES_USER=matuser
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
