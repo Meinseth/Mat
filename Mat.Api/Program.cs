@@ -128,6 +128,7 @@ app.UseForwardedHeaders();
 if (builder.Environment.IsDevelopment())
     app.UseCors("AllowLocal");
 
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.AddRecipesEndpoints();
