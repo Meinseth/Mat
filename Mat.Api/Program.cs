@@ -125,7 +125,8 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
-// force https for redirect
+// force https for redirec
+app.UseForwardedHeaders();
 app.Use(
     (context, next) =>
     {
@@ -133,7 +134,7 @@ app.Use(
         return next();
     }
 );
-app.UseForwardedHeaders();
+
 if (builder.Environment.IsDevelopment())
     app.UseCors("AllowLocal");
 
