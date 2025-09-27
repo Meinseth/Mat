@@ -124,12 +124,21 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<MatDbContext>();
     db.Database.Migrate();
 }
+
 app.UseForwardedHeaders();
+
+// force https redirect
+app.Use(
+    (context, next) =>
+    {
+        context.Request.Scheme = "https";
+        return next();
+    }
+);
 
 if (builder.Environment.IsDevelopment())
     app.UseCors("AllowLocal");
 
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.AddRecipesEndpoints();
