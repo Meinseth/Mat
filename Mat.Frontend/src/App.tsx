@@ -33,8 +33,16 @@ export default function App() {
 
             <Dropdown>
               <Dropdown.Button>
-                <User onClick={logout} />
+                <User />
               </Dropdown.Button>
+              <Dropdown.Menu>
+                <span>
+                  {user.firstName} {user.lastName}Meinseth
+                </span>
+                <button className={styles.button} onClick={logout}>
+                  logout
+                </button>
+              </Dropdown.Menu>
             </Dropdown>
           </>
         )}

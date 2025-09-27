@@ -16,7 +16,7 @@
     },
     {
       "name": "React Frontend",
-      "command": "npm run dev",
+      "command": "powershell -Command \"Start-Sleep -Seconds 2; npm run dev\"", // start backend first to hide errors
       "request": "launch",
       "type": "node-terminal",
       "cwd": "${workspaceFolder}/Mat.Frontend"
