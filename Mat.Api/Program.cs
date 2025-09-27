@@ -127,14 +127,14 @@ using (var scope = app.Services.CreateScope())
 
 app.UseForwardedHeaders();
 
-// force https redirect
-app.Use(
-    (context, next) =>
-    {
-        context.Request.Scheme = "https";
-        return next();
-    }
-);
+if (builder.Environment.IsProduction())
+    app.Use(
+        (context, next) =>
+        {
+            context.Request.Scheme = "https";
+            return next();
+        }
+    );
 
 if (builder.Environment.IsDevelopment())
     app.UseCors("AllowLocal");
