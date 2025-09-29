@@ -12,10 +12,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --white: rgba(255, 255, 255, 0.87);
-  --lighter-grey: rgba(255, 255, 255, 0.5);
-  --light-grey: rgba(255, 255, 255, 0.3);
-  --black: rgba(0, 0, 0, 0.8);
+  --white: rgb(222, 222, 222);
+  --lighter-grey: rgb(128, 128, 128);
+  --light-grey: rgb(77, 77, 77);
+  --black: rgb(51, 51, 51);
 
   --dark: rgba(0, 0, 0, 0.5);
   --darker: rgba(0, 0, 0, 0.3);

@@ -244,3 +244,7 @@
 .dropdownMenu button {
   margin: 0;
 }
+
+.loading {
+  padding: 1rem;
+}

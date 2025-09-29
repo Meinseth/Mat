@@ -20,7 +20,6 @@ export default function App() {
 
   return (
     <>
-      {loading ?? <>loading...</>}
       <div className={styles.topBar}>
         {user && (
           <>
@@ -46,6 +45,7 @@ export default function App() {
             </Dropdown>
           </>
         )}
+        {loading && <div className={styles.loading}>loading...</div>}
       </div>
       <div className={styles.content}>
         <h1>Mat</h1>
@@ -54,6 +54,7 @@ export default function App() {
             Login
           </button>
         )}
+
         {user && <RecipeList />}
       </div>
       <AddRecipeModal />
