@@ -8,6 +8,7 @@ import { useAuthContext } from "./context/AuthContext.tsx";
 import { useEffect } from "react";
 import { useRecipesContext } from "./context/recipeContext.tsx";
 import { Dropdown } from "./components/dropdown/dropdown.tsx";
+import ConfirmationModal from "./modals/confirmDeleteModal.tsx";
 
 export default function App() {
   const { getRecipes } = useRecipesContext();

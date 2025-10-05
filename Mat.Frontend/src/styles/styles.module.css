@@ -248,3 +248,12 @@
 .loading {
   padding: 1rem;
 }
+
+.delete {
+  background-color: var(--red-rgb);
+  transition: background-color 0.2s;
+}
+
+.delete:hover {
+  background-color: rgba(var(--red), var(--hover));
+}

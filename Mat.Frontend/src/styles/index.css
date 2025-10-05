@@ -12,16 +12,20 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  --red: 159, 42, 42;
+
   --white: rgb(222, 222, 222);
   --lighter-grey: rgb(128, 128, 128);
   --light-grey: rgb(77, 77, 77);
   --black: rgb(51, 51, 51);
+  --red-rgb: rgb(var(--red));
 
   --dark: rgba(0, 0, 0, 0.5);
   --darker: rgba(0, 0, 0, 0.3);
 
   --border-radius-large: 0.6rem;
   --border-radius: 0.4rem;
+  --hover: 0.6;
 }
 
 body {

@@ -9,7 +9,6 @@ export default function AddRecipeModal() {
   const isOpen = activeModal === "addRecipe";
   const { form, update, updateRecipe, handleSubmit } =
     useRecipeForm(closeModal);
-  if (!isOpen) return null;
   return (
     <Modal isOpen={isOpen} onClose={closeModal}>
       <form onSubmit={handleSubmit}>

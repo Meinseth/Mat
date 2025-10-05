@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-type ModalType = "addRecipe" | "viewRecipe" | null;
+type ModalType = "addRecipe" | "viewRecipe" | "confirmation" | null;
 
 interface ModalContextType {
   activeModal: ModalType;
