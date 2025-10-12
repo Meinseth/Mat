@@ -1,6 +1,6 @@
 import styles from '../styles/styles.module.css';
 import { useRecipesContext } from '../context/recipe/useRecipeContext.ts';
-import { useModalContext } from '../context/modal/useModalContext.tsx';
+import { useModalContext } from '../context/modal/useModalContext.ts';
 
 export default function RecipeList() {
     const { recipes, setSelectedRecipe } = useRecipesContext();

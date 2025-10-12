@@ -1,6 +1,6 @@
 import Modal from './modal';
 import styles from '../styles/styles.module.css';
-import { useModalContext } from '../context/modal/useModalContext.tsx';
+import { useModalContext } from '../context/modal/useModalContext.ts';
 import { useRecipesContext } from '../context/recipe/useRecipeContext.ts';
 import type { IngredientDto } from '../services/ApiClient';
 import ConfirmDeleteModal from './confirmDeleteModal';
