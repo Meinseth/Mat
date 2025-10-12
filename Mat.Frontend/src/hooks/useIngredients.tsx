@@ -1,5 +1,5 @@
-import { useCallback } from 'react'
-import type { Unit, IngredientDto, RecipeDto } from '../services/ApiClient'
+import { useCallback } from 'react';
+import type { Unit, IngredientDto, RecipeDto } from '../services/ApiClient';
 
 export function useIngredients(
     ingredients: IngredientDto[] = [],
@@ -11,12 +11,12 @@ export function useIngredients(
         'Milliliter',
         'Desiliter',
         'Liter',
-    ] as const satisfies readonly Unit[]
+    ] as const satisfies readonly Unit[];
 
     const setIngredients = useCallback(
         (next: IngredientDto[]) => update('ingredients', next),
         [update]
-    )
+    );
 
     const updateIngredient = useCallback(
         (index: number, field: keyof IngredientDto) =>
@@ -26,31 +26,31 @@ export function useIngredients(
                 const value =
                     field === 'amount'
                         ? Number(event.target.value)
-                        : event.target.value
+                        : event.target.value;
 
-                const newIngredients = [...ingredients]
+                const newIngredients = [...ingredients];
                 newIngredients[index] = {
                     ...newIngredients[index],
                     [field]: value,
-                }
-                setIngredients(newIngredients)
+                };
+                setIngredients(newIngredients);
             },
         [ingredients, setIngredients]
-    )
+    );
 
     const addIngredient = useCallback(() => {
         setIngredients([
             ...ingredients,
             { name: '', amount: undefined, unit: 'Gram' },
-        ])
-    }, [ingredients, setIngredients])
+        ]);
+    }, [ingredients, setIngredients]);
 
     const removeIngredient = useCallback(
         (idToRemove: number) => {
-            setIngredients(ingredients.filter((_, i) => i !== idToRemove))
+            setIngredients(ingredients.filter((_, i) => i !== idToRemove));
         },
         [ingredients, setIngredients]
-    )
+    );
 
     return {
         ingredients,
@@ -58,5 +58,5 @@ export function useIngredients(
         updateIngredient,
         addIngredient,
         removeIngredient,
-    }
+    };
 }

@@ -1,11 +1,11 @@
-import type { IngredientDto, RecipeDto } from '../services/ApiClient'
-import { X } from 'lucide-react'
-import styles from '../styles/styles.module.css'
-import { useIngredients } from '../hooks/useIngredients'
+import type { IngredientDto, RecipeDto } from '../services/ApiClient';
+import { X } from 'lucide-react';
+import styles from '../styles/styles.module.css';
+import { useIngredients } from '../hooks/useIngredients';
 
 interface Props {
-    ingredients: IngredientDto[]
-    update: (field: keyof RecipeDto, value: IngredientDto[]) => void
+    ingredients: IngredientDto[];
+    update: (field: keyof RecipeDto, value: IngredientDto[]) => void;
 }
 
 export function IngredientInputs(props: Props) {
@@ -15,7 +15,7 @@ export function IngredientInputs(props: Props) {
         updateIngredient,
         addIngredient,
         removeIngredient,
-    } = useIngredients(props.ingredients, props.update)
+    } = useIngredients(props.ingredients, props.update);
 
     return (
         <>
@@ -63,5 +63,5 @@ export function IngredientInputs(props: Props) {
                 ))}
             </div>
         </>
-    )
+    );
 }

@@ -1,14 +1,14 @@
-import { IngredientInputs } from '../components/IngredientInputs'
-import Modal from './modal'
-import styles from '../styles/styles.module.css'
-import { useRecipeForm } from '../hooks/useRecipeForm'
-import { useModalContext } from '../context/modal/useModalContext'
+import { IngredientInputs } from '../components/IngredientInputs';
+import Modal from './modal';
+import styles from '../styles/styles.module.css';
+import { useRecipeForm } from '../hooks/useRecipeForm';
+import { useModalContext } from '../context/modal/useModalContext';
 
 export default function AddRecipeModal() {
-    const { activeModal, closeModal } = useModalContext()
-    const isOpen = activeModal === 'addRecipe'
+    const { activeModal, closeModal } = useModalContext();
+    const isOpen = activeModal === 'addRecipe';
     const { form, update, updateRecipe, handleSubmit } =
-        useRecipeForm(closeModal)
+        useRecipeForm(closeModal);
     return (
         <Modal isOpen={isOpen} onClose={closeModal}>
             <form onSubmit={handleSubmit}>
@@ -60,5 +60,5 @@ export default function AddRecipeModal() {
                 </div>
             </form>
         </Modal>
-    )
+    );
 }

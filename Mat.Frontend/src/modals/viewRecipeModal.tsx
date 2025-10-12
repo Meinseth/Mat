@@ -1,32 +1,32 @@
-import Modal from './modal'
-import styles from '../styles/styles.module.css'
-import { useModalContext } from '../context/modal/useModalContext.tsx'
-import { useRecipesContext } from '../context/recipe/useRecipeContext.ts'
-import type { IngredientDto } from '../services/ApiClient'
-import ConfirmDeleteModal from './confirmDeleteModal'
-import { useState } from 'react'
+import Modal from './modal';
+import styles from '../styles/styles.module.css';
+import { useModalContext } from '../context/modal/useModalContext.tsx';
+import { useRecipesContext } from '../context/recipe/useRecipeContext.ts';
+import type { IngredientDto } from '../services/ApiClient';
+import ConfirmDeleteModal from './confirmDeleteModal';
+import { useState } from 'react';
 
 export default function ViewRecipeModal() {
-    const { activeModal, closeModal } = useModalContext()
+    const { activeModal, closeModal } = useModalContext();
     const { selectedRecipe, setSelectedRecipe, deleteRecipe } =
-        useRecipesContext()
-    const [showConfirm, setShowConfirm] = useState(false)
-    const isOpen = activeModal === 'viewRecipe'
-    const [isEdit, setIsEdit] = useState(false)
+        useRecipesContext();
+    const [showConfirm, setShowConfirm] = useState(false);
+    const isOpen = activeModal === 'viewRecipe';
+    const [isEdit, setIsEdit] = useState(false);
 
-    if (!selectedRecipe) return null
+    if (!selectedRecipe) return null;
 
     const onClose = () => {
-        setSelectedRecipe(null)
-        closeModal()
-    }
+        setSelectedRecipe(null);
+        closeModal();
+    };
 
-    const confirmationClose = () => setShowConfirm(false)
+    const confirmationClose = () => setShowConfirm(false);
 
     const confirmationSuccess = () => {
-        deleteRecipe()
-        setSelectedRecipe(null)
-    }
+        deleteRecipe();
+        setSelectedRecipe(null);
+    };
 
     const IngredientRow = ({ ingredient }: { ingredient: IngredientDto }) => (
         <div className={styles.IngredientRow}>
@@ -35,22 +35,22 @@ export default function ViewRecipeModal() {
                 {ingredient.amount} {ingredient.unit}
             </dd>
         </div>
-    )
+    );
 
     const Row = ({
         label,
         value,
     }: {
-        label: string
-        value: string | undefined
+        label: string;
+        value: string | undefined;
     }) => {
         return (
             <div className={styles.IngredientRow}>
                 <dt>{label}</dt>
                 <dd>{value ?? ''}</dd>
             </div>
-        )
-    }
+        );
+    };
 
     return (
         <>
@@ -59,8 +59,8 @@ export default function ViewRecipeModal() {
                 onClose={onClose}
                 onDelete={() => setShowConfirm(true)}
                 onEdit={() => {
-                    setIsEdit((prev) => !prev)
-                    return isEdit
+                    setIsEdit((prev) => !prev);
+                    return isEdit;
                 }}
             >
                 <h1>{selectedRecipe.name}</h1>
@@ -88,5 +88,5 @@ export default function ViewRecipeModal() {
                 onSuccess={confirmationSuccess}
             />
         </>
-    )
+    );
 }

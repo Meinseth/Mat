@@ -1,10 +1,10 @@
-import styles from '../styles/styles.module.css'
-import { useRecipesContext } from '../context/recipe/useRecipeContext.ts'
-import { useModalContext } from '../context/modal/useModalContext.tsx'
+import styles from '../styles/styles.module.css';
+import { useRecipesContext } from '../context/recipe/useRecipeContext.ts';
+import { useModalContext } from '../context/modal/useModalContext.tsx';
 
 export default function RecipeList() {
-    const { recipes, setSelectedRecipe } = useRecipesContext()
-    const { openModal } = useModalContext()
+    const { recipes, setSelectedRecipe } = useRecipesContext();
+    const { openModal } = useModalContext();
 
     return (
         <>
@@ -12,8 +12,8 @@ export default function RecipeList() {
                 {recipes.map((recipe, index) => (
                     <div
                         onClick={() => {
-                            setSelectedRecipe(recipe)
-                            openModal('viewRecipe')
+                            setSelectedRecipe(recipe);
+                            openModal('viewRecipe');
                         }}
                         key={index}
                     >
@@ -22,5 +22,5 @@ export default function RecipeList() {
                 ))}
             </div>
         </>
-    )
+    );
 }

@@ -1,9 +1,9 @@
-import type { UserDto } from 'src/services/ApiClient'
+import type { UserDto } from 'src/services/ApiClient';
 
 export type AuthContextType = {
-    user: UserDto | null
-    login: () => Promise<void>
-    logout: () => Promise<void>
-    setUser: (user: UserDto | null) => void
-    loading: boolean
-}
+    user: UserDto | null;
+    login: () => Promise<void>;
+    logout: () => Promise<void>;
+    setUser: (user: UserDto | null) => void;
+    loading: boolean;
+};

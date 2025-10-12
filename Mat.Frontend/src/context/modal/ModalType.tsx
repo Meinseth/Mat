@@ -1,1 +1,1 @@
-export type ModalType = 'addRecipe' | 'viewRecipe' | 'confirmation' | null
+export type ModalType = 'addRecipe' | 'viewRecipe' | 'confirmation' | null;

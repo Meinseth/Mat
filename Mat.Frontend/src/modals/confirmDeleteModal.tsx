@@ -1,12 +1,12 @@
-import Modal from './modal'
-import styles from '../styles/styles.module.css'
+import Modal from './modal';
+import styles from '../styles/styles.module.css';
 
 interface Props {
-    isOpen: boolean
-    onClose: () => void
-    onSuccess: () => void
-    type: string
-    name: string
+    isOpen: boolean;
+    onClose: () => void;
+    onSuccess: () => void;
+    type: string;
+    name: string;
 }
 
 export default function ConfirmDeleteModal(props: Props) {
@@ -31,5 +31,5 @@ export default function ConfirmDeleteModal(props: Props) {
                 </button>
             </div>
         </Modal>
-    )
+    );
 }

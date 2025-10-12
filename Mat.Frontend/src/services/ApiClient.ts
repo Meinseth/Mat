@@ -10,56 +10,56 @@
 
 export class ApiClient {
     private http: {
-        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
-    }
-    private baseUrl: string
+        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+    };
+    private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
-        undefined
+        undefined;
 
     constructor(
         baseUrl?: string,
         http?: {
-            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
         }
     ) {
-        this.http = http ? http : (window as any)
-        this.baseUrl = baseUrl ?? 'http://localhost:5000'
+        this.http = http ? http : (window as any);
+        this.baseUrl = baseUrl ?? 'http://localhost:5000';
     }
 
     getApiRecipes(): Promise<RecipeDto[]> {
-        let url_ = this.baseUrl + '/api/recipes'
-        url_ = url_.replace(/[?&]$/, '')
+        let url_ = this.baseUrl + '/api/recipes';
+        url_ = url_.replace(/[?&]$/, '');
 
         let options_: RequestInit = {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
             },
-        }
+        };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetApiRecipes(_response)
-        })
+            return this.processGetApiRecipes(_response);
+        });
     }
 
     protected processGetApiRecipes(response: Response): Promise<RecipeDto[]> {
-        const status = response.status
-        let _headers: any = {}
+        const status = response.status;
+        let _headers: any = {};
         if (response.headers && response.headers.forEach) {
-            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
             return response.text().then((_responseText) => {
-                let result200: any = null
+                let result200: any = null;
                 result200 =
                     _responseText === ''
                         ? null
                         : (JSON.parse(
                               _responseText,
                               this.jsonParseReviver
-                          ) as RecipeDto[])
-                return result200
-            })
+                          ) as RecipeDto[]);
+                return result200;
+            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -67,8 +67,8 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -76,36 +76,36 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         }
-        return Promise.resolve<RecipeDto[]>(null as any)
+        return Promise.resolve<RecipeDto[]>(null as any);
     }
 
     getApiRecipe(id: number): Promise<RecipeDto> {
-        let url_ = this.baseUrl + '/api/recipe/{id}'
+        let url_ = this.baseUrl + '/api/recipe/{id}';
         if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.")
-        url_ = url_.replace('{id}', encodeURIComponent('' + id))
-        url_ = url_.replace(/[?&]$/, '')
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace('{id}', encodeURIComponent('' + id));
+        url_ = url_.replace(/[?&]$/, '');
 
         let options_: RequestInit = {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
             },
-        }
+        };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetApiRecipe(_response)
-        })
+            return this.processGetApiRecipe(_response);
+        });
     }
 
     protected processGetApiRecipe(response: Response): Promise<RecipeDto> {
-        const status = response.status
-        let _headers: any = {}
+        const status = response.status;
+        let _headers: any = {};
         if (response.headers && response.headers.forEach) {
-            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 404) {
             return response.text().then((_responseText) => {
@@ -114,20 +114,20 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
-                let result200: any = null
+                let result200: any = null;
                 result200 =
                     _responseText === ''
                         ? null
                         : (JSON.parse(
                               _responseText,
                               this.jsonParseReviver
-                          ) as RecipeDto)
-                return result200
-            })
+                          ) as RecipeDto);
+                return result200;
+            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -135,8 +135,8 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -144,20 +144,20 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         }
-        return Promise.resolve<RecipeDto>(null as any)
+        return Promise.resolve<RecipeDto>(null as any);
     }
 
     putApiRecipe(id: number, updatedRecipeDto: RecipeDto): Promise<void> {
-        let url_ = this.baseUrl + '/api/recipe/{id}'
+        let url_ = this.baseUrl + '/api/recipe/{id}';
         if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.")
-        url_ = url_.replace('{id}', encodeURIComponent('' + id))
-        url_ = url_.replace(/[?&]$/, '')
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace('{id}', encodeURIComponent('' + id));
+        url_ = url_.replace(/[?&]$/, '');
 
-        const content_ = JSON.stringify(updatedRecipeDto)
+        const content_ = JSON.stringify(updatedRecipeDto);
 
         let options_: RequestInit = {
             body: content_,
@@ -165,23 +165,23 @@ export class ApiClient {
             headers: {
                 'Content-Type': 'application/json',
             },
-        }
+        };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPutApiRecipe(_response)
-        })
+            return this.processPutApiRecipe(_response);
+        });
     }
 
     protected processPutApiRecipe(response: Response): Promise<void> {
-        const status = response.status
-        let _headers: any = {}
+        const status = response.status;
+        let _headers: any = {};
         if (response.headers && response.headers.forEach) {
-            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 204) {
             return response.text().then((_responseText) => {
-                return
-            })
+                return;
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -189,8 +189,8 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -198,8 +198,8 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -207,39 +207,39 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         }
-        return Promise.resolve<void>(null as any)
+        return Promise.resolve<void>(null as any);
     }
 
     deleteApiRecipe(id: number): Promise<void> {
-        let url_ = this.baseUrl + '/api/recipe/{id}'
+        let url_ = this.baseUrl + '/api/recipe/{id}';
         if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.")
-        url_ = url_.replace('{id}', encodeURIComponent('' + id))
-        url_ = url_.replace(/[?&]$/, '')
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace('{id}', encodeURIComponent('' + id));
+        url_ = url_.replace(/[?&]$/, '');
 
         let options_: RequestInit = {
             method: 'DELETE',
             headers: {},
-        }
+        };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processDeleteApiRecipe(_response)
-        })
+            return this.processDeleteApiRecipe(_response);
+        });
     }
 
     protected processDeleteApiRecipe(response: Response): Promise<void> {
-        const status = response.status
-        let _headers: any = {}
+        const status = response.status;
+        let _headers: any = {};
         if (response.headers && response.headers.forEach) {
-            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 204) {
             return response.text().then((_responseText) => {
-                return
-            })
+                return;
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -247,8 +247,8 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -256,8 +256,8 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -265,17 +265,17 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         }
-        return Promise.resolve<void>(null as any)
+        return Promise.resolve<void>(null as any);
     }
 
     postApiRecipe(recipeDto: RecipeDto): Promise<RecipeDto> {
-        let url_ = this.baseUrl + '/api/recipe'
-        url_ = url_.replace(/[?&]$/, '')
+        let url_ = this.baseUrl + '/api/recipe';
+        url_ = url_.replace(/[?&]$/, '');
 
-        const content_ = JSON.stringify(recipeDto)
+        const content_ = JSON.stringify(recipeDto);
 
         let options_: RequestInit = {
             body: content_,
@@ -284,31 +284,31 @@ export class ApiClient {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
             },
-        }
+        };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPostApiRecipe(_response)
-        })
+            return this.processPostApiRecipe(_response);
+        });
     }
 
     protected processPostApiRecipe(response: Response): Promise<RecipeDto> {
-        const status = response.status
-        let _headers: any = {}
+        const status = response.status;
+        let _headers: any = {};
         if (response.headers && response.headers.forEach) {
-            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 201) {
             return response.text().then((_responseText) => {
-                let result201: any = null
+                let result201: any = null;
                 result201 =
                     _responseText === ''
                         ? null
                         : (JSON.parse(
                               _responseText,
                               this.jsonParseReviver
-                          ) as RecipeDto)
-                return result201
-            })
+                          ) as RecipeDto);
+                return result201;
+            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -316,8 +316,8 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -325,46 +325,46 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         }
-        return Promise.resolve<RecipeDto>(null as any)
+        return Promise.resolve<RecipeDto>(null as any);
     }
 
     getApiUserMe(): Promise<UserDto> {
-        let url_ = this.baseUrl + '/api/user/me'
-        url_ = url_.replace(/[?&]$/, '')
+        let url_ = this.baseUrl + '/api/user/me';
+        url_ = url_.replace(/[?&]$/, '');
 
         let options_: RequestInit = {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
             },
-        }
+        };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetApiUserMe(_response)
-        })
+            return this.processGetApiUserMe(_response);
+        });
     }
 
     protected processGetApiUserMe(response: Response): Promise<UserDto> {
-        const status = response.status
-        let _headers: any = {}
+        const status = response.status;
+        let _headers: any = {};
         if (response.headers && response.headers.forEach) {
-            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
             return response.text().then((_responseText) => {
-                let result200: any = null
+                let result200: any = null;
                 result200 =
                     _responseText === ''
                         ? null
                         : (JSON.parse(
                               _responseText,
                               this.jsonParseReviver
-                          ) as UserDto)
-                return result200
-            })
+                          ) as UserDto);
+                return result200;
+            });
         } else if (status === 400) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -372,8 +372,8 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -381,8 +381,8 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
                 return throwException(
@@ -390,45 +390,45 @@ export class ApiClient {
                     status,
                     _responseText,
                     _headers
-                )
-            })
+                );
+            });
         }
-        return Promise.resolve<UserDto>(null as any)
+        return Promise.resolve<UserDto>(null as any);
     }
 }
 
 export interface RecipeDto {
-    id?: number
-    name?: string
-    instructions?: string
-    cookingTime?: number
-    servings?: number
-    ingredients?: IngredientDto[]
+    id?: number;
+    name?: string;
+    instructions?: string;
+    cookingTime?: number;
+    servings?: number;
+    ingredients?: IngredientDto[];
 }
 
 export interface IngredientDto {
-    id?: number
-    name?: string
-    amount?: number
-    unit?: Unit
+    id?: number;
+    name?: string;
+    amount?: number;
+    unit?: Unit;
 }
 
-export type Unit = 'Gram' | 'Kilogram' | 'Milliliter' | 'Desiliter' | 'Liter'
+export type Unit = 'Gram' | 'Kilogram' | 'Milliliter' | 'Desiliter' | 'Liter';
 
 export interface UserDto {
-    id?: number
-    username?: string
-    email?: string | undefined
-    firstName?: string | undefined
-    lastName?: string | undefined
+    id?: number;
+    username?: string;
+    email?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
 }
 
 export class ApiException extends Error {
-    override message: string
-    status: number
-    response: string
-    headers: { [key: string]: any }
-    result: any
+    override message: string;
+    status: number;
+    response: string;
+    headers: { [key: string]: any };
+    result: any;
 
     constructor(
         message: string,
@@ -437,19 +437,19 @@ export class ApiException extends Error {
         headers: { [key: string]: any },
         result: any
     ) {
-        super()
+        super();
 
-        this.message = message
-        this.status = status
-        this.response = response
-        this.headers = headers
-        this.result = result
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.headers = headers;
+        this.result = result;
     }
 
-    protected isApiException = true
+    protected isApiException = true;
 
     static isApiException(obj: any): obj is ApiException {
-        return obj.isApiException === true
+        return obj.isApiException === true;
     }
 }
 
@@ -460,6 +460,6 @@ function throwException(
     headers: { [key: string]: any },
     result?: any
 ): any {
-    if (result !== null && result !== undefined) throw result
-    else throw new ApiException(message, status, response, headers, null)
+    if (result !== null && result !== undefined) throw result;
+    else throw new ApiException(message, status, response, headers, null);
 }

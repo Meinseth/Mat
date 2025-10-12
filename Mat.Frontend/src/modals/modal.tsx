@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import styles from '../styles/styles.module.css'
-import { Edit, Trash, X } from 'lucide-react'
+import React, { useState } from 'react';
+import styles from '../styles/styles.module.css';
+import { Edit, Trash, X } from 'lucide-react';
 
 interface Props {
-    isOpen: boolean
-    onClose: () => void
-    children: React.ReactNode
-    onDelete?: () => void
-    onEdit?: () => boolean
+    isOpen: boolean;
+    onClose: () => void;
+    children: React.ReactNode;
+    onDelete?: () => void;
+    onEdit?: () => boolean;
 }
 
 export default function Modal({
@@ -17,20 +17,20 @@ export default function Modal({
     onDelete,
     onEdit,
 }: Props) {
-    const initialEdit = onEdit ? onEdit() : false
-    const [isEdit, setIsEdit] = useState(initialEdit)
+    const initialEdit = onEdit ? onEdit() : false;
+    const [isEdit, setIsEdit] = useState(initialEdit);
 
-    if (!isOpen) return null
+    if (!isOpen) return null;
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
-            onClose()
+            onClose();
         }
-    }
+    };
 
     const handleEditClick = () => {
-        setIsEdit((prev) => !prev)
-    }
+        setIsEdit((prev) => !prev);
+    };
 
     return (
         <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
@@ -57,5 +57,5 @@ export default function Modal({
                 </div>
             </div>
         </div>
-    )
+    );
 }
