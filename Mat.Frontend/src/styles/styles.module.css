@@ -1,259 +1,259 @@
 .modal {
-  background: darkgrey;
-  margin: 2rem;
-  border-radius: var(--border-radius-large);
-  max-width: 100%;
-  max-height: 100%;
-  overflow-y: auto;
-  width: 45rem;
-  color: var(--black);
-  text-align: start;
+    background: darkgrey;
+    margin: 2rem;
+    border-radius: var(--border-radius-large);
+    max-width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    width: 45rem;
+    color: var(--black);
+    text-align: start;
 }
 
 .modalTop {
-  display: flex;
-  justify-content: end;
+    display: flex;
+    justify-content: end;
 }
 
 .modalContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0 1rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 1rem 1rem 1rem;
 }
 
 .conteinerCenter {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  max-width: 30rem;
-  width: 100%;
-  text-align: start;
-  margin: 0 0 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 30rem;
+    width: 100%;
+    text-align: start;
+    margin: 0 0 1rem 0;
 }
 
 .modalBackdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--dark);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
 .topBar {
-  display: flex;
-  flex-direction: row;
-  justify-content: end;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
 }
 
 .content {
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  text-align: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    text-align: center;
+    align-items: center;
 }
 
 .button {
-  margin: 1rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: var(--border-radius);
-  color: var(--white);
-  font-size: 1rem;
-  transition: background-color 0.2s;
+    margin: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--white);
+    font-size: 1rem;
+    transition: background-color 0.2s;
 }
 
 .invisibleButton {
-  background: transparent;
-  border: none;
-  padding: 1rem;
-  cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
 }
 
 .strechButtons {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 .strechButtons > .button {
-  flex-grow: 1;
-  margin: 1rem 0 1rem 0;
+    flex-grow: 1;
+    margin: 1rem 0 1rem 0;
 }
 
 .recipeInputs {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .recipeInputs > * {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: text;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: text;
 }
 
 .recipeInputs > textarea {
-  resize: vertical;
+    resize: vertical;
 }
 
 .ingredientList {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .ingredientInputs {
-  background-color: var(--light-grey);
-  border-radius: var(--border-radius);
-  padding: 0.5rem;
-  margin: 0 0;
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  display: grid;
-  grid-template-columns: 1fr auto auto auto;
+    background-color: var(--light-grey);
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    margin: 0 0;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
 }
 
 .ingredientInputs > * {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
 }
 
-.ingredientInputs > input[type="number"] {
-  width: 11ch;
-  box-sizing: border-box;
+.ingredientInputs > input[type='number'] {
+    width: 11ch;
+    box-sizing: border-box;
 }
 
 .ingredientInputs > select {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 @media (max-width: 560px) {
-  .ingredientInputs {
-    grid-template-columns: 1fr auto auto;
-    grid-template-rows: auto auto;
-  }
+    .ingredientInputs {
+        grid-template-columns: 1fr auto auto;
+        grid-template-rows: auto auto;
+    }
 
-  .ingredientInputs > input:first-child {
-    grid-column: 1 / span 3;
-    grid-row: 1;
-  }
+    .ingredientInputs > input:first-child {
+        grid-column: 1 / span 3;
+        grid-row: 1;
+    }
 
-  .ingredientInputs > input[type="number"] {
-    grid-column: 1;
-    grid-row: 2;
-    width: 100%; /* mobile: fill available column */
-  }
+    .ingredientInputs > input[type='number'] {
+        grid-column: 1;
+        grid-row: 2;
+        width: 100%; /* mobile: fill available column */
+    }
 
-  .ingredientInputs > select {
-    grid-column: 2;
-    grid-row: 2;
-  }
+    .ingredientInputs > select {
+        grid-column: 2;
+        grid-row: 2;
+    }
 
-  .ingredientInputs > button {
-    grid-column: 3;
-    grid-row: 2;
-  }
+    .ingredientInputs > button {
+        grid-column: 3;
+        grid-row: 2;
+    }
 }
 
 @media (max-width: 360px) {
-  .ingredientInputs {
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto auto;
-  }
+    .ingredientInputs {
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto auto;
+    }
 
-  .ingredientInputs > input:first-child {
-    grid-column: 1 / span 2;
-    grid-row: 1;
-  }
+    .ingredientInputs > input:first-child {
+        grid-column: 1 / span 2;
+        grid-row: 1;
+    }
 
-  .ingredientInputs > input[type="number"] {
-    grid-column: 1 / span 2;
-    grid-row: 2;
-    width: 100%; /* mobile: fill available column */
-  }
+    .ingredientInputs > input[type='number'] {
+        grid-column: 1 / span 2;
+        grid-row: 2;
+        width: 100%; /* mobile: fill available column */
+    }
 
-  .ingredientInputs > select {
-    grid-column: 1;
-    grid-row: 3;
-  }
+    .ingredientInputs > select {
+        grid-column: 1;
+        grid-row: 3;
+    }
 
-  .ingredientInputs > button {
-    grid-column: 2;
-    grid-row: 3;
-  }
+    .ingredientInputs > button {
+        grid-column: 2;
+        grid-row: 3;
+    }
 }
 
 .recipeList {
-  border-radius: var(--border-radius-large);
-  max-width: 30rem;
-  width: 100%;
-  margin: 1rem auto;
-  overflow: hidden;
+    border-radius: var(--border-radius-large);
+    max-width: 30rem;
+    width: 100%;
+    margin: 1rem auto;
+    overflow: hidden;
 }
 
 .recipeList > *:nth-child(even) {
-  background-color: var(--light-grey);
+    background-color: var(--light-grey);
 }
 
 .recipeList > *:nth-child(odd) {
-  background-color: var(--lighter-grey);
+    background-color: var(--lighter-grey);
 }
 
 .recipeList > * {
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  display: flex;
-  justify-content: start;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: start;
 }
 
 .IngredientRow {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 .IngredientRow > *:nth-child(1) {
-  flex: 1;
+    flex: 1;
 }
 .IngredientRow > *:nth-child(2) {
-  flex: 1;
-  margin: 0;
+    flex: 1;
+    margin: 0;
 }
 
 .dropdownMenu {
-  position: absolute;
-  background-color: var(--light-grey);
-  right: 0;
-  margin: 0 1rem 1rem 1rem;
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--border-radius);
-  padding: 1rem;
-  gap: 1rem;
+    position: absolute;
+    background-color: var(--light-grey);
+    right: 0;
+    margin: 0 1rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    gap: 1rem;
 }
 
 .dropdownMenu button {
-  margin: 0;
+    margin: 0;
 }
 
 .loading {
-  padding: 1rem;
+    padding: 1rem;
 }
 
 .delete {
-  background-color: var(--red-rgb);
-  transition: background-color 0.2s;
+    background-color: var(--red-rgb);
+    transition: background-color 0.2s;
 }
 
 .delete:hover {
-  background-color: rgba(var(--red), var(--hover));
+    background-color: rgba(var(--red), var(--hover));
 }

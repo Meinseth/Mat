@@ -9,443 +9,457 @@
 // ReSharper disable InconsistentNaming
 
 export class ApiClient {
-  private http: {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  };
-  private baseUrl: string;
-  protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
-    undefined;
-
-  constructor(
-    baseUrl?: string,
-    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }
-  ) {
-    this.http = http ? http : (window as any);
-    this.baseUrl = baseUrl ?? "http://localhost:5000";
-  }
-
-  getApiRecipes(): Promise<RecipeDto[]> {
-    let url_ = this.baseUrl + "/api/recipes";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_: RequestInit = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetApiRecipes(_response);
-    });
-  }
-
-  protected processGetApiRecipes(response: Response): Promise<RecipeDto[]> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    private http: {
+        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
     }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        result200 =
-          _responseText === ""
-            ? null
-            : (JSON.parse(_responseText, this.jsonParseReviver) as RecipeDto[]);
-        return result200;
-      });
-    } else if (status === 401) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "A server side error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+    private baseUrl: string
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
+        undefined
+
+    constructor(
+        baseUrl?: string,
+        http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
+        }
+    ) {
+        this.http = http ? http : (window as any)
+        this.baseUrl = baseUrl ?? 'http://localhost:5000'
     }
-    return Promise.resolve<RecipeDto[]>(null as any);
-  }
 
-  getApiRecipe(id: number): Promise<RecipeDto> {
-    let url_ = this.baseUrl + "/api/recipe/{id}";
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace("{id}", encodeURIComponent("" + id));
-    url_ = url_.replace(/[?&]$/, "");
+    getApiRecipes(): Promise<RecipeDto[]> {
+        let url_ = this.baseUrl + '/api/recipes'
+        url_ = url_.replace(/[?&]$/, '')
 
-    let options_: RequestInit = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    };
+        let options_: RequestInit = {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+            },
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetApiRecipe(_response);
-    });
-  }
-
-  protected processGetApiRecipe(response: Response): Promise<RecipeDto> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetApiRecipes(_response)
+        })
     }
-    if (status === 404) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "A server side error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    } else if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        result200 =
-          _responseText === ""
-            ? null
-            : (JSON.parse(_responseText, this.jsonParseReviver) as RecipeDto);
-        return result200;
-      });
-    } else if (status === 401) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "A server side error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+    protected processGetApiRecipes(response: Response): Promise<RecipeDto[]> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null
+                result200 =
+                    _responseText === ''
+                        ? null
+                        : (JSON.parse(
+                              _responseText,
+                              this.jsonParseReviver
+                          ) as RecipeDto[])
+                return result200
+            })
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'An unexpected server error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        }
+        return Promise.resolve<RecipeDto[]>(null as any)
     }
-    return Promise.resolve<RecipeDto>(null as any);
-  }
 
-  putApiRecipe(id: number, updatedRecipeDto: RecipeDto): Promise<void> {
-    let url_ = this.baseUrl + "/api/recipe/{id}";
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace("{id}", encodeURIComponent("" + id));
-    url_ = url_.replace(/[?&]$/, "");
+    getApiRecipe(id: number): Promise<RecipeDto> {
+        let url_ = this.baseUrl + '/api/recipe/{id}'
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.")
+        url_ = url_.replace('{id}', encodeURIComponent('' + id))
+        url_ = url_.replace(/[?&]$/, '')
 
-    const content_ = JSON.stringify(updatedRecipeDto);
+        let options_: RequestInit = {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+            },
+        }
 
-    let options_: RequestInit = {
-      body: content_,
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processPutApiRecipe(_response);
-    });
-  }
-
-  protected processPutApiRecipe(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetApiRecipe(_response)
+        })
     }
-    if (status === 204) {
-      return response.text().then((_responseText) => {
-        return;
-      });
-    } else if (status === 404) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "A server side error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    } else if (status === 401) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "A server side error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+    protected processGetApiRecipe(response: Response): Promise<RecipeDto> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 404) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        } else if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null
+                result200 =
+                    _responseText === ''
+                        ? null
+                        : (JSON.parse(
+                              _responseText,
+                              this.jsonParseReviver
+                          ) as RecipeDto)
+                return result200
+            })
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'An unexpected server error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        }
+        return Promise.resolve<RecipeDto>(null as any)
     }
-    return Promise.resolve<void>(null as any);
-  }
 
-  deleteApiRecipe(id: number): Promise<void> {
-    let url_ = this.baseUrl + "/api/recipe/{id}";
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace("{id}", encodeURIComponent("" + id));
-    url_ = url_.replace(/[?&]$/, "");
+    putApiRecipe(id: number, updatedRecipeDto: RecipeDto): Promise<void> {
+        let url_ = this.baseUrl + '/api/recipe/{id}'
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.")
+        url_ = url_.replace('{id}', encodeURIComponent('' + id))
+        url_ = url_.replace(/[?&]$/, '')
 
-    let options_: RequestInit = {
-      method: "DELETE",
-      headers: {},
-    };
+        const content_ = JSON.stringify(updatedRecipeDto)
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processDeleteApiRecipe(_response);
-    });
-  }
+        let options_: RequestInit = {
+            body: content_,
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }
 
-  protected processDeleteApiRecipe(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPutApiRecipe(_response)
+        })
     }
-    if (status === 204) {
-      return response.text().then((_responseText) => {
-        return;
-      });
-    } else if (status === 404) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "A server side error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    } else if (status === 401) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "A server side error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+    protected processPutApiRecipe(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 204) {
+            return response.text().then((_responseText) => {
+                return
+            })
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'An unexpected server error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        }
+        return Promise.resolve<void>(null as any)
     }
-    return Promise.resolve<void>(null as any);
-  }
 
-  postApiRecipe(recipeDto: RecipeDto): Promise<RecipeDto> {
-    let url_ = this.baseUrl + "/api/recipe";
-    url_ = url_.replace(/[?&]$/, "");
+    deleteApiRecipe(id: number): Promise<void> {
+        let url_ = this.baseUrl + '/api/recipe/{id}'
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.")
+        url_ = url_.replace('{id}', encodeURIComponent('' + id))
+        url_ = url_.replace(/[?&]$/, '')
 
-    const content_ = JSON.stringify(recipeDto);
+        let options_: RequestInit = {
+            method: 'DELETE',
+            headers: {},
+        }
 
-    let options_: RequestInit = {
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processPostApiRecipe(_response);
-    });
-  }
-
-  protected processPostApiRecipe(response: Response): Promise<RecipeDto> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeleteApiRecipe(_response)
+        })
     }
-    if (status === 201) {
-      return response.text().then((_responseText) => {
-        let result201: any = null;
-        result201 =
-          _responseText === ""
-            ? null
-            : (JSON.parse(_responseText, this.jsonParseReviver) as RecipeDto);
-        return result201;
-      });
-    } else if (status === 401) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "A server side error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+    protected processDeleteApiRecipe(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 204) {
+            return response.text().then((_responseText) => {
+                return
+            })
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'An unexpected server error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        }
+        return Promise.resolve<void>(null as any)
     }
-    return Promise.resolve<RecipeDto>(null as any);
-  }
 
-  getApiUserMe(): Promise<UserDto> {
-    let url_ = this.baseUrl + "/api/user/me";
-    url_ = url_.replace(/[?&]$/, "");
+    postApiRecipe(recipeDto: RecipeDto): Promise<RecipeDto> {
+        let url_ = this.baseUrl + '/api/recipe'
+        url_ = url_.replace(/[?&]$/, '')
 
-    let options_: RequestInit = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    };
+        const content_ = JSON.stringify(recipeDto)
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetApiUserMe(_response);
-    });
-  }
+        let options_: RequestInit = {
+            body: content_,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+        }
 
-  protected processGetApiUserMe(response: Response): Promise<UserDto> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPostApiRecipe(_response)
+        })
     }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        result200 =
-          _responseText === ""
-            ? null
-            : (JSON.parse(_responseText, this.jsonParseReviver) as UserDto);
-        return result200;
-      });
-    } else if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "A server side error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    } else if (status === 401) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "A server side error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+    protected processPostApiRecipe(response: Response): Promise<RecipeDto> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 201) {
+            return response.text().then((_responseText) => {
+                let result201: any = null
+                result201 =
+                    _responseText === ''
+                        ? null
+                        : (JSON.parse(
+                              _responseText,
+                              this.jsonParseReviver
+                          ) as RecipeDto)
+                return result201
+            })
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'An unexpected server error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        }
+        return Promise.resolve<RecipeDto>(null as any)
     }
-    return Promise.resolve<UserDto>(null as any);
-  }
+
+    getApiUserMe(): Promise<UserDto> {
+        let url_ = this.baseUrl + '/api/user/me'
+        url_ = url_.replace(/[?&]$/, '')
+
+        let options_: RequestInit = {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+            },
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetApiUserMe(_response)
+        })
+    }
+
+    protected processGetApiUserMe(response: Response): Promise<UserDto> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null
+                result200 =
+                    _responseText === ''
+                        ? null
+                        : (JSON.parse(
+                              _responseText,
+                              this.jsonParseReviver
+                          ) as UserDto)
+                return result200
+            })
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'An unexpected server error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                )
+            })
+        }
+        return Promise.resolve<UserDto>(null as any)
+    }
 }
 
 export interface RecipeDto {
-  id?: number;
-  name?: string;
-  instructions?: string;
-  cookingTime?: number;
-  servings?: number;
-  ingredients?: IngredientDto[];
+    id?: number
+    name?: string
+    instructions?: string
+    cookingTime?: number
+    servings?: number
+    ingredients?: IngredientDto[]
 }
 
 export interface IngredientDto {
-  id?: number;
-  name?: string;
-  amount?: number;
-  unit?: Unit;
+    id?: number
+    name?: string
+    amount?: number
+    unit?: Unit
 }
 
-export type Unit = "Gram" | "Kilogram" | "Milliliter" | "Desiliter" | "Liter";
+export type Unit = 'Gram' | 'Kilogram' | 'Milliliter' | 'Desiliter' | 'Liter'
 
 export interface UserDto {
-  id?: number;
-  username?: string;
-  email?: string | undefined;
-  firstName?: string | undefined;
-  lastName?: string | undefined;
+    id?: number
+    username?: string
+    email?: string | undefined
+    firstName?: string | undefined
+    lastName?: string | undefined
 }
 
 export class ApiException extends Error {
-  override message: string;
-  status: number;
-  response: string;
-  headers: { [key: string]: any };
-  result: any;
+    override message: string
+    status: number
+    response: string
+    headers: { [key: string]: any }
+    result: any
 
-  constructor(
+    constructor(
+        message: string,
+        status: number,
+        response: string,
+        headers: { [key: string]: any },
+        result: any
+    ) {
+        super()
+
+        this.message = message
+        this.status = status
+        this.response = response
+        this.headers = headers
+        this.result = result
+    }
+
+    protected isApiException = true
+
+    static isApiException(obj: any): obj is ApiException {
+        return obj.isApiException === true
+    }
+}
+
+function throwException(
     message: string,
     status: number,
     response: string,
     headers: { [key: string]: any },
-    result: any
-  ) {
-    super();
-
-    this.message = message;
-    this.status = status;
-    this.response = response;
-    this.headers = headers;
-    this.result = result;
-  }
-
-  protected isApiException = true;
-
-  static isApiException(obj: any): obj is ApiException {
-    return obj.isApiException === true;
-  }
-}
-
-function throwException(
-  message: string,
-  status: number,
-  response: string,
-  headers: { [key: string]: any },
-  result?: any
+    result?: any
 ): any {
-  if (result !== null && result !== undefined) throw result;
-  else throw new ApiException(message, status, response, headers, null);
+    if (result !== null && result !== undefined) throw result
+    else throw new ApiException(message, status, response, headers, null)
 }
