@@ -1,18 +1,7 @@
-import { createContext, useContext, useState } from 'react'
-import { ApiClient, type RecipeDto } from '../services/ApiClient'
-import { ApiBaseUrl } from '../services/ApiBaseUrl'
-
-interface RecipeContextType {
-    recipes: RecipeDto[]
-    setRecipes: React.Dispatch<React.SetStateAction<RecipeDto[]>>
-    selectedRecipe: RecipeDto | null
-    setSelectedRecipe: React.Dispatch<React.SetStateAction<RecipeDto | null>>
-    addRecipe: (recipe: RecipeDto) => void
-    getRecipes: () => void
-    deleteRecipe: () => void
-}
-
-const RecipeContext = createContext<RecipeContextType | undefined>(undefined)
+import { useState } from 'react'
+import { ApiClient, type RecipeDto } from '../../services/ApiClient'
+import { ApiBaseUrl } from '../../services/ApiBaseUrl'
+import { RecipeContext } from './RecipeContext'
 
 export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
     const [recipes, setRecipes] = useState<RecipeDto[]>([])
@@ -43,13 +32,11 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     const deleteRecipe = () => {
-        if (!selectedRecipe) return
-        api.deleteApiRecipe(selectedRecipe.id!)
+        if (!selectedRecipe || !selectedRecipe.id) return
+        api.deleteApiRecipe(selectedRecipe.id)
             .then(() => {
                 setRecipes(
-                    recipes.filter(
-                        (recipe) => recipe.id !== selectedRecipe?.id!
-                    )
+                    recipes.filter((recipe) => recipe.id !== selectedRecipe.id)
                 )
             })
             .catch((error) => console.error('Fetch error:', error))
@@ -70,11 +57,4 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
             {children}
         </RecipeContext.Provider>
     )
-}
-
-export const useRecipesContext = () => {
-    const context = useContext(RecipeContext)
-    if (!context)
-        throw new Error('useRecipesContext must be used inside RecipeProvider')
-    return context
 }

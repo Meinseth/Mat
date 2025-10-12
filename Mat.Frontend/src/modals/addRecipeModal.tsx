@@ -2,7 +2,7 @@ import { IngredientInputs } from '../components/IngredientInputs'
 import Modal from './modal'
 import styles from '../styles/styles.module.css'
 import { useRecipeForm } from '../hooks/useRecipeForm'
-import { useModalContext } from '../context/modalContext'
+import { useModalContext } from '../context/modal/useModalContext'
 
 export default function AddRecipeModal() {
     const { activeModal, closeModal } = useModalContext()

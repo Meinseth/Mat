@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styles from '../styles/styles.module.css'
 import { Edit, Trash, X } from 'lucide-react'
 
@@ -17,13 +17,19 @@ export default function Modal({
     onDelete,
     onEdit,
 }: Props) {
+    const initialEdit = onEdit ? onEdit() : false
+    const [isEdit, setIsEdit] = useState(initialEdit)
+
     if (!isOpen) return null
-    const [isEdit, setIsEdit] = useState(() => onEdit?.() ?? false)
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
             onClose()
         }
+    }
+
+    const handleEditClick = () => {
+        setIsEdit((prev) => !prev)
     }
 
     return (
@@ -41,7 +47,7 @@ export default function Modal({
                             className={`${styles.invisibleButton} ${
                                 isEdit ? styles.editActive : ''
                             }`}
-                            onClick={() => setIsEdit(!onEdit!())}
+                            onClick={handleEditClick}
                         />
                     )}
                     <X className={styles.invisibleButton} onClick={onClose} />

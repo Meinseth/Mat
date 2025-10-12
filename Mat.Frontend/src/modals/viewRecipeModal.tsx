@@ -1,12 +1,12 @@
 import Modal from './modal'
 import styles from '../styles/styles.module.css'
-import { useModalContext } from '../context/modalContext'
-import { useRecipesContext } from '../context/recipeContext'
+import { useModalContext } from '../context/modal/useModalContext.tsx'
+import { useRecipesContext } from '../context/recipe/useRecipeContext.ts'
 import type { IngredientDto } from '../services/ApiClient'
 import ConfirmDeleteModal from './confirmDeleteModal'
 import { useState } from 'react'
 
-export default function viewRecipeModal() {
+export default function ViewRecipeModal() {
     const { activeModal, closeModal } = useModalContext()
     const { selectedRecipe, setSelectedRecipe, deleteRecipe } =
         useRecipesContext()

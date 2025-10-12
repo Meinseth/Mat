@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { RecipeDto } from '../services/ApiClient'
-import { useRecipesContext } from '../context/recipeContext'
+import { useRecipesContext } from '../context/recipe/useRecipeContext.ts'
 
 const emptyForm: RecipeDto = {
     name: '',

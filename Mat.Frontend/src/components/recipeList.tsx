@@ -1,8 +1,8 @@
 import styles from '../styles/styles.module.css'
-import { useRecipesContext } from '../context/recipeContext'
-import { useModalContext } from '../context/modalContext'
+import { useRecipesContext } from '../context/recipe/useRecipeContext.ts'
+import { useModalContext } from '../context/modal/useModalContext.tsx'
 
-export default function recipeList() {
+export default function RecipeList() {
     const { recipes, setSelectedRecipe } = useRecipesContext()
     const { openModal } = useModalContext()
 

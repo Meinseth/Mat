@@ -2,11 +2,11 @@ import AddRecipeModal from './modals/addRecipeModal.tsx'
 import RecipeList from './components/recipeList.tsx'
 import { Plus, User } from 'lucide-react'
 import styles from './styles/styles.module.css'
-import { useModalContext } from './context/modalContext.tsx'
+import { useModalContext } from './context/modal/useModalContext.tsx'
 import RecipeModal from './modals/viewRecipeModal.tsx'
-import { useAuthContext } from './context/AuthContext.tsx'
+import { useAuthContext } from './context/auth/useAuthContext.tsx'
 import { useEffect } from 'react'
-import { useRecipesContext } from './context/recipeContext.tsx'
+import { useRecipesContext } from './context/recipe/useRecipeContext.ts'
 import { Dropdown } from './components/dropdown/dropdown.tsx'
 
 export default function App() {
@@ -16,7 +16,7 @@ export default function App() {
 
     useEffect(() => {
         if (user) getRecipes()
-    }, [user])
+    }, [user, getRecipes])
 
     return (
         <>
