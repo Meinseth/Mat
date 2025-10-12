@@ -269,3 +269,8 @@
     flex-direction: row;
     gap: var(--space-s);
 }
+
+.editActive {
+    color: var(--white);
+    background-color: var(--green);
+}

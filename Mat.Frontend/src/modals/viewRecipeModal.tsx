@@ -12,6 +12,7 @@ export default function viewRecipeModal() {
         useRecipesContext()
     const [showConfirm, setShowConfirm] = useState(false)
     const isOpen = activeModal === 'viewRecipe'
+    const [isEdit, setIsEdit] = useState(false)
 
     if (!selectedRecipe) return null
 
@@ -57,35 +58,27 @@ export default function viewRecipeModal() {
                 isOpen={isOpen}
                 onClose={onClose}
                 onDelete={() => setShowConfirm(true)}
+                onEdit={() => {
+                    setIsEdit((prev) => !prev)
+                    return isEdit
+                }}
             >
-                {selectedRecipe && (
-                    <>
-                        <h1>{selectedRecipe.name}</h1>
-                        <Row
-                            label={'Tid'}
-                            value={
-                                selectedRecipe.cookingTime?.toString() +
-                                ' minutes'
-                            }
-                        />
-                        <Row
-                            label={'Porsjoner'}
-                            value={selectedRecipe.servings?.toString()}
-                        />
-                        <h3>Ingredienser</h3>
-                        {selectedRecipe.ingredients?.map(
-                            (ingredient, index) => (
-                                <IngredientRow
-                                    key={index}
-                                    ingredient={ingredient}
-                                />
-                            )
-                        )}
+                <h1>{selectedRecipe.name}</h1>
+                <Row
+                    label={'Tid'}
+                    value={selectedRecipe.cookingTime?.toString() + ' minutes'}
+                />
+                <Row
+                    label={'Porsjoner'}
+                    value={selectedRecipe.servings?.toString()}
+                />
+                <h3>Ingredienser</h3>
+                {selectedRecipe.ingredients?.map((ingredient, index) => (
+                    <IngredientRow key={index} ingredient={ingredient} />
+                ))}
 
-                        <h3>Slik gjør du</h3>
-                        <div>{selectedRecipe.instructions}</div>
-                    </>
-                )}
+                <h3>Slik gjør du</h3>
+                <div>{selectedRecipe.instructions}</div>
             </Modal>
             <ConfirmDeleteModal
                 isOpen={showConfirm}
