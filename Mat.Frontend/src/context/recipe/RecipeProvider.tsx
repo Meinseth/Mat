@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ApiClient, type RecipeDto } from '../../services/ApiClient';
 import { ApiBaseUrl } from '../../services/ApiBaseUrl';
 import { RecipeContext } from './RecipeContext';
@@ -17,7 +17,7 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
         },
     });
 
-    const addRecipe = (recipe: RecipeDto) => {
+    const addRecipe = useCallback((recipe: RecipeDto) => {
         api.postApiRecipe(recipe)
             .then((newRecipe) =>
                 setRecipes((recpies) => [...recpies, newRecipe])
@@ -25,15 +25,15 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
             .catch((error) => {
                 console.error('error', error);
             });
-    };
+    }, []);
 
-    const getRecipes = () => {
+    const getRecipes = useCallback(() => {
         api.getApiRecipes()
             .then((recipes) => setRecipes(recipes))
             .catch((error) => console.error('error', error));
-    };
+    }, []);
 
-    const deleteRecipe = () => {
+    const deleteRecipe = useCallback(() => {
         if (!selectedRecipe || !selectedRecipe.id) return;
         api.deleteApiRecipe(selectedRecipe.id)
             .then(() => {
@@ -42,7 +42,7 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
                 );
             })
             .catch((error) => console.error('Fetch error:', error));
-    };
+    }, []);
 
     return (
         <RecipeContext.Provider
