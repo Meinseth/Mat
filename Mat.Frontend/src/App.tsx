@@ -24,10 +24,10 @@ export default function App() {
                 {user && (
                     <>
                         <button
-                            className={styles.invisibleButton}
+                            className={styles.button}
                             onClick={() => openModal('addRecipe')}
                         >
-                            <Plus size={30} />
+                            <Plus />
                         </button>
 
                         <Dropdown>

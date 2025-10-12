@@ -7,6 +7,7 @@ interface Props {
     onClose: () => void
     children: React.ReactNode
     onDelete?: () => void
+    onEdit?: () => void
 }
 
 export default function Modal(props: Props) {

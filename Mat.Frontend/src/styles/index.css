@@ -26,6 +26,9 @@
     --border-radius-large: 0.6rem;
     --border-radius: 0.4rem;
     --hover: 0.6;
+
+    --space-s: 8px;
+    --space-m: 16px;
 }
 
 body {
