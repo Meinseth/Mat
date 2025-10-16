@@ -5,6 +5,7 @@ import { useRecipesContext } from '../context/recipe/useRecipeContext.ts';
 import type { IngredientDto } from '../services/ApiClient';
 import ConfirmDeleteModal from './confirmDeleteModal';
 import { useState } from 'react';
+import { Minus, Plus } from 'lucide-react';
 
 export default function ViewRecipeModal() {
     const { activeModal, closeModal } = useModalContext();
@@ -52,6 +53,30 @@ export default function ViewRecipeModal() {
         );
     };
 
+    const updatePorsionSize = (updateBy: number) => {
+        if (selectedRecipe.servings == undefined) return;
+
+        const oldServings = selectedRecipe.servings;
+        const newServings = oldServings + updateBy;
+
+        if (newServings < 1) return;
+
+        const multiplier = newServings / oldServings;
+
+        const updatedRecipe = {
+            ...selectedRecipe,
+            servings: newServings,
+            ingredients: selectedRecipe.ingredients?.map((ingredient) => ({
+                ...ingredient,
+                amount: ingredient.amount
+                    ? ingredient.amount * multiplier
+                    : ingredient.amount,
+            })),
+        };
+
+        setSelectedRecipe(updatedRecipe);
+    };
+
     return (
         <>
             <Modal
@@ -72,6 +97,23 @@ export default function ViewRecipeModal() {
                     label={'Porsjoner'}
                     value={selectedRecipe.servings?.toString()}
                 />
+                <div className={styles.IngredientRow}>
+                    <dt>Endre størrelse</dt>
+                    <dd className={styles.changeSize}>
+                        <button className={styles.button}>
+                            <Plus
+                                size={16}
+                                onClick={() => updatePorsionSize(+1)}
+                            />
+                        </button>
+                        <button className={styles.button}>
+                            <Minus
+                                size={16}
+                                onClick={() => updatePorsionSize(-1)}
+                            />
+                        </button>
+                    </dd>
+                </div>
                 <h3>Ingredienser</h3>
                 {selectedRecipe.ingredients?.map((ingredient, index) => (
                     <IngredientRow key={index} ingredient={ingredient} />
@@ -83,7 +125,7 @@ export default function ViewRecipeModal() {
             <ConfirmDeleteModal
                 isOpen={showConfirm}
                 type="Recipe"
-                name={selectedRecipe.name!}
+                name={selectedRecipe.name}
                 onClose={confirmationClose}
                 onSuccess={confirmationSuccess}
             />

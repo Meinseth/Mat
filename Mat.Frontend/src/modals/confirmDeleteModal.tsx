@@ -6,7 +6,7 @@ interface Props {
     onClose: () => void;
     onSuccess: () => void;
     type: string;
-    name: string;
+    name: string | undefined;
 }
 
 export default function ConfirmDeleteModal(props: Props) {

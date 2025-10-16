@@ -274,3 +274,15 @@
     color: var(--white);
     background-color: var(--green);
 }
+
+.changeSize {
+    display: flex;
+    gap: var(--space-s);
+    flex-direction: row;
+    align-items: center;
+}
+
+.changeSize > .button {
+    line-height: 0;
+    padding: var(--space-vs) var(--space-s);
+}
