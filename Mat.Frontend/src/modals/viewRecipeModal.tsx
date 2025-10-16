@@ -60,39 +60,43 @@ export default function ViewRecipeModal() {
                     return isEdit;
                 }}
             >
-                <h1>{selectedRecipe.name}</h1>
-                <Row
-                    label={'Tid'}
-                    value={selectedRecipe.cookingTime?.toString() + ' minutes'}
-                />
-                <Row
-                    label={'Porsjoner'}
-                    value={selectedRecipe.servings?.toString()}
-                />
-                <div className={styles.IngredientRow}>
-                    <dt>Endre størrelse</dt>
-                    <dd className={styles.changeSize}>
-                        <button className={styles.button}>
-                            <Plus
-                                size={16}
+                <div className={styles.recipeGrid}>
+                    <h1 className={styles.modalTitle}>{selectedRecipe.name}</h1>
+                    <Row
+                        label={'Tid'}
+                        value={
+                            selectedRecipe.cookingTime?.toString() + ' minutes'
+                        }
+                    />
+                    <Row
+                        label={'Porsjoner'}
+                        value={selectedRecipe.servings?.toString()}
+                    />
+                    <div className={styles.IngredientRow}>
+                        <dt>Endre størrelse</dt>
+                        <dd className={styles.changeSize}>
+                            <button
+                                className={styles.button}
                                 onClick={() => updatePorsionSize(+1)}
-                            />
-                        </button>
-                        <button className={styles.button}>
-                            <Minus
-                                size={16}
+                            >
+                                <Plus size={16} />
+                            </button>
+                            <button
+                                className={styles.button}
                                 onClick={() => updatePorsionSize(-1)}
-                            />
-                        </button>
-                    </dd>
-                </div>
-                <h3>Ingredienser</h3>
-                {selectedRecipe.ingredients?.map((ingredient, index) => (
-                    <IngredientRow key={index} ingredient={ingredient} />
-                ))}
+                            >
+                                <Minus size={16} />
+                            </button>
+                        </dd>
+                    </div>
+                    <h3>Ingredienser</h3>
+                    {selectedRecipe.ingredients?.map((ingredient, index) => (
+                        <IngredientRow key={index} ingredient={ingredient} />
+                    ))}
 
-                <h3>Slik gjør du</h3>
-                <div>{selectedRecipe.instructions}</div>
+                    <h3>Slik gjør du</h3>
+                    <div>{selectedRecipe.instructions}</div>
+                </div>
             </Modal>
             <ConfirmDeleteModal
                 isOpen={showConfirm}

@@ -11,8 +11,8 @@ export default function AddRecipeModal() {
         useRecipeForm(closeModal);
     return (
         <Modal isOpen={isOpen} onClose={closeModal}>
-            <form onSubmit={handleSubmit}>
-                <h1>Add Recipe</h1>
+            <form onSubmit={handleSubmit} className={styles.recipeCenter}>
+                <h1 className={styles.modalTitle}>Add Recipe</h1>
                 <div className={styles.recipeInputs}>
                     <input
                         required

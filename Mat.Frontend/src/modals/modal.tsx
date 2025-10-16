@@ -52,9 +52,7 @@ export default function Modal({
                     )}
                     <X className={styles.invisibleButton} onClick={onClose} />
                 </div>
-                <div className={styles.modalContent}>
-                    <div className={styles.conteinerCenter}>{children}</div>
-                </div>
+                <div className={styles.modalContent}>{children}</div>
             </div>
         </div>
     );

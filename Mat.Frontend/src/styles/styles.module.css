@@ -23,16 +23,6 @@
     margin: 0 1rem 1rem 1rem;
 }
 
-.conteinerCenter {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    max-width: 30rem;
-    width: 100%;
-    text-align: start;
-    margin: 0 0 1rem 0;
-}
-
 .modalBackdrop {
     position: fixed;
     top: 0;
@@ -223,16 +213,36 @@
     justify-content: start;
 }
 
+.recipeCenter {
+    min-width: 20rem;
+}
+
+.recipeGrid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    max-width: 20rem;
+    row-gap: var(--space-s);
+    column-gap: var(--space-l);
+}
+
 .IngredientRow {
-    display: flex;
-    flex-direction: row;
+    display: contents;
 }
-.IngredientRow > *:nth-child(1) {
-    flex: 1;
+
+.IngredientRow > div,
+.recipeGrid > h3,
+.recipeGrid > h1,
+.recipeGrid > div {
+    grid-column: 1 / -1;
 }
-.IngredientRow > *:nth-child(2) {
-    flex: 1;
-    margin: 0;
+
+.IngredientRow > dt {
+    grid-column: 1;
+}
+
+.IngredientRow > dd {
+    margin: 0; /* I use colum gap */
+    grid-column: 2;
 }
 
 .dropdownMenu {
@@ -279,10 +289,15 @@
     display: flex;
     gap: var(--space-s);
     flex-direction: row;
+    justify-content: end;
     align-items: center;
 }
 
 .changeSize > .button {
     line-height: 0;
     padding: var(--space-vs) var(--space-s);
+}
+
+.modalTitle {
+    margin-top: 0;
 }
