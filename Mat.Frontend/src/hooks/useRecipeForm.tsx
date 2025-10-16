@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { RecipeDto } from '../services/ApiClient';
-import { useRecipesContext } from '../context/recipe/useRecipeContext.ts';
+import { useRecipesContext } from '../context/RecipeContext.ts';
 
 const emptyForm: RecipeDto = {
     name: '',
@@ -12,29 +12,37 @@ const emptyForm: RecipeDto = {
 
 export function useRecipeForm(onClose: () => void) {
     const [form, setForm] = useState<RecipeDto>(emptyForm);
-    const { addRecipe } = useRecipesContext();
+    const { ApiAddRecipe, ApiUpdateRecipe, setSelectedRecipe } =
+        useRecipesContext();
 
-    const update = <Field extends keyof RecipeDto>(
-        field: Field,
-        value: RecipeDto[Field]
-    ) => setForm((recipe) => ({ ...recipe, [field]: value }));
+    const update = <T extends keyof RecipeDto>(field: T, value: RecipeDto[T]) =>
+        setForm((recipe) => ({ ...recipe, [field]: value }));
 
     const updateRecipe =
         (field: keyof RecipeDto) =>
         (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
             update(field, event.target.value);
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const addSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        addRecipe(form);
+        ApiAddRecipe(form);
         setForm(emptyForm);
+        onClose();
+    };
+
+    const updateSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        ApiUpdateRecipe(form);
+        setSelectedRecipe(form);
         onClose();
     };
 
     return {
         form,
+        setForm,
         update,
         updateRecipe,
-        handleSubmit,
+        addSubmit,
+        updateSubmit,
     };
 }

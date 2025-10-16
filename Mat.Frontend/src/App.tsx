@@ -2,21 +2,21 @@ import AddRecipeModal from './modals/addRecipeModal.tsx';
 import RecipeList from './components/recipeList.tsx';
 import { Plus, User } from 'lucide-react';
 import styles from './styles/styles.module.css';
-import { useModalContext } from './context/modal/useModalContext.ts';
+import { useModalContext } from './context/ModalContext.ts';
 import RecipeModal from './modals/viewRecipeModal.tsx';
-import { useAuthContext } from './context/auth/useAuthContext.ts';
+import { useAuthContext } from './context/AuthContext.ts';
 import { useEffect } from 'react';
-import { useRecipesContext } from './context/recipe/useRecipeContext.ts';
+import { useRecipesContext } from './context/RecipeContext.ts';
 import { Dropdown } from './components/dropdown/dropdown.tsx';
 
 export default function App() {
-    const { getRecipes } = useRecipesContext();
+    const { ApiGetRecipes } = useRecipesContext();
     const { openModal } = useModalContext();
     const { user, login, logout, loading } = useAuthContext();
 
     useEffect(() => {
-        if (user) getRecipes();
-    }, [user, getRecipes]);
+        if (user) ApiGetRecipes();
+    }, [user, ApiGetRecipes]);
 
     return (
         <>

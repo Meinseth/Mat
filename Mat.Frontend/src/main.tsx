@@ -3,9 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './styles/index.css';
 import App from './App.tsx';
-import { RecipeProvider } from './context/recipe/RecipeProvider.tsx';
-import { ModalProvider } from './context/modal/modalProvider.tsx';
-import { AuthProvider } from './context/auth/AuthProvider.tsx';
+import { RecipeProvider } from './context/RecipeProvider.tsx';
+import { ModalProvider } from './context/ModalProvider.tsx';
+import { AuthProvider } from './context/AuthProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>

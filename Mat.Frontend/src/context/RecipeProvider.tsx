@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { ApiClient, type RecipeDto } from '../../services/ApiClient';
-import { ApiBaseUrl } from '../../services/ApiBaseUrl';
+import { ApiClient, type RecipeDto } from '../services/ApiClient';
+import { ApiBaseUrl } from '../services/ApiBaseUrl';
 import { RecipeContext } from './RecipeContext';
 
 export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
@@ -17,7 +17,7 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
         },
     });
 
-    const addRecipe = useCallback((recipe: RecipeDto) => {
+    const ApiAddRecipe = useCallback((recipe: RecipeDto) => {
         api.postApiRecipe(recipe)
             .then((newRecipe) =>
                 setRecipes((recpies) => [...recpies, newRecipe])
@@ -27,13 +27,30 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
             });
     }, []);
 
-    const getRecipes = useCallback(() => {
+    const ApiUpdateRecipe = useCallback((recipe: RecipeDto) => {
+        if (!recipe.id) return;
+        api.putApiRecipe(recipe.id, recipe)
+            .then(() => {
+                setRecipes((recipes) =>
+                    recipes.map((existingRecipe) =>
+                        existingRecipe.id === recipe.id
+                            ? recipe
+                            : existingRecipe
+                    )
+                );
+            })
+            .catch((error) => {
+                console.error('error', error);
+            });
+    }, []);
+
+    const ApiGetRecipes = useCallback(() => {
         api.getApiRecipes()
             .then((recipes) => setRecipes(recipes))
             .catch((error) => console.error('error', error));
     }, []);
 
-    const deleteRecipe = useCallback(() => {
+    const ApiDeleteRecipe = useCallback(() => {
         if (!selectedRecipe || !selectedRecipe.id) return;
         api.deleteApiRecipe(selectedRecipe.id)
             .then(() => {
@@ -78,9 +95,10 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
                 setRecipes,
                 selectedRecipe,
                 setSelectedRecipe,
-                addRecipe,
-                getRecipes,
-                deleteRecipe,
+                ApiAddRecipe,
+                ApiGetRecipes,
+                ApiUpdateRecipe,
+                ApiDeleteRecipe,
                 updatePortionSize,
             }}
         >

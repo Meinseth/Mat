@@ -1,18 +1,19 @@
 import Modal from './modal';
 import styles from '../styles/styles.module.css';
-import { useModalContext } from '../context/modal/useModalContext.ts';
-import { useRecipesContext } from '../context/recipe/useRecipeContext.ts';
+import { useModalContext } from '../context/ModalContext.ts';
+import { useRecipesContext } from '../context/RecipeContext.ts';
 import type { IngredientDto } from '../services/ApiClient';
 import ConfirmDeleteModal from './confirmDeleteModal';
 import { useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
+import RecipeForm from 'src/components/recipeForm.tsx';
 
 export default function ViewRecipeModal() {
     const { activeModal, closeModal } = useModalContext();
     const {
         selectedRecipe,
         setSelectedRecipe,
-        deleteRecipe,
+        ApiDeleteRecipe,
         updatePortionSize,
     } = useRecipesContext();
     const [showConfirm, setShowConfirm] = useState(false);
@@ -56,6 +57,7 @@ export default function ViewRecipeModal() {
                     setIsEdit(false);
                 }}
                 onDelete={() => setShowConfirm(true)}
+                isEdit={isEdit}
                 onEdit={() => setIsEdit((prev) => !prev)}
             >
                 {!isEdit ? (
@@ -105,7 +107,12 @@ export default function ViewRecipeModal() {
                         <div>{selectedRecipe.instructions}</div>
                     </div>
                 ) : (
-                    <>edit</>
+                    <RecipeForm
+                        title="Endre oppskrift"
+                        type="Update"
+                        recipe={selectedRecipe}
+                        closeModal={() => setIsEdit((prev) => !prev)}
+                    />
                 )}
             </Modal>
             <ConfirmDeleteModal
@@ -114,7 +121,7 @@ export default function ViewRecipeModal() {
                 name={selectedRecipe.name}
                 onClose={() => setShowConfirm(false)}
                 onSuccess={() => {
-                    deleteRecipe();
+                    ApiDeleteRecipe();
                     setSelectedRecipe(null);
                 }}
             />

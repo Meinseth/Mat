@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ApiClient, type UserDto } from '../../services/ApiClient';
-import { ApiBaseUrl } from '../../services/ApiBaseUrl';
+import { ApiClient, type UserDto } from '../services/ApiClient';
+import { ApiBaseUrl } from '../services/ApiBaseUrl';
 import { AuthContext } from './AuthContext';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
