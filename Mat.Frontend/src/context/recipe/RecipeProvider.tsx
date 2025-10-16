@@ -44,7 +44,7 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
             .catch((error) => console.error('Fetch error:', error));
     }, []);
 
-    const updatePorsionSize = useCallback(
+    const updatePortionSize = useCallback(
         (updateBy: number) => {
             if (!selectedRecipe || selectedRecipe.servings == undefined) return;
 
@@ -81,7 +81,7 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
                 addRecipe,
                 getRecipes,
                 deleteRecipe,
-                updatePorsionSize,
+                updatePortionSize,
             }}
         >
             {children}

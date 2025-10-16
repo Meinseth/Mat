@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from '../styles/styles.module.css';
 import { Edit, Trash, X } from 'lucide-react';
 
@@ -7,7 +7,8 @@ interface Props {
     onClose: () => void;
     children: React.ReactNode;
     onDelete?: () => void;
-    onEdit?: () => boolean;
+    isEdit?: boolean;
+    onEdit?: () => void;
 }
 
 export default function Modal({
@@ -15,21 +16,15 @@ export default function Modal({
     onClose,
     children,
     onDelete,
+    isEdit,
     onEdit,
 }: Props) {
-    const initialEdit = onEdit ? onEdit() : false;
-    const [isEdit, setIsEdit] = useState(initialEdit);
-
     if (!isOpen) return null;
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
             onClose();
         }
-    };
-
-    const handleEditClick = () => {
-        setIsEdit((prev) => !prev);
     };
 
     return (
@@ -42,12 +37,12 @@ export default function Modal({
                             onClick={onDelete}
                         />
                     )}
-                    {onDelete && (
+                    {onEdit && (
                         <Edit
                             className={`${styles.invisibleButton} ${
                                 isEdit ? styles.editActive : ''
                             }`}
-                            onClick={handleEditClick}
+                            onClick={onEdit}
                         />
                     )}
                     <X className={styles.invisibleButton} onClick={onClose} />

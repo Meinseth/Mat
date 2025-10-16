@@ -8,5 +8,5 @@ export interface RecipeContextType {
     addRecipe: (recipe: RecipeDto) => void;
     getRecipes: () => void;
     deleteRecipe: () => void;
-    updatePorsionSize: (updateBy: number) => void;
+    updatePortionSize: (updateBy: number) => void;
 }
