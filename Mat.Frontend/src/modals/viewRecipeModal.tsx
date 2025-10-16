@@ -9,31 +9,24 @@ import { Minus, Plus } from 'lucide-react';
 
 export default function ViewRecipeModal() {
     const { activeModal, closeModal } = useModalContext();
-    const { selectedRecipe, setSelectedRecipe, deleteRecipe } =
-        useRecipesContext();
+    const {
+        selectedRecipe,
+        setSelectedRecipe,
+        deleteRecipe,
+        updatePorsionSize,
+    } = useRecipesContext();
     const [showConfirm, setShowConfirm] = useState(false);
     const isOpen = activeModal === 'viewRecipe';
     const [isEdit, setIsEdit] = useState(false);
 
     if (!selectedRecipe) return null;
 
-    const onClose = () => {
-        setSelectedRecipe(null);
-        closeModal();
-    };
-
-    const confirmationClose = () => setShowConfirm(false);
-
-    const confirmationSuccess = () => {
-        deleteRecipe();
-        setSelectedRecipe(null);
-    };
-
     const IngredientRow = ({ ingredient }: { ingredient: IngredientDto }) => (
         <div className={styles.IngredientRow}>
             <dt>{ingredient.name}</dt>
             <dd>
-                {ingredient.amount} {ingredient.unit}
+                {ingredient.amount?.toFixed(1).replace(/\.0$/, '')}{' '}
+                {ingredient.unit}
             </dd>
         </div>
     );
@@ -53,35 +46,14 @@ export default function ViewRecipeModal() {
         );
     };
 
-    const updatePorsionSize = (updateBy: number) => {
-        if (selectedRecipe.servings == undefined) return;
-
-        const oldServings = selectedRecipe.servings;
-        const newServings = oldServings + updateBy;
-
-        if (newServings < 1) return;
-
-        const multiplier = newServings / oldServings;
-
-        const updatedRecipe = {
-            ...selectedRecipe,
-            servings: newServings,
-            ingredients: selectedRecipe.ingredients?.map((ingredient) => ({
-                ...ingredient,
-                amount: ingredient.amount
-                    ? ingredient.amount * multiplier
-                    : ingredient.amount,
-            })),
-        };
-
-        setSelectedRecipe(updatedRecipe);
-    };
-
     return (
         <>
             <Modal
                 isOpen={isOpen}
-                onClose={onClose}
+                onClose={() => {
+                    setSelectedRecipe(null);
+                    closeModal();
+                }}
                 onDelete={() => setShowConfirm(true)}
                 onEdit={() => {
                     setIsEdit((prev) => !prev);
@@ -126,8 +98,11 @@ export default function ViewRecipeModal() {
                 isOpen={showConfirm}
                 type="Recipe"
                 name={selectedRecipe.name}
-                onClose={confirmationClose}
-                onSuccess={confirmationSuccess}
+                onClose={() => setShowConfirm(false)}
+                onSuccess={() => {
+                    deleteRecipe();
+                    setSelectedRecipe(null);
+                }}
             />
         </>
     );

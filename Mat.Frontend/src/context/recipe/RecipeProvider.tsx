@@ -44,6 +44,33 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
             .catch((error) => console.error('Fetch error:', error));
     }, []);
 
+    const updatePorsionSize = useCallback(
+        (updateBy: number) => {
+            if (!selectedRecipe || selectedRecipe.servings == undefined) return;
+
+            const oldServings = selectedRecipe.servings;
+            const newServings = oldServings + updateBy;
+
+            if (newServings < 1) return;
+
+            const multiplier = newServings / oldServings;
+
+            const updatedRecipe = {
+                ...selectedRecipe,
+                servings: newServings,
+                ingredients: selectedRecipe.ingredients?.map((ingredient) => ({
+                    ...ingredient,
+                    amount: ingredient.amount
+                        ? ingredient.amount * multiplier
+                        : ingredient.amount,
+                })),
+            };
+
+            setSelectedRecipe(updatedRecipe);
+        },
+        [selectedRecipe, setSelectedRecipe]
+    );
+
     return (
         <RecipeContext.Provider
             value={{
@@ -54,6 +81,7 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
                 addRecipe,
                 getRecipes,
                 deleteRecipe,
+                updatePorsionSize,
             }}
         >
             {children}
