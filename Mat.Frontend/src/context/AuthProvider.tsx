@@ -2,28 +2,26 @@ import { useEffect, useState } from 'react';
 import { ApiClient, type UserDto } from '../services/ApiClient';
 import { ApiBaseUrl } from '../services/ApiBaseUrl';
 import { AuthContext } from './AuthContext';
+import { handleAsync } from './ContextHelper';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<UserDto | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const api = new ApiClient(ApiBaseUrl, {
+        fetch: (input, init) => {
+            return window.fetch(input, {
+                ...init,
+                credentials: 'include',
+            });
+        },
+    });
+
     useEffect(() => {
-        const api = new ApiClient(ApiBaseUrl, {
-            fetch: (input, init) => {
-                return window.fetch(input, {
-                    ...init,
-                    credentials: 'include',
-                });
-            },
+        handleAsync(setLoading, async () => {
+            const me = await api.getApiUserMe();
+            setUser(me);
         });
-        api.getApiUserMe()
-            .then((user) => {
-                setUser(user);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => setLoading(false));
     }, []);
 
     const login = async () => {

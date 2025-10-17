@@ -289,7 +289,6 @@
     display: flex;
     gap: var(--space-s);
     flex-direction: row;
-    justify-content: end;
     align-items: center;
 }
 

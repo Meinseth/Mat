@@ -2,12 +2,16 @@ import { useCallback, useState } from 'react';
 import { ApiClient, type RecipeDto } from '../services/ApiClient';
 import { ApiBaseUrl } from '../services/ApiBaseUrl';
 import { RecipeContext } from './RecipeContext';
+import { toast } from 'sonner';
+import { handleAsync } from './ContextHelper';
 
 export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
     const [recipes, setRecipes] = useState<RecipeDto[]>([]);
     const [selectedRecipe, setSelectedRecipe] = useState<RecipeDto | null>(
         null
     );
+    const [isLoading, setIsLoading] = useState(false);
+
     const api = new ApiClient(ApiBaseUrl, {
         fetch: (input, init) => {
             return window.fetch(input, {
@@ -17,49 +21,53 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
         },
     });
 
-    const ApiAddRecipe = useCallback((recipe: RecipeDto) => {
-        api.postApiRecipe(recipe)
-            .then((newRecipe) =>
-                setRecipes((recpies) => [...recpies, newRecipe])
-            )
-            .catch((error) => {
-                console.error('error', error);
+    const ApiGetRecipes = useCallback(async (): Promise<RecipeDto[] | null> => {
+        return handleAsync(setIsLoading, async () => {
+            const recipes = await api.getApiRecipes();
+            setRecipes(recipes);
+            return recipes;
+        });
+    }, []);
+
+    const ApiAddRecipe = useCallback(
+        async (recipe: RecipeDto): Promise<RecipeDto | null> => {
+            return await handleAsync(setIsLoading, async () => {
+                const newRecipe = await api.postApiRecipe(recipe);
+                setRecipes((prev) => [...prev, newRecipe]);
+                toast.success('Recipe added successfully!');
+                return newRecipe;
             });
-    }, []);
+        },
+        []
+    );
 
-    const ApiUpdateRecipe = useCallback((recipe: RecipeDto) => {
-        if (!recipe.id) return;
-        api.putApiRecipe(recipe.id, recipe)
-            .then(() => {
-                setRecipes((recipes) =>
-                    recipes.map((existingRecipe) =>
-                        existingRecipe.id === recipe.id
-                            ? recipe
-                            : existingRecipe
-                    )
+    const ApiUpdateRecipe = useCallback(
+        async (recipe: RecipeDto): Promise<RecipeDto | null> => {
+            return await handleAsync(setIsLoading, async () => {
+                if (!recipe.id) return null;
+                await api.putApiRecipe(recipe.id, recipe);
+                setRecipes((prev) =>
+                    prev.map((r) => (r.id === recipe.id ? recipe : r))
                 );
-            })
-            .catch((error) => {
-                console.error('error', error);
+                toast.success('Recipe updated!');
+                return recipe;
             });
-    }, []);
+        },
+        []
+    );
 
-    const ApiGetRecipes = useCallback(() => {
-        api.getApiRecipes()
-            .then((recipes) => setRecipes(recipes))
-            .catch((error) => console.error('error', error));
-    }, []);
-
-    const ApiDeleteRecipe = useCallback(() => {
-        if (!selectedRecipe || !selectedRecipe.id) return;
-        api.deleteApiRecipe(selectedRecipe.id)
-            .then(() => {
-                setRecipes(
-                    recipes.filter((recipe) => recipe.id !== selectedRecipe.id)
-                );
-            })
-            .catch((error) => console.error('Fetch error:', error));
-    }, []);
+    const ApiDeleteRecipe = useCallback(async (): Promise<boolean | null> => {
+        return await handleAsync(setIsLoading, async () => {
+            if (!selectedRecipe?.id) return null;
+            await api.deleteApiRecipe(selectedRecipe.id);
+            setRecipes((prev) =>
+                prev.filter((recipe) => recipe.id !== selectedRecipe.id)
+            );
+            setSelectedRecipe(null);
+            toast.success('Recipe deleted!');
+            return true;
+        });
+    }, [selectedRecipe]);
 
     const updatePortionSize = useCallback(
         (updateBy: number) => {
@@ -91,6 +99,7 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
     return (
         <RecipeContext.Provider
             value={{
+                isLoading,
                 recipes,
                 setRecipes,
                 selectedRecipe,

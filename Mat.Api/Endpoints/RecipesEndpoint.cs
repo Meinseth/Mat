@@ -31,6 +31,5 @@ public static class RecipesEndpoint
             )
             .Produces<RecipeDto[]>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status401Unauthorized);
-        ;
     }
 }

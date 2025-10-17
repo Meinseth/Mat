@@ -6,6 +6,7 @@ import App from './App.tsx';
 import { RecipeProvider } from './context/RecipeProvider.tsx';
 import { ModalProvider } from './context/ModalProvider.tsx';
 import { AuthProvider } from './context/AuthProvider.tsx';
+import { Toaster } from 'sonner';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
                             <Route path="/" element={<App />} />
                         </Routes>
                     </BrowserRouter>
+                    <Toaster />
                 </AuthProvider>
             </ModalProvider>
         </RecipeProvider>

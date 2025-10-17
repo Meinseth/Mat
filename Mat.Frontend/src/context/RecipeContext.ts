@@ -3,14 +3,15 @@ import type { RecipeDto } from 'src/services/ApiClient';
 import { useContext } from 'react';
 
 export interface RecipeContextType {
+    isLoading: boolean;
     recipes: RecipeDto[];
     setRecipes: React.Dispatch<React.SetStateAction<RecipeDto[]>>;
     selectedRecipe: RecipeDto | null;
     setSelectedRecipe: React.Dispatch<React.SetStateAction<RecipeDto | null>>;
-    ApiAddRecipe: (recipe: RecipeDto) => void;
-    ApiGetRecipes: () => void;
-    ApiUpdateRecipe: (recipe: RecipeDto) => void;
-    ApiDeleteRecipe: () => void;
+    ApiGetRecipes: () => Promise<RecipeDto[] | null>;
+    ApiAddRecipe: (recipe: RecipeDto) => Promise<RecipeDto | null>;
+    ApiUpdateRecipe: (recipe: RecipeDto) => Promise<RecipeDto | null>;
+    ApiDeleteRecipe: () => Promise<boolean | null>;
     updatePortionSize: (updateBy: number) => void;
 }
 
