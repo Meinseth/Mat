@@ -50,8 +50,8 @@ export default function recipeForm({ title, closeModal, type, recipe }: props) {
                     required
                     placeholder="Cooking Time"
                     type="number"
-                    value={form.cookingTime ?? ''}
-                    onChange={updateRecipe('cookingTime')}
+                    value={form.cookingTimeMinutes ?? ''}
+                    onChange={updateRecipe('cookingTimeMinutes')}
                 />
                 <input
                     required

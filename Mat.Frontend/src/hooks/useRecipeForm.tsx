@@ -5,7 +5,7 @@ import { useRecipesContext } from '../context/RecipeContext.ts';
 const emptyForm: RecipeDto = {
     name: '',
     instructions: '',
-    cookingTime: undefined,
+    cookingTimeMinutes: undefined,
     servings: undefined,
     ingredients: [],
 };
