@@ -9,7 +9,7 @@ public sealed record RecipeDto
     [MaxLength(64)]
     public required string Name { get; set; }
     public required string Instructions { get; set; }
-    public int CookingTime { get; set; }
+    public int CookingTimeMinutes { get; set; }
     public int Servings { get; set; }
     public ICollection<IngredientDto> Ingredients { get; set; } = [];
 }

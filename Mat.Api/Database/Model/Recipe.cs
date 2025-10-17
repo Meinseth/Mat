@@ -9,7 +9,7 @@ public class Recipe : Tracker
     [MaxLength(64)]
     public required string Name { get; set; }
     public required string Instructions { get; set; }
-    public int CookingTime { get; set; } // Minutes
+    public int CookingTimeMinutes { get; set; }
     public int Servings { get; set; }
     public ICollection<Ingredient> Ingredients { get; set; } = [];
     public int UserId { get; set; }
