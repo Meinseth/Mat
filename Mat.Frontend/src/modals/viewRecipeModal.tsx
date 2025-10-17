@@ -68,7 +68,7 @@ export default function ViewRecipeModal() {
                         <Row
                             label={'Tid'}
                             value={
-                                selectedRecipe.cookingTime?.toString() +
+                                selectedRecipe.cookingTimeMinutes?.toString() +
                                 ' minutes'
                             }
                         />

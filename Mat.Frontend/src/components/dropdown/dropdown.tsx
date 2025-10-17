@@ -29,10 +29,8 @@ export const Dropdown: DropdownComponent = ({ children }) => {
     }, [open]);
 
     return (
-        <DropdownContext.Provider value={{ open, setOpen, dropdownRef }}>
-            <div ref={dropdownRef} className="relative">
-                {children}
-            </div>
+        <DropdownContext.Provider value={{ open, setOpen }}>
+            <div ref={dropdownRef}>{children}</div>
         </DropdownContext.Provider>
     );
 };

@@ -401,7 +401,7 @@ export interface RecipeDto {
     id?: number;
     name?: string;
     instructions?: string;
-    cookingTime?: number;
+    cookingTimeMinutes?: number;
     servings?: number;
     ingredients?: IngredientDto[];
 }
