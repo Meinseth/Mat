@@ -28,10 +28,7 @@ export default function recipeForm({ title, closeModal, type, recipe }: props) {
 
     if (isLoading) return <>Loading</>;
     return (
-        <form
-            onSubmit={type == 'Add' ? addSubmit : updateSubmit}
-            className={styles.recipeCenter}
-        >
+        <form onSubmit={type == 'Add' ? addSubmit : updateSubmit}>
             <h1 className={styles.modalTitle}>{title}</h1>
             <div className={styles.recipeInputs}>
                 <input
