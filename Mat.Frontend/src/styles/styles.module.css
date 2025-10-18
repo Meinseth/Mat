@@ -1,12 +1,11 @@
 .modal {
-    background: darkgrey;
+    background: var(--modal);
     margin: var(--space-m);
     border-radius: var(--border-radius-large);
-    max-width: 100%;
-    max-height: 100%;
     width: 45rem;
-    color: var(--black);
+    color: var(--text);
     text-align: start;
+    overflow: hidden;
 }
 
 .modalTop {
@@ -15,8 +14,7 @@
 }
 
 .modalContent {
-    padding: var(--space-xl);
-    padding-top: 0;
+    padding: 0 var(--space-xl) var(--space-l) var(--space-xl);
 }
 
 .modalBackdrop {
@@ -25,7 +23,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--dark);
+    background-color: var(--darker);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -52,7 +50,7 @@
     padding: 0.5rem 1rem;
     border: none;
     border-radius: var(--border-radius);
-    color: var(--white);
+    color: var(--text);
     font-size: 1rem;
     transition: background-color 0.5s;
 }
@@ -66,7 +64,7 @@
 }
 
 .invisibleButton:hover {
-    background-color: var(--lighter-grey);
+    background-color: var(--button-hover);
 }
 
 .strechButtons {
@@ -77,7 +75,6 @@
 
 .strechButtons > .button {
     flex-grow: 1;
-    margin: 1rem 0 1rem 0;
 }
 
 .recipeInputs {
@@ -103,10 +100,14 @@
     gap: 0.5rem;
 }
 
+.ingredientList:has(> *) {
+    margin-bottom: 1rem;
+}
+
 .ingredientInputs {
-    background-color: var(--light-grey);
+    background-color: var(--input);
     border-radius: var(--border-radius);
-    padding: 0.5rem;
+    padding: var(--space-s);
     margin: 0 0;
     display: flex;
     flex-direction: row;
@@ -136,14 +137,7 @@
     width: 100%;
     margin: 1rem auto;
     overflow: hidden;
-}
-
-.recipeList > *:nth-child(even) {
-    background-color: var(--light-grey);
-}
-
-.recipeList > *:nth-child(odd) {
-    background-color: var(--lighter-grey);
+    background-color: var(--content);
 }
 
 .recipeList > * {
@@ -151,6 +145,12 @@
     cursor: pointer;
     display: flex;
     justify-content: start;
+    border-bottom: 2px solid var(--bg);
+    transition: background-color 0.5s;
+}
+
+.recipeList > *:hover {
+    background-color: var(--content-hover);
 }
 
 .recipeGrid {
@@ -182,7 +182,7 @@
 
 .dropdownMenu {
     position: absolute;
-    background-color: var(--light-grey);
+    background-color: var(--content);
     right: 0;
     margin: 1rem;
     display: flex;
@@ -201,12 +201,12 @@
 }
 
 .delete {
-    background-color: var(--red-rgb);
+    background-color: var(--delete);
     transition: background-color 0.2s;
 }
 
 .delete:hover {
-    background-color: rgba(var(--red), var(--hover));
+    background-color: var(--delete--hover);
 }
 
 .row {
@@ -216,8 +216,8 @@
 }
 
 .editActive {
-    color: var(--white);
-    background-color: var(--green);
+    color: var(--edit);
+    transition: color 0.5s;
 }
 
 .changeSize {
@@ -236,7 +236,7 @@
     margin-top: 0;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 630px) {
     .ingredientInputs {
         grid-template-columns: 1fr auto auto;
         grid-template-rows: auto auto;
@@ -264,7 +264,7 @@
     }
 
     .modalContent {
-        padding: var(--space-l);
+        padding: var(--space-m);
         padding-top: 0;
     }
 }

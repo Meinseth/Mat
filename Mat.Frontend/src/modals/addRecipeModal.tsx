@@ -1,6 +1,6 @@
-import Modal from './modal';
+import Modal from './Modal';
 import { useModalContext } from '../context/ModalContext';
-import RecipeForm from '../components/recipeForm';
+import RecipeForm from '../components/RecipeForm';
 
 export default function AddRecipeModal() {
     const { activeModal, closeModal } = useModalContext();

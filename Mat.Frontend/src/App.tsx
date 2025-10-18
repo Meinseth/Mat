@@ -1,18 +1,20 @@
-import AddRecipeModal from './modals/addRecipeModal.tsx';
-import RecipeList from './components/recipeList.tsx';
+import AddRecipeModal from './modals/AddRecipeModal.tsx';
+import RecipeList from './components/RecipeList.tsx';
 import { Plus, User } from 'lucide-react';
 import styles from './styles/styles.module.css';
 import { useModalContext } from './context/ModalContext.ts';
-import RecipeModal from './modals/viewRecipeModal.tsx';
+import RecipeModal from './modals/ViewRecipeModal.tsx';
 import { useAuthContext } from './context/AuthContext.ts';
 import { useEffect } from 'react';
 import { useRecipesContext } from './context/RecipeContext.ts';
-import { Dropdown } from './components/dropdown/dropdown.tsx';
+import { Dropdown } from './components/dropdown/Dropdown.tsx';
+import useTheme from './hooks/useTheme.tsx';
 
 export default function App() {
     const { ApiGetRecipes } = useRecipesContext();
     const { openModal } = useModalContext();
     const { user, login, logout, loading } = useAuthContext();
+    const { theme, toggleTheme } = useTheme();
 
     useEffect(() => {
         if (user) ApiGetRecipes();
@@ -38,6 +40,12 @@ export default function App() {
                                 <span>
                                     {user.firstName} {user.lastName}Meinseth
                                 </span>
+                                <button
+                                    className={styles.button}
+                                    onClick={toggleTheme}
+                                >
+                                    {theme === 'dark' ? 'Dark' : 'Light'}
+                                </button>
                                 <button
                                     className={styles.button}
                                     onClick={logout}

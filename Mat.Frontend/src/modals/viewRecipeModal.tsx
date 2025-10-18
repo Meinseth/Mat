@@ -1,12 +1,12 @@
-import Modal from './modal';
+import Modal from './Modal.tsx';
 import styles from '../styles/styles.module.css';
 import { useModalContext } from '../context/ModalContext.ts';
 import { useRecipesContext } from '../context/RecipeContext.ts';
-import type { IngredientDto } from '../services/ApiClient';
-import ConfirmDeleteModal from './confirmDeleteModal';
+import type { IngredientDto } from '../services/ApiClient.ts';
+import ConfirmDeleteModal from './ConfirmDeleteModal.tsx';
 import { useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
-import RecipeForm from 'src/components/recipeForm.tsx';
+import RecipeForm from 'src/components/RecipeForm.tsx';
 
 export default function ViewRecipeModal() {
     const { activeModal, closeModal } = useModalContext();

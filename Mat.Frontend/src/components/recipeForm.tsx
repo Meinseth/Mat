@@ -1,4 +1,4 @@
-import { IngredientInputs } from '../components/IngredientInputs';
+import { IngredientInputs } from './IngredientInputs';
 import styles from '../styles/styles.module.css';
 import { useRecipeForm } from '../hooks/useRecipeForm';
 import type { RecipeDto } from 'src/services/ApiClient';
@@ -14,7 +14,7 @@ interface props {
     recipe?: RecipeDto;
 }
 
-export default function recipeForm({ title, closeModal, type, recipe }: props) {
+export default function RecipeForm({ title, closeModal, type, recipe }: props) {
     const { form, update, updateRecipe, addSubmit, updateSubmit, setForm } =
         useRecipeForm(closeModal);
     const { isLoading } = useRecipesContext();

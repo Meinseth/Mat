@@ -1,4 +1,3 @@
-// src/utils/handleAsync.ts
 import { toast } from 'sonner';
 
 /**

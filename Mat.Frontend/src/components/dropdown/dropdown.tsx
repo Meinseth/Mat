@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
-import { DropdownContext } from './dropdownContext';
+import { DropdownContext } from './DropdownContext';
 import styles from '../../styles/styles.module.css';
 
 interface DropdownComponent extends React.FC<{ children: ReactNode }> {
