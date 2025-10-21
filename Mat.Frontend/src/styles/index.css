@@ -13,7 +13,11 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    --white: rgb(222, 222, 222);
+    --white: rgb(230, 230, 230);
+    --lighter-grey: rgb(198, 196, 196);
+    --light-grey: rgb(186, 186, 186);
+    --grey: rgb(147, 147, 151);
+    --dark-grey: rgb(115, 116, 123);
     --default-hover: rgb(82, 82, 94);
     --default: rgb(43, 42, 51);
     --light-black: rgb(23, 23, 26);
@@ -38,8 +42,10 @@
     --content: var(--light-black);
     --content-hover: var(--default);
     --modal: var(--light-black);
-    --button-hover: var(--default);
-    --input: var(--black);
+    --button: var(--default);
+    --button-hover: var(--default-hover);
+    --input: var(--default);
+    --input-bg: var(--black);
     --delete: var(--red);
     --delete--hover: var(--red-hover);
     --edit: var(--green);
@@ -48,9 +54,21 @@
 [data-theme='light'] {
     --text: var(--black);
     --bg: var(--white);
-    --content: var(--light-grey);
-    --content-odd: var(--lighter-grey);
+    --content: var(--lighter-grey);
+    --content-hover: var(--light-grey);
     --modal: var(--lighter-grey);
+    --button: var(--grey);
+    --button-hover: var(--dark-grey);
+    --input: var(--grey);
+    --input-bg: var(--light-grey);
+}
+
+input,
+button,
+textarea,
+select {
+    color: var(--text);
+    background-color: var(--input);
 }
 
 body {

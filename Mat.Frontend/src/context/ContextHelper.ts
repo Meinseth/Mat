@@ -1,4 +1,4 @@
-import { toast } from 'sonner';
+import { handleApiError } from 'src/services/ApiErrorHandler';
 
 /**
  * Wraps async operations with loading and error handling.
@@ -15,8 +15,7 @@ export async function handleAsync<T>(
     try {
         return await func();
     } catch (err) {
-        console.error(err);
-        toast.error((err as Error)?.message ?? 'Something went wrong');
+        handleApiError(err);
         return null;
     } finally {
         setLoading(false);

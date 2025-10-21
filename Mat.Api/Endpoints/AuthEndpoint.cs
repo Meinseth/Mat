@@ -48,21 +48,18 @@ public static class AuthEndpoint
                     return;
                 }
 
-                // Create a principal that includes the OIDC claims
                 var claimsPrincipal = result.Principal!;
 
-                // Sign‑in with the cookie scheme – this writes the session cookie
                 await httpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     claimsPrincipal,
                     new AuthenticationProperties
                     {
-                        IsPersistent = true, // optional: remember across browser restarts
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8), // adjust as needed
+                        IsPersistent = true,
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8),
                     }
                 );
 
-                // Finally redirect to the page you want the user to land on
                 httpContext.Response.Redirect(redirectUri);
             }
         );

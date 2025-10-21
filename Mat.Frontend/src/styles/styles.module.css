@@ -53,6 +53,11 @@
     color: var(--text);
     font-size: 1rem;
     transition: background-color 0.5s;
+    background-color: var(--button);
+}
+
+.button:hover {
+    background-color: var(--button-hover);
 }
 
 .invisibleButton {
@@ -105,7 +110,7 @@
 }
 
 .ingredientInputs {
-    background-color: var(--input);
+    background-color: var(--input-bg);
     border-radius: var(--border-radius);
     padding: var(--space-s);
     margin: 0 0;
