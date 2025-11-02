@@ -5,7 +5,8 @@
     width: 45rem;
     color: var(--text);
     text-align: start;
-    overflow: hidden;
+    overflow: auto;
+    max-height: 90vh;
 }
 
 .modalTop {
@@ -97,6 +98,10 @@
 
 .recipeInputs > textarea {
     resize: vertical;
+}
+
+.recipeInstructions {
+    white-space: pre-line;
 }
 
 .ingredientList {

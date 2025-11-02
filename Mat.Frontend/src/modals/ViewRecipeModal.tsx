@@ -60,7 +60,14 @@ export default function ViewRecipeModal() {
                 isEdit={isEdit}
                 onEdit={() => setIsEdit((prev) => !prev)}
             >
-                {!isEdit ? (
+                {isEdit ? (
+                    <RecipeForm
+                        title="Endre oppskrift"
+                        type="Update"
+                        recipe={selectedRecipe}
+                        closeModal={() => setIsEdit((prev) => !prev)}
+                    />
+                ) : (
                     <div className={styles.recipeGrid}>
                         <h1 className={styles.modalTitle}>
                             {selectedRecipe.name}
@@ -104,15 +111,10 @@ export default function ViewRecipeModal() {
                         )}
 
                         <h3>Slik gjør du</h3>
-                        <div>{selectedRecipe.instructions}</div>
+                        <div className={styles.recipeInstructions}>
+                            {selectedRecipe.instructions}
+                        </div>
                     </div>
-                ) : (
-                    <RecipeForm
-                        title="Endre oppskrift"
-                        type="Update"
-                        recipe={selectedRecipe}
-                        closeModal={() => setIsEdit((prev) => !prev)}
-                    />
                 )}
             </Modal>
             <ConfirmDeleteModal
