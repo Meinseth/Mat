@@ -2,6 +2,7 @@ import type { IngredientDto, RecipeDto } from '../services/ApiClient';
 import { X } from 'lucide-react';
 import styles from '../styles/styles.module.css';
 import { useIngredients } from '../hooks/useIngredients';
+import { UnitSelect } from './UnitSelect';
 
 interface Props {
     ingredients: IngredientDto[];
@@ -9,13 +10,8 @@ interface Props {
 }
 
 export function IngredientInputs(props: Props) {
-    const {
-        ingredients,
-        unitOptions,
-        updateIngredient,
-        addIngredient,
-        removeIngredient,
-    } = useIngredients(props.ingredients, props.update);
+    const { ingredients, updateIngredient, addIngredient, removeIngredient } =
+        useIngredients(props.ingredients, props.update);
 
     return (
         <>
@@ -43,16 +39,10 @@ export function IngredientInputs(props: Props) {
                             value={ingredient.amount ?? ''}
                             onChange={updateIngredient(index, 'amount')}
                         />
-                        <select
-                            value={ingredient.unit}
+                        <UnitSelect
+                            ingredient={ingredient}
                             onChange={updateIngredient(index, 'unit')}
-                        >
-                            {unitOptions.map((unitOption) => (
-                                <option key={unitOption} value={unitOption}>
-                                    {unitOption}
-                                </option>
-                            ))}
-                        </select>
+                        />
                         <button
                             type="button"
                             onClick={() => removeIngredient(index)}

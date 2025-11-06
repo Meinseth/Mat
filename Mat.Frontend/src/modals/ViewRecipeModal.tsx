@@ -7,6 +7,7 @@ import ConfirmDeleteModal from './ConfirmDeleteModal.tsx';
 import { useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
 import RecipeForm from 'src/components/RecipeForm.tsx';
+import { UnitLabel } from 'src/components/UnitLabel.tsx';
 
 export default function ViewRecipeModal() {
     const { activeModal, closeModal } = useModalContext();
@@ -27,7 +28,10 @@ export default function ViewRecipeModal() {
             <dt>{ingredient.name}</dt>
             <dd>
                 {ingredient.amount?.toFixed(1).replace(/\.0$/, '')}{' '}
-                {ingredient.unit}
+                <UnitLabel
+                    unit={ingredient?.unit}
+                    amount={ingredient?.amount}
+                />
             </dd>
         </div>
     );

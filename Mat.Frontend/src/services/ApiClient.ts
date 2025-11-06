@@ -413,7 +413,14 @@ export interface IngredientDto {
     unit?: Unit;
 }
 
-export type Unit = 'Gram' | 'Kilogram' | 'Milliliter' | 'Desiliter' | 'Liter';
+export type Unit =
+    | 'Gram'
+    | 'Kilogram'
+    | 'Milliliter'
+    | 'Desiliter'
+    | 'Liter'
+    | 'Piece'
+    | 'Whole';
 
 export interface UserDto {
     id?: number;

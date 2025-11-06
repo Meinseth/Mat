@@ -7,4 +7,6 @@ public enum Unit
     Milliliter,
     Desiliter,
     Liter,
+    Piece,
+    Whole,
 }

@@ -48,7 +48,7 @@ namespace Mat.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Ingredients");
+                    b.ToTable("Ingredients", (string)null);
                 });
 
             modelBuilder.Entity("Mat.Database.Model.Recipe", b =>
@@ -87,7 +87,7 @@ namespace Mat.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipes", (string)null);
                 });
 
             modelBuilder.Entity("Mat.Database.Model.User", b =>
@@ -113,7 +113,7 @@ namespace Mat.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Mat.Database.Model.Ingredient", b =>

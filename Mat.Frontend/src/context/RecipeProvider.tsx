@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { ApiClient, type RecipeDto } from '../services/ApiClient';
-import { ApiBaseUrl } from '../services/ApiBaseUrl';
 import { RecipeContext } from './RecipeContext';
 import { toast } from 'sonner';
 import { handleAsync } from './ContextHelper';
@@ -12,7 +11,7 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
     );
     const [isLoading, setIsLoading] = useState(false);
 
-    const api = new ApiClient(ApiBaseUrl, {
+    const api = new ApiClient('', {
         fetch: (input, init) => {
             return window.fetch(input, {
                 ...init,

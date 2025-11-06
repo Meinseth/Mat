@@ -1,18 +1,10 @@
 import { useCallback } from 'react';
-import type { Unit, IngredientDto, RecipeDto } from '../services/ApiClient';
+import type { IngredientDto, RecipeDto } from '../services/ApiClient';
 
 export function useIngredients(
     ingredients: IngredientDto[] = [],
     update: (field: keyof RecipeDto, value: IngredientDto[]) => void
 ) {
-    const unitOptions = [
-        'Gram',
-        'Kilogram',
-        'Milliliter',
-        'Desiliter',
-        'Liter',
-    ] as const satisfies readonly Unit[];
-
     const setIngredients = useCallback(
         (next: IngredientDto[]) => update('ingredients', next),
         [update]
@@ -54,7 +46,6 @@ export function useIngredients(
 
     return {
         ingredients,
-        unitOptions,
         updateIngredient,
         addIngredient,
         removeIngredient,
