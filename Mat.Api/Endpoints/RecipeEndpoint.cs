@@ -3,6 +3,7 @@ using Mat.Database;
 using Mat.Database.Model;
 using Mat.Dtos;
 using Mat.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mat.Endpoints;
@@ -73,7 +74,9 @@ public static class RecipeEndpoint
                     if (user is null)
                         return Results.Unauthorized();
 
-                    var recipe = await db.Recipes.FirstOrDefaultAsync(r => r.Id == id);
+                    var recipe = await db
+                        .Recipes.Include(r => r.Ingredients)
+                        .FirstOrDefaultAsync(r => r.Id == id);
 
                     if (recipe is null)
                         return Results.NotFound();
@@ -85,13 +88,12 @@ public static class RecipeEndpoint
 
                     await db.SaveChangesAsync();
 
-                    return Results.NoContent();
+                    return Results.Ok(recipe.Adapt<RecipeDto>());
                 }
             )
-            .Produces(StatusCodes.Status204NoContent)
+            .Produces<RecipeDto>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status401Unauthorized);
-        ;
 
         recipeGroup
             .MapDelete(
@@ -119,6 +121,5 @@ public static class RecipeEndpoint
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status401Unauthorized);
-        ;
     }
 }

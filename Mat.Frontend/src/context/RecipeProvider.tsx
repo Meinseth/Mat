@@ -44,12 +44,14 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
         async (recipe: RecipeDto): Promise<RecipeDto | null> => {
             return await handleAsync(setIsLoading, async () => {
                 if (!recipe.id) return null;
-                await api.putApiRecipe(recipe.id, recipe);
+                const updatedRecipe = await api.putApiRecipe(recipe.id, recipe);
                 setRecipes((prev) =>
-                    prev.map((r) => (r.id === recipe.id ? recipe : r))
+                    prev.map((r) =>
+                        r.id === updatedRecipe.id ? updatedRecipe : r
+                    )
                 );
                 toast.success('Recipe updated!');
-                return recipe;
+                return updatedRecipe;
             });
         },
         []

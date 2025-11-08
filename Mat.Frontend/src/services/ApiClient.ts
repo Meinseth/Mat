@@ -150,7 +150,7 @@ export class ApiClient {
         return Promise.resolve<RecipeDto>(null as any);
     }
 
-    putApiRecipe(id: number, updatedRecipeDto: RecipeDto): Promise<void> {
+    putApiRecipe(id: number, updatedRecipeDto: RecipeDto): Promise<RecipeDto> {
         let url_ = this.baseUrl + '/api/recipe/{id}';
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -164,6 +164,7 @@ export class ApiClient {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                Accept: 'application/json',
             },
         };
 
@@ -172,15 +173,23 @@ export class ApiClient {
         });
     }
 
-    protected processPutApiRecipe(response: Response): Promise<void> {
+    protected processPutApiRecipe(response: Response): Promise<RecipeDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
-        if (status === 204) {
+        if (status === 200) {
             return response.text().then((_responseText) => {
-                return;
+                let result200: any = null;
+                result200 =
+                    _responseText === ''
+                        ? null
+                        : (JSON.parse(
+                              _responseText,
+                              this.jsonParseReviver
+                          ) as RecipeDto);
+                return result200;
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -210,7 +219,7 @@ export class ApiClient {
                 );
             });
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<RecipeDto>(null as any);
     }
 
     deleteApiRecipe(id: number): Promise<void> {
