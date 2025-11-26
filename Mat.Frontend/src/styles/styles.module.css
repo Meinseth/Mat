@@ -246,6 +246,13 @@
     margin-top: 0;
 }
 
+.autoRefreshTextarea {
+    width: 100%;
+    overflow-y: hidden;
+    resize: none;
+    box-sizing: border-box;
+}
+
 @media (max-width: 630px) {
     .ingredientInputs {
         grid-template-columns: 1fr auto auto;

@@ -4,6 +4,7 @@ import { useRecipeForm } from '../hooks/useRecipeForm';
 import type { RecipeDto } from 'src/services/ApiClient';
 import { useEffect } from 'react';
 import { useRecipesContext } from 'src/context/RecipeContext';
+import AutoResizeTextarea from './AutoResizeTextarea';
 
 export type FormType = 'Add' | 'Update';
 
@@ -37,9 +38,9 @@ export default function RecipeForm({ title, closeModal, type, recipe }: props) {
                     value={form.name}
                     onChange={updateRecipe('name')}
                 />
-                <textarea
+                <AutoResizeTextarea
                     placeholder="Instructions"
-                    value={form.instructions}
+                    value={form.instructions ?? ''}
                     onChange={updateRecipe('instructions')}
                     rows={3}
                 />
