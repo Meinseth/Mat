@@ -3,11 +3,12 @@ import { useRecipesContext } from '../context/RecipeContext.ts';
 import { useModalContext } from '../context/ModalContext.ts';
 
 export default function RecipeList() {
-    const { recipes, setSelectedRecipe } = useRecipesContext();
+    const { recipes, setSelectedRecipe, isLoading } = useRecipesContext();
     const { openModal } = useModalContext();
 
     return (
         <>
+            {isLoading && <div>Loading...</div>}
             <div className={styles.recipeList}>
                 {recipes.map((recipe, index) => (
                     <div

@@ -35,14 +35,14 @@ export default function UsersPage() {
         <>
             <div className={styles.content}>
                 <h1>Brukere</h1>
-            </div>
-            {loading && <div>Loading users...</div>}
-            <div className={styles.recipeList}>
-                {users.map((user, index) => (
-                    <div key={index}>
-                        {user.firstName} {user.lastName}
-                    </div>
-                ))}
+                {loading && <div>Loading users...</div>}
+                <div className={styles.recipeList}>
+                    {users.map((user, index) => (
+                        <div key={index}>
+                            {user.firstName} {user.lastName}
+                        </div>
+                    ))}
+                </div>
             </div>
         </>
     );
