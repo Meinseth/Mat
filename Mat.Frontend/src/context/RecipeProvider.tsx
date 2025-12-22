@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { ApiClient, type RecipeDto } from '../services/ApiClient';
 import { RecipeContext } from './RecipeContext';
 import { toast } from 'sonner';
-import { handleAsync } from './ContextHelper';
+import { handleApiAsync } from './ContextHelper';
 
 export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
     const [recipes, setRecipes] = useState<RecipeDto[]>([]);
@@ -21,8 +21,8 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     const ApiGetRecipes = useCallback(async (): Promise<RecipeDto[] | null> => {
-        return handleAsync(setIsLoading, async () => {
-            const recipes = await api.getApiRecipes();
+        return handleApiAsync(setIsLoading, async () => {
+            const recipes = await api.getApiRecipesAll();
             setRecipes(recipes);
             return recipes;
         });
@@ -30,8 +30,8 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
 
     const ApiAddRecipe = useCallback(
         async (recipe: RecipeDto): Promise<RecipeDto | null> => {
-            return await handleAsync(setIsLoading, async () => {
-                const newRecipe = await api.postApiRecipe(recipe);
+            return await handleApiAsync(setIsLoading, async () => {
+                const newRecipe = await api.postApiRecipes(recipe);
                 setRecipes((prev) => [...prev, newRecipe]);
                 toast.success('Recipe added successfully!');
                 return newRecipe;
@@ -42,9 +42,12 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
 
     const ApiUpdateRecipe = useCallback(
         async (recipe: RecipeDto): Promise<RecipeDto | null> => {
-            return await handleAsync(setIsLoading, async () => {
+            return await handleApiAsync(setIsLoading, async () => {
                 if (!recipe.id) return null;
-                const updatedRecipe = await api.putApiRecipe(recipe.id, recipe);
+                const updatedRecipe = await api.putApiRecipes(
+                    recipe.id,
+                    recipe
+                );
                 setRecipes((prev) =>
                     prev.map((r) =>
                         r.id === updatedRecipe.id ? updatedRecipe : r
@@ -58,9 +61,9 @@ export const RecipeProvider = ({ children }: { children: React.ReactNode }) => {
     );
 
     const ApiDeleteRecipe = useCallback(async (): Promise<boolean | null> => {
-        return await handleAsync(setIsLoading, async () => {
+        return await handleApiAsync(setIsLoading, async () => {
             if (!selectedRecipe?.id) return null;
-            await api.deleteApiRecipe(selectedRecipe.id);
+            await api.deleteApiRecipes(selectedRecipe.id);
             setRecipes((prev) =>
                 prev.filter((recipe) => recipe.id !== selectedRecipe.id)
             );

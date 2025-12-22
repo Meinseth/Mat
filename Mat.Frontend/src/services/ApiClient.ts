@@ -26,7 +26,7 @@ export class ApiClient {
         this.baseUrl = baseUrl ?? 'http://localhost:5000';
     }
 
-    getApiRecipes(): Promise<RecipeDto[]> {
+    getApiRecipesAll(): Promise<RecipeDto[]> {
         let url_ = this.baseUrl + '/api/recipes';
         url_ = url_.replace(/[?&]$/, '');
 
@@ -38,11 +38,13 @@ export class ApiClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetApiRecipes(_response);
+            return this.processGetApiRecipesAll(_response);
         });
     }
 
-    protected processGetApiRecipes(response: Response): Promise<RecipeDto[]> {
+    protected processGetApiRecipesAll(
+        response: Response
+    ): Promise<RecipeDto[]> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -82,51 +84,43 @@ export class ApiClient {
         return Promise.resolve<RecipeDto[]>(null as any);
     }
 
-    getApiRecipe(id: number): Promise<RecipeDto> {
-        let url_ = this.baseUrl + '/api/recipe/{id}';
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    postApiRecipes(recipeDto: RecipeDto): Promise<RecipeDto> {
+        let url_ = this.baseUrl + '/api/recipes';
         url_ = url_.replace(/[?&]$/, '');
 
+        const content_ = JSON.stringify(recipeDto);
+
         let options_: RequestInit = {
-            method: 'GET',
+            body: content_,
+            method: 'POST',
             headers: {
+                'Content-Type': 'application/json',
                 Accept: 'application/json',
             },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetApiRecipe(_response);
+            return this.processPostApiRecipes(_response);
         });
     }
 
-    protected processGetApiRecipe(response: Response): Promise<RecipeDto> {
+    protected processPostApiRecipes(response: Response): Promise<RecipeDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
-        if (status === 404) {
+        if (status === 201) {
             return response.text().then((_responseText) => {
-                return throwException(
-                    'A server side error occurred.',
-                    status,
-                    _responseText,
-                    _headers
-                );
-            });
-        } else if (status === 200) {
-            return response.text().then((_responseText) => {
-                let result200: any = null;
-                result200 =
+                let result201: any = null;
+                result201 =
                     _responseText === ''
                         ? null
                         : (JSON.parse(
                               _responseText,
                               this.jsonParseReviver
                           ) as RecipeDto);
-                return result200;
+                return result201;
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -150,30 +144,26 @@ export class ApiClient {
         return Promise.resolve<RecipeDto>(null as any);
     }
 
-    putApiRecipe(id: number, updatedRecipeDto: RecipeDto): Promise<RecipeDto> {
-        let url_ = this.baseUrl + '/api/recipe/{id}';
+    getApiRecipes(id: number): Promise<RecipeDto> {
+        let url_ = this.baseUrl + '/api/recipes/{id}';
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace('{id}', encodeURIComponent('' + id));
         url_ = url_.replace(/[?&]$/, '');
 
-        const content_ = JSON.stringify(updatedRecipeDto);
-
         let options_: RequestInit = {
-            body: content_,
-            method: 'PUT',
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
                 Accept: 'application/json',
             },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPutApiRecipe(_response);
+            return this.processGetApiRecipes(_response);
         });
     }
 
-    protected processPutApiRecipe(response: Response): Promise<RecipeDto> {
+    protected processGetApiRecipes(response: Response): Promise<RecipeDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -222,8 +212,80 @@ export class ApiClient {
         return Promise.resolve<RecipeDto>(null as any);
     }
 
-    deleteApiRecipe(id: number): Promise<void> {
-        let url_ = this.baseUrl + '/api/recipe/{id}';
+    putApiRecipes(id: number, updatedRecipeDto: RecipeDto): Promise<RecipeDto> {
+        let url_ = this.baseUrl + '/api/recipes/{id}';
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace('{id}', encodeURIComponent('' + id));
+        url_ = url_.replace(/[?&]$/, '');
+
+        const content_ = JSON.stringify(updatedRecipeDto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPutApiRecipes(_response);
+        });
+    }
+
+    protected processPutApiRecipes(response: Response): Promise<RecipeDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        }
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                result200 =
+                    _responseText === ''
+                        ? null
+                        : (JSON.parse(
+                              _responseText,
+                              this.jsonParseReviver
+                          ) as RecipeDto);
+                return result200;
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                );
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                );
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'An unexpected server error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                );
+            });
+        }
+        return Promise.resolve<RecipeDto>(null as any);
+    }
+
+    deleteApiRecipes(id: number): Promise<void> {
+        let url_ = this.baseUrl + '/api/recipes/{id}';
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -235,11 +297,11 @@ export class ApiClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processDeleteApiRecipe(_response);
+            return this.processDeleteApiRecipes(_response);
         });
     }
 
-    protected processDeleteApiRecipe(response: Response): Promise<void> {
+    protected processDeleteApiRecipes(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -280,43 +342,48 @@ export class ApiClient {
         return Promise.resolve<void>(null as any);
     }
 
-    postApiRecipe(recipeDto: RecipeDto): Promise<RecipeDto> {
-        let url_ = this.baseUrl + '/api/recipe';
+    getApiUsers(): Promise<UserDto[]> {
+        let url_ = this.baseUrl + '/api/users';
         url_ = url_.replace(/[?&]$/, '');
 
-        const content_ = JSON.stringify(recipeDto);
-
         let options_: RequestInit = {
-            body: content_,
-            method: 'POST',
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
                 Accept: 'application/json',
             },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPostApiRecipe(_response);
+            return this.processGetApiUsers(_response);
         });
     }
 
-    protected processPostApiRecipe(response: Response): Promise<RecipeDto> {
+    protected processGetApiUsers(response: Response): Promise<UserDto[]> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
-        if (status === 201) {
+        if (status === 200) {
             return response.text().then((_responseText) => {
-                let result201: any = null;
-                result201 =
+                let result200: any = null;
+                result200 =
                     _responseText === ''
                         ? null
                         : (JSON.parse(
                               _responseText,
                               this.jsonParseReviver
-                          ) as RecipeDto);
-                return result201;
+                          ) as UserDto[]);
+                return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+                return throwException(
+                    'A server side error occurred.',
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -337,11 +404,11 @@ export class ApiClient {
                 );
             });
         }
-        return Promise.resolve<RecipeDto>(null as any);
+        return Promise.resolve<UserDto[]>(null as any);
     }
 
-    getApiUserMe(): Promise<UserDto> {
-        let url_ = this.baseUrl + '/api/user/me';
+    getApiUsersMe(): Promise<UserDto> {
+        let url_ = this.baseUrl + '/api/users/me';
         url_ = url_.replace(/[?&]$/, '');
 
         let options_: RequestInit = {
@@ -352,11 +419,11 @@ export class ApiClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetApiUserMe(_response);
+            return this.processGetApiUsersMe(_response);
         });
     }
 
-    protected processGetApiUserMe(response: Response): Promise<UserDto> {
+    protected processGetApiUsersMe(response: Response): Promise<UserDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {

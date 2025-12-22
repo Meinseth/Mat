@@ -55,6 +55,7 @@
     font-size: 1rem;
     transition: background-color 0.5s;
     background-color: var(--button);
+    transition: color 0.5s;
 }
 
 .button:hover {
@@ -227,7 +228,6 @@
 
 .editActive {
     color: var(--edit);
-    transition: color 0.5s;
 }
 
 .changeSize {

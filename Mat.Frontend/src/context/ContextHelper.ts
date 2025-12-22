@@ -7,7 +7,7 @@ import { handleApiError } from 'src/services/ApiErrorHandler';
  * @param func - The async function to execute
  * @returns Promise<void>
  */
-export async function handleAsync<T>(
+export async function handleApiAsync<T>(
     setLoading: (loading: boolean) => void,
     func: () => Promise<T>
 ): Promise<T | null> {

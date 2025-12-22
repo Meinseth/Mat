@@ -23,7 +23,7 @@ public class UserService(IHttpContextAccessor httpContextAccessor, MatDbContext 
         if (string.IsNullOrEmpty(username))
             return null;
 
-        var user = await _db.Users.FirstOrDefaultAsync(u => u.Username == username);
+        var user = await _db.Users.SingleOrDefaultAsync(u => u.Username == username);
         if (user is null)
         {
             user = new User
@@ -40,4 +40,7 @@ public class UserService(IHttpContextAccessor httpContextAccessor, MatDbContext 
 
         return user;
     }
+
+    public async Task<List<User>> GetUsersAsync(User user) =>
+        await _db.Users.Where(u => u.Id != user.Id).ToListAsync();
 }

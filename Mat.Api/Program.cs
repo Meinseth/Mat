@@ -142,7 +142,6 @@ if (builder.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 app.AddRecipesEndpoints();
-app.AddRecipeEndpoints();
 app.AddAuthEndpoints(frontendBaseUrl);
 app.AddUserEndpoints();
 app.Run();

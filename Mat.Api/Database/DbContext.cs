@@ -13,6 +13,8 @@ public class MatDbContext(DbContextOptions<MatDbContext> options) : DbContext(op
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
+
         modelBuilder
             .Entity<Ingredient>()
             .HasOne(i => i.Recipe)

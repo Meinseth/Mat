@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ApiClient, type UserDto } from '../services/ApiClient';
 import { AuthContext } from './AuthContext';
-import { handleAsync } from './ContextHelper';
+import { handleApiAsync } from './ContextHelper';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<UserDto | null>(null);
@@ -17,8 +17,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     useEffect(() => {
-        handleAsync(setLoading, async () => {
-            const me = await api.getApiUserMe();
+        handleApiAsync(setLoading, async () => {
+            const me = await api.getApiUsersMe();
             setUser(me);
         });
     }, []);
@@ -32,7 +32,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, setUser, loading }}>
+        <AuthContext.Provider
+            value={{ user, login, logout, setUser, isLoading: loading }}
+        >
             {children}
         </AuthContext.Provider>
     );

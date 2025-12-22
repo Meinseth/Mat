@@ -9,7 +9,7 @@ export type AuthContextType = {
     login: () => Promise<void>;
     logout: () => Promise<void>;
     setUser: (user: UserDto | null) => void;
-    loading: boolean;
+    isLoading: boolean;
 };
 export function useAuthContext() {
     const context = useContext(AuthContext);
