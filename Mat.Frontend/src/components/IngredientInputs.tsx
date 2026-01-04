@@ -36,7 +36,7 @@ export function IngredientInputs(props: Props) {
                             required
                             placeholder="Amount"
                             type="number"
-                            value={ingredient.amount ?? ''}
+                            value={ingredient.amount || ''}
                             onChange={updateIngredient(index, 'amount')}
                         />
                         <UnitSelect

@@ -5,8 +5,8 @@ import { useRecipesContext } from '../context/RecipeContext.ts';
 const emptyForm: RecipeDto = {
     name: '',
     instructions: '',
-    cookingTimeMinutes: undefined,
-    servings: undefined,
+    cookingTimeMinutes: 0,
+    servings: 0,
     ingredients: [],
 };
 
@@ -24,9 +24,17 @@ export function useRecipeForm(onClose: () => void) {
     const updateRecipe = useCallback(
         (field: keyof RecipeDto) =>
             (
-                event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-            ) =>
-                update(field, event.target.value),
+                input:
+                    | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+                    | string
+                    | number
+            ) => {
+                const value =
+                    typeof input === 'object' && 'target' in input
+                        ? input.target.value
+                        : input;
+                update(field, value);
+            },
         [update]
     );
 

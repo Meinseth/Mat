@@ -36,6 +36,25 @@ export default function ViewRecipeModal() {
         </div>
     );
 
+    function formatCookingTime(totalMinutes?: number) {
+        if (totalMinutes == null || totalMinutes == 0) return 'Mangler tid';
+
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+
+        const result: string[] = [];
+
+        if (hours > 0) {
+            result.push(`${hours} ${hours === 1 ? 'time' : 'timer'}`);
+        }
+
+        if (minutes > 0) {
+            result.push(`${minutes} ${minutes === 1 ? 'minutt' : 'minutter'}`);
+        }
+        console.log(result);
+        return result.join(' og ');
+    }
+
     const Row = ({
         label,
         value,
@@ -78,10 +97,9 @@ export default function ViewRecipeModal() {
                         </h1>
                         <Row
                             label={'Tid'}
-                            value={
-                                selectedRecipe.cookingTimeMinutes?.toString() +
-                                ' minutes'
-                            }
+                            value={formatCookingTime(
+                                selectedRecipe.cookingTimeMinutes
+                            )}
                         />
                         <Row
                             label={'Porsjoner'}
