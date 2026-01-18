@@ -56,7 +56,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=Mat
     volumes:
-      - ${DOCKER_PATH}/data_v18:/var/lib/postgresql/data
+      - ${DOCKER_PATH}/data_v18:/var/lib/postgresql
       - ${DOCKER_PATH}/data:/mnt/old_data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U matuser -d Mat"]
