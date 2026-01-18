@@ -7,8 +7,7 @@ services:
     ports:
       - 5001:80
     depends_on:
-      api:
-        condition: service_healthy
+      - api
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:80"]
       interval: 30s
@@ -27,8 +26,7 @@ services:
       context: ./Mat.Api
       dockerfile: Dockerfile
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     environment:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=Mat;User Id=matuser;TrustServerCertificate=True;
