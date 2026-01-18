@@ -5,9 +5,19 @@ services:
       context: ./Mat.Frontend
       dockerfile: Dockerfile
     ports:
-      - "5001:80"
+      - 5001:80
     depends_on:
-      - api
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 128M
     restart: unless-stopped
 
   api:
@@ -16,7 +26,8 @@ services:
       context: ./Mat.Api
       dockerfile: Dockerfile
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=Mat;User Id=matuser;TrustServerCertificate=True;
@@ -25,7 +36,16 @@ services:
       - ClientSecret=${CLIENT_SECRET}
       - DbPassword=${POSTGRES_PASSWORD}
     ports:
-      - "5000:80"
+      - 5000:80
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     restart: unless-stopped
 
   db:
@@ -36,5 +56,14 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=Mat
     volumes:
-      - /home/vebjornserver/Docker/Mat/data:/var/lib/postgresql/data
+      - ${DOCKER_PATH}/data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U matuser -d Mat"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     restart: unless-stopped

@@ -75,6 +75,7 @@ builder.Services.AddOpenApiDocument(config =>
     config.Title = "MatAPI v1";
     config.Version = "v1";
 });
+builder.Services.AddHealthChecks();
 var frontendBaseUrl = builder.Environment.IsDevelopment() ? "http://localhost:5001" : "/";
 if (builder.Environment.IsDevelopment())
 {
@@ -141,6 +142,7 @@ if (builder.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapHealthChecks("/health");
 app.AddRecipesEndpoints();
 app.AddAuthEndpoints(frontendBaseUrl);
 app.AddUserEndpoints();
