@@ -38,8 +38,10 @@ export function useIngredients(
     }, [ingredients, setIngredients]);
 
     const removeIngredient = useCallback(
-        (idToRemove: number) => {
-            setIngredients(ingredients.filter((_, i) => i !== idToRemove));
+        (indexToRemove: number) => {
+            setIngredients(
+                ingredients.filter((_, index) => index !== indexToRemove)
+            );
         },
         [ingredients, setIngredients]
     );

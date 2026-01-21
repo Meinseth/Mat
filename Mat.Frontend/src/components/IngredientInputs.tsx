@@ -36,6 +36,8 @@ export function IngredientInputs(props: Props) {
                             required
                             placeholder="Amount"
                             type="number"
+                            step="any"
+                            lang="nb"
                             value={ingredient.amount || ''}
                             onChange={updateIngredient(index, 'amount')}
                         />
